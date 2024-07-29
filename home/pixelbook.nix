@@ -1,8 +1,8 @@
-{ pkgs, lib, config, ... }:
+{ lib, config, ... }:
 
 {
   imports = [
-    /base
+    ./base
   ];
 
   home = {
