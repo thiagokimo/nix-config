@@ -1,0 +1,22 @@
+#! /bin/sh
+
+sh $SCRIPTS_HOME/load-sxhkd.sh &
+sh $SCRIPTS_HOME/load-monitors.sh &
+sh $SCRIPTS_HOME/load-wallpaper.sh &
+sh $SCRIPTS_HOME/load-lockscreen.sh &
+sh $SCRIPTS_HOME/load-picom.sh &
+sh $SCRIPTS_HOME/load-polybar.sh &
+
+# fixes mouse cursor
+xsetroot -cursor_name left_ptr &
+
+bspc config border_width          4
+bspc config window_gap            12
+
+bspc config split_ratio           0.52
+bspc config single_monocle        false
+bspc config focus_follows_pointer true
+bspc config pointer_follows_focus true
+bspc config borderless_monocle    true
+bspc config gapless_monocle       true
+
