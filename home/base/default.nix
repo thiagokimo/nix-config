@@ -6,11 +6,12 @@
   outputs,
   ...
 }: {
-  imports = [
-    inputs.impermanence.nixosModules.impermanence
-    ../features/cli
-  ] 
-  ++ (builtins.attrValues outputs.homeManagerModules);
+  imports =
+    [
+      inputs.impermanence.nixosModules.impermanence
+      ../features/cli
+    ]
+    ++ (builtins.attrValues outputs.homeManagerModules);
 
   nix = {
     package = lib.mkDefault pkgs.nix;

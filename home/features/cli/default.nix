@@ -1,10 +1,13 @@
-{ pkgs, ... }: {
-
-  imports = [ 
-    import ./bat.nix
-    import ./git.nix
-    import ./neovim.nix
-    import ./zsh.nix
+{pkgs, ...}: {
+  imports = [
+    import
+    ./bat.nix
+    import
+    ./git.nix
+    import
+    ./neovim.nix
+    import
+    ./zsh.nix
   ];
 
   home.packages = with pkgs; [
