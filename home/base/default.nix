@@ -9,7 +9,8 @@
   imports = [
     inputs.impermanence.nixosModules.impermanence
     ../features/cli
-  ] ++ (builtins.attrValues outputs.homeManagerModules);
+  ] 
+  ++ (builtins.attrValues outputs.homeManagerModules);
 
   nix = {
     package = lib.mkDefault pkgs.nix;
@@ -21,6 +22,14 @@
     };
   };
 
+  nixpkgs = {
+    overlays = builtins.attrsValues outputs.overlays;
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = _: true;
+    };
+  };
+
   programs = {
     home-manager.enable = true;
   };
@@ -29,7 +38,7 @@
     username = lib.mkDefault "thiago";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = "23.11";
-    sessionPath = ["$HOME/.local.bin"];
+    sessionPath = ["$HOME/.local/bin"];
 
     persistence = {
       "/persist/${config.home.homeDirectory}" = {
@@ -40,7 +49,7 @@
           "Pictures"
           "Videos"
           "Projects"
-          ".local.bin"
+          ".local/bin"
         ];
         allowOther = true;
       };
