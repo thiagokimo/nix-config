@@ -17,7 +17,7 @@
     home-manager,
     systems,
     ...
-  } @ inputs: let 
+  } @ inputs: let
     inherit (self) outputs;
 
     systems = ["x86_64-linux"];
@@ -25,12 +25,12 @@
   in {
     nixosModules = import ./modules/nixos;
     homeManagerModules = import ./modules/home-manager;
-    
+
     overlays = import ./overlays {inherit inputs outputs;};
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra); 
-    
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+
     nixosConfigurations = {
       # Framework laptop
       framework = nixpkgs.lib.nixosSystem {
