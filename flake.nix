@@ -2,7 +2,8 @@
   description = "Home Sweet Home";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,31 +17,23 @@
     home-manager,
     systems,
     ...
-  } @inputs: let 
+  } @ inputs: let 
     inherit (self) outputs;
 
-    lib = nixpkgs.lib // home-manager.lib;
-    forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
-    pkgsFor = lib.genAttrs (import systems) (
-      system:
-        import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        }
-    );
+    systems = ["x86_64-linux"];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
-    inherit lib;
     nixosModules = import ./modules/nixos;
     homeManagerModules = import ./modules/home-manager;
     
     overlays = import ./overlays {inherit inputs outputs;};
-    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
-    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
-    formatter = forEachSystem (pkgs: pkgs.alejandra); 
+    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra); 
     
     nixosConfigurations = {
       # Framework laptop
-      framework = lib.nixosSystem {
+      framework = nixpkgs.lib.nixosSystem {
         modules = [./hosts/framework];
         specialArgs = {
           inherit inputs outputs;
@@ -48,7 +41,7 @@
       };
 
       # Pixelbook
-      pixelbook = lib.nixosSystem {
+      pixelbook = nixpkgs.lib.nixosSystem {
         modules = [./hosts/pixelbook];
         specialArgs = {
           inherit inputs outputs;
@@ -57,11 +50,11 @@
     };
 
     homeConfigurations = {
-      "thiago@pixelbook" = lib.homeManagerConfiguration {
-        modules = [./home/pixelbook ./home/nixpkgs.nix];
+      "thiago@pixelbook" = home-manager.lib.homeManagerConfiguration {
+        modules = [./home/pixelbook.nix];
 
         # Find a better way to adjust the system
-        pkgs = pkgsFor.x86_64-linux;
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {
           inherit inputs outputs;
         };
