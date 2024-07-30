@@ -8,7 +8,7 @@
 }: {
   imports =
     [
-      inputs.impermanence.nixosModules.home-manager.impermanence
+      # inputs.impermanence.nixosModules.home-manager.impermanence
       ../features/cli
     ]
     ++ (builtins.attrValues outputs.homeManagerModules);
@@ -41,19 +41,19 @@
     stateVersion = "23.11";
     sessionPath = ["$HOME/.local/bin"];
 
-    persistence = {
-      "/persist/${config.home.homeDirectory}" = {
-        defaultDirectoryMethod = "symlink";
-        directories = [
-          "Documents"
-          "Downloads"
-          "Pictures"
-          "Videos"
-          "Projects"
-          ".local/bin"
-        ];
-        allowOther = true;
-      };
-    };
+    # persistence = {
+    #   "/persist/${config.home.homeDirectory}" = {
+    #     defaultDirectoryMethod = "symlink";
+    #     directories = [
+    #       "Documents"
+    #       "Downloads"
+    #       "Pictures"
+    #       "Videos"
+    #       "Projects"
+    #       ".local/bin"
+    #     ];
+    #     allowOther = true;
+    #   };
+    # };
   };
 }
