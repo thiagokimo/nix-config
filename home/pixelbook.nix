@@ -1,3 +1,7 @@
+# Pixelbook Go
+# 
+# This setup contains what I would use in a linux container/generic computer
+# 
 {
   lib,
   config,
@@ -9,6 +13,5 @@
 
   home = {
     username = "thiago";
-    persistence."/persist/${config.home.homeDirectory}" = lib.mkForce {};
   };
 }
