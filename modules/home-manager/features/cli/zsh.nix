@@ -4,7 +4,7 @@
     enableCompletion = true;
 
     # TODO find out why autosuggestions got broken
-    # autosuggestions.enable = true;
+    autosuggestion.enable = true;
 
     syntaxHighlighting.enable = true;
 

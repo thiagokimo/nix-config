@@ -25,7 +25,7 @@
     nixosModules = import ./modules/nixos;
     homeManagerModules = import ./modules/home-manager;
 
-    overlays = import ./overlays {inherit inputs outputs;};
+    overlays = forAllSystems (system: import ./overlays {inherit inputs outputs;});
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
@@ -50,7 +50,9 @@
 
     homeConfigurations = {
       "thiago@pixelbook" = home-manager.lib.homeManagerConfiguration {
-        modules = [./home/pixelbook.nix];
+        modules = [
+          ./modules/home-manager/base
+        ];
 
         # Find a better way to adjust the system
         pkgs = nixpkgs.legacyPackages.x86_64-linux;

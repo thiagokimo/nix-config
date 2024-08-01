@@ -2,9 +2,10 @@
   default = pkgs.mkShell {
     NIX_CONFIG = "extra-experimental-features = nix-command flakes";
     nativeBuildInputs = with pkgs; [
-      nix
-      home-manager
+      alejandra
       git
+      home-manager
+      nix
     ];
     name = "my-nix-config-shell";
     shellHook = ''
