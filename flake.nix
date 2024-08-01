@@ -7,7 +7,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # impermanence.url = "github:nix-community/impermanence";
   };
 
   outputs = {
@@ -22,9 +21,6 @@
     systems = ["x86_64-linux"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
-    nixosModules = import ./modules/nixos;
-    homeManagerModules = import ./modules/home-manager;
-
     overlays = forAllSystems (system: import ./overlays {inherit inputs outputs;});
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
@@ -51,7 +47,8 @@
     homeConfigurations = {
       "thiago@pixelbook" = home-manager.lib.homeManagerConfiguration {
         modules = [
-          ./modules/home-manager/base
+          ./homes/pixelbook
+          ./nix/nixpkgs.nix
         ];
 
         # Find a better way to adjust the system

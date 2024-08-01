@@ -1,7 +1,5 @@
-{
-  writeShellScriptBin,
-  ...
-} : writeShellScriptBin "create-home-folders" ''
+{writeShellScriptBin, ...}:
+writeShellScriptBin "create-home-folders" ''
 
   echo "Creating basic home folders if they don't exist..."
   echo ""
