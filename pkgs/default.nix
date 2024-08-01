@@ -1,3 +1,3 @@
-pkgs: {
-  # TODO port my old dots into some pkgs
+{pkgs ? import <nixpkgs>, ...}: rec {
+  # create-home-folders = pkgs.callPackage ./create-home-folders {};
 }
