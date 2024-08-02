@@ -45,9 +45,9 @@
     };
 
     homeConfigurations = {
-      "thiago@pixelbook" = home-manager.lib.homeManagerConfiguration {
+      "thiago" = home-manager.lib.homeManagerConfiguration {
         modules = [
-          ./homes/pixelbook
+          ./homes/thiago
           ./nix/nixpkgs.nix
         ];
 
