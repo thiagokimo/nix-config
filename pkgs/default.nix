@@ -1,3 +1,3 @@
 {pkgs ? import <nixpkgs>, ...}: rec {
-  # create-home-folders = pkgs.callPackage ./create-home-folders {};
+  create-home-folders = pkgs.callPackage ./create-home-folders {};
 }

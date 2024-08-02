@@ -11,4 +11,4 @@
     sessionPath = ["$HOME/.local/bin"];
     stateVersion = "23.11";
   };
-} 
+}

@@ -21,7 +21,7 @@
     systems = ["x86_64-linux"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
-    overlays = forAllSystems (system: import ./overlays {inherit inputs outputs;});
+    overlays = forAllSystems (system: import ./overlays {inherit inputs;});
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
