@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  outputs,
   ...
 }: {
   programs.home-manager.enable = true;
@@ -12,4 +11,4 @@
     sessionPath = ["$HOME/.local/bin"];
     stateVersion = "23.11";
   };
-}
+} 
