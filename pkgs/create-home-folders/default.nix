@@ -5,15 +5,15 @@ writeShellScriptBin "create-home-folders" ''
   echo ""
 
   echo "Creating Audio folder..."
-  mkdir -p Audio
+  mkdir -p $HOME/Audio
   echo "Creating Documents folder..."
-  mkdir -p Documents
+  mkdir -p $HOME/Documents
   echo "Creating Pictures folder..."
-  mkdir -p Pictures
+  mkdir -p $HOME/Pictures
   echo "Creating Projects folder..."
-  mkdir -p Projects
+  mkdir -p $HOME/Projects
   echo "Creating Videos folder..."
-  mkdir -p Videos
+  mkdir -p $HOME/Videos
 
   echo "Done"
 ''
