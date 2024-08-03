@@ -4,5 +4,13 @@
     ../../modules/home-manager/programs/cli
   ];
 
-  home.stateVersion = "23.11";
+  nix = {
+    package = pkgs.nix;
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+    };
+  };
 }
