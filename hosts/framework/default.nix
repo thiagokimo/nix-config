@@ -4,12 +4,12 @@
   ...
 }: {
   imports = [
-    ./hardware-configuration.nix
     ./boot.nix
-    ./networking.nix
+    ./hardware-configuration.nix
     ./i18n.nix
-    ./users.nix
+    ./networking.nix
     ./services.nix
     ./system.nix
+    ./users.nix
   ];
 }
