@@ -2,6 +2,7 @@
   imports = [
     ../../modules/home-manager
     ../../modules/home-manager/programs/cli
+    ../../modules/home-manager/programs/utility
   ];
 
   nix = {
