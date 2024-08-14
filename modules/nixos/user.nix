@@ -8,8 +8,8 @@
 
   home-manager = {
     useUserPackages = true;
-    useGlobalPackages = true;
-    extraSpecialArgs = { inherit inputs username host; };
+    useGlobalPkgs = true;
+    extraSpecialArgs = { inherit inputs username; };
     users.${username} = {
       imports = [../home-manager];
       home.username = "${username}";
