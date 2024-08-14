@@ -1,16 +1,18 @@
 {pkgs, ...}: {
-  # This was only added here to make zsh available in /etc/shells
-  programs.zsh.enable = true;
+  imports = [
+    ./boot.nix
+    ./fonts.nix
+    ./keyboard.nix
+    ./locale.nix
+    ./network.nix
+    ./nix.nix
+    ./packages.nix
+    ./user.nix
+    ./wm.nix
+  ];
 
-  environment = {
-    shells = with pkgs; [zsh];
-    systemPackages = with pkgs; [
-      curl
-      firefox
-      git
-      hyprland
-      vim
-      wget
-    ];
-  };
+  system.stateVersion = "24.05";
+
+  # Clock
+  time.timeZone = "America/Sao_Paulo";
 }
