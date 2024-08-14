@@ -1,5 +1,9 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    _1password-gui
+    less
+    neofetch
+    ranger
+    unzip
+    zip
   ];
 }

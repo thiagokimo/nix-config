@@ -1,14 +1,15 @@
-{
-  lib,
-  config,
-  ...
-}: {
-  programs.home-manager.enable = true;
+{...}: {
+  imports = [
+    ./bat.nix             # Better printer
+    ./btop.nix            # Resource monitor
+    ./git.nix             # Version control
+    ./kitty.nix           # Terminal emulator 
+    ./neovim.nix          # File editor
+    ./zsh.nix             # Shell
 
-  home = {
-    username = lib.mkDefault "thiago";
-    homeDirectory = lib.mkDefault "/home/${config.home.username}";
-    sessionPath = ["$HOME/.local/bin"];
-    stateVersion = "24.05";
-  };
+    ./cli-packages.nix    # CLI softwares
+    ./design-packages.nix # Design softwares
+    ./web-packages.nix    # Web softwares
+    ./scripts             # Custom scripts
+  ];  
 }
