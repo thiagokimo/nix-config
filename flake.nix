@@ -20,13 +20,13 @@
     ...
   } @ inputs: let
     username = "thiago";
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    lib = nixpkgs.lib;
+    systems = ["x86_64-linux"];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
+    pkgsFor = nixpkgs.legacyPackages;
   in {
+    devShells = forAllSystems (system: import ./shell.nix pkgsFor.${system});
+    formatter = forAllSystems (system: pkgsFor.${system}.alejandra);
+
     nixosConfigurations = {
       framework = nixpkgs.lib.nixosSystem {
         modules = [./hosts/framework];
@@ -35,6 +35,5 @@
         };
       };
     };
-    # formatter = nixpkgs.legacyPackages.${system}.alejandra;
   };
 }
