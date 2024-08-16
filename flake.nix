@@ -12,6 +12,7 @@
       url = "https://github.com/hyprwm/Hyprland";
       submodules = true;
     };
+    nixos-hardware.url = "github:nixos/nixos-hardware";
   };
 
   outputs = {
