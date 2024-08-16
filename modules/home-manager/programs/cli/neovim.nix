@@ -6,6 +6,7 @@
     defaultEditor = true;
     plugins = with pkgs.vimPlugins; [
       vim-nix
+      gruvbox
     ];
 
     # TODO Add config files later
