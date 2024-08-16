@@ -1,4 +1,4 @@
-{username,...}: {
+{username, ...}: {
   nix = {
     settings = {
       auto-optimise-store = true;
