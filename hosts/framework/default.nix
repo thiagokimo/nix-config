@@ -1,6 +1,6 @@
-{nixos-hardware, ...}: {
+{inputs, ...}: {
   imports = [
-    nixos-hardware.nixosModules.framework-13-7040-amd
+    inputs.nixos-hardware.nixosModules.framework-13-7040-amd 
     ./hardware-configuration.nix
     ../../modules/nixos
   ];
