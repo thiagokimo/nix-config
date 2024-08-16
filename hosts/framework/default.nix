@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    <nixos-hardware/framework/13-inch/7040-amd>
     ./hardware-configuration.nix
     ../../modules/nixos
   ];
