@@ -48,9 +48,10 @@
         ];
 
         # Required by home-manager standalone version
-        pkgs = forAllSystems(system: import pkgsFor.${system}{
-          config.allowUnfree = true;
-        });
+        pkgs = forAllSystems (system:
+          import pkgsFor.${system} {
+            config.allowUnfree = true;
+          });
         extraSpecialArgs = {inherit inputs outputs;};
       };
     };
