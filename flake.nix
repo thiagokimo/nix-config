@@ -43,7 +43,7 @@
 
     # Entry point for my non NixOS machines :P
     homeConfigurations = {
-      "thiago" = home-manager.lib.homeManagerConfiguration {
+      "${username}" = home-manager.lib.homeManagerConfiguration {
         modules = [
           ./modules/home-manager
         ];
