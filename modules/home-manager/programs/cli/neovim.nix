@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs, 
+  lib, 
+  ...
+}: {
   programs.neovim = {
     enable = true;
     viAlias = true;
@@ -9,7 +13,7 @@
       gruvbox
     ];
 
-    # TODO Add config files later
+    extraConfig = lib.fileContents ./vim/init.vim; 
   };
 
   home.sessionVariables = {
