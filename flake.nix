@@ -22,12 +22,13 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
-
+    lib = nixpkgs.lib // home-manager.lib;
     username = "thiago";
     systems = ["x86_64-linux"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
     pkgsFor = nixpkgs.legacyPackages;
   in {
+    inherit lib;
     devShells = forAllSystems (system: import ./shell.nix pkgsFor.${system});
     formatter = forAllSystems (system: pkgsFor.${system}.alejandra);
 
@@ -43,16 +44,14 @@
 
     # Entry point for my non NixOS machines :P
     homeConfigurations = {
-      "${username}" = home-manager.lib.homeManagerConfiguration {
+      "thiago" = home-manager.lib.homeManagerConfiguration {
         modules = [
           ./modules/home-manager
+          ./homes/thiago/nixpkgs.nix
         ];
 
         # Required by home-manager standalone version
-        pkgs = forAllSystems (system:
-          import pkgsFor.${system} {
-            config.allowUnfree = true;
-          });
+        pkgs = forAllSystems (system: pkgsFor.${system});
         extraSpecialArgs = {inherit inputs outputs;};
       };
     };
