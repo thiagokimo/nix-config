@@ -1,6 +1,6 @@
 {
-  pkgs, 
-  lib, 
+  pkgs,
+  lib,
   ...
 }: {
   programs.neovim = {
@@ -13,7 +13,7 @@
       gruvbox
     ];
 
-    extraConfig = lib.fileContents ./vim/init.vim; 
+    extraConfig = lib.fileContents ./vim/init.vim;
   };
 
   home.sessionVariables = {
