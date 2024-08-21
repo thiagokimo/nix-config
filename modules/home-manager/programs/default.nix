@@ -1,10 +1,7 @@
 {pkgs, ...}: {
   imports = [
+    ./browsers.nix
     ./cli
     ./design.nix
-  ];
-
-  home.packages = with pkgs; [
-    firefox # Internet browser
   ];
 }
