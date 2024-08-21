@@ -46,14 +46,13 @@
     homeConfigurations = {
       "thiago" = home-manager.lib.homeManagerConfiguration {
         modules = [
-          ./modules/home-manager/programs/cli
-          ./homes/thiago/nixpkgs.nix
+          ./homes/thiago
         ];
 
         # Required by home-manager standalone version
         # TODO find out a better way to specify the system
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
+        extraSpecialArgs = {inherit inputs outputs username;};
       };
     };
   };
