@@ -8,7 +8,7 @@
     ./nix.nix
     ./packages.nix
     ./user.nix
-    ./wm.nix
+    ./wm/hyprland.nix
   ];
 
   system.stateVersion = "24.05";
