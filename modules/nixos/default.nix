@@ -7,6 +7,7 @@
     ./network.nix
     ./nix.nix
     ./packages.nix
+    ./sound.nix
     ./user.nix
     ./wm/hyprland.nix
   ];
