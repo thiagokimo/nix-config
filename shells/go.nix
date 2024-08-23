@@ -2,11 +2,16 @@
   pkgs = nixpkgs.legacyPackages.${system};
 in pkgs.mkShell {
   buildInputs = with pkgs; [
-    jetbrains.idea-community
+    go
+    go-outline
+    gopls
+    gopkgs
+    go-tools
+    delve
   ];
-  name = "Kotlin environment";
+  name = "Go environment";
   shellHook = ''
-    echo "Entering Kotlin development environment"
+    echo "Entering Go development environment"
   '';
 }
 
