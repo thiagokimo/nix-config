@@ -28,9 +28,9 @@
     pkgsFor = nixpkgs.legacyPackages;
   in {
     devShells = forAllSystems (system: {
-      kotlin = import ./shells/kotlin.nix {inherit nixpkgs system inputs outputs;};
-      nix = import ./shells/nix.nix {inherit nixpkgs system inputs outputs;};
-      go = import ./shells/go.nix {inherit nixpkgs system inputs outputs;};
+      kotlin = import ./shells/kotlin.nix pkgsFor.${system};
+      nix = import ./shells/nix.nix pkgsFor.${system};
+      go = import ./shells/go.nix pkgsFor.${system};
     });
     formatter = forAllSystems (system: pkgsFor.${system}.alejandra);
 
