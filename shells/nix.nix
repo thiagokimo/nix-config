@@ -1,15 +1,17 @@
-{pkgs ? import <nixpkgs> {}, ...}: {
-  nix = pkgs.mkShell {
+{nixpkgs, system, inputs, ...}: let
+  pkgs = nixpkgs.legacyPackages.${system};
+in pkgs.mkShell {
+  env = {
     NIX_CONFIG = "extra-experimental-features = nix-command flakes";
-    nativeBuildInputs = with pkgs; [
-      alejandra
-      git
-      home-manager
-      nix
-    ];
-    name = "My default Nix dev shell";
-    shellHook = ''
-      echo "Welcome to the playground!"
-    '';
   };
+  # NIX_CONFIG = "extra-experimental-features = nix-command flakes";
+  nativeBuildInputs = with pkgs; [
+    alejandra
+    home-manager
+    nix
+  ];
+  name = "Nix environment";
+  shellHook = ''
+    echo "Entering Nix development environment"
+  '';
 }
