@@ -27,7 +27,11 @@
     forAllSystems = nixpkgs.lib.genAttrs systems;
     pkgsFor = nixpkgs.legacyPackages;
   in {
-    devShells = forAllSystems (system: import ./shell.nix pkgsFor.${system});
+    devShells = forAllSystems (system: {
+      kotlin = import ./shells/kotlin.nix {inherit nixpkgs system inputs outputs;};
+      nix = import ./shells/nix.nix {inherit nixpkgs system inputs outputs;};
+      go = import ./shells/go.nix {inherit nixpkgs system inputs outputs;};
+    });
     formatter = forAllSystems (system: pkgsFor.${system}.alejandra);
 
     # Entry point for my NixOS machines
