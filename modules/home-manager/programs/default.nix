@@ -3,5 +3,6 @@
     ./browsers.nix
     ./cli
     ./design.nix
+    ./ide
   ];
 }
