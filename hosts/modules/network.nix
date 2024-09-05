@@ -2,6 +2,6 @@
   networking = {
     hostName = config.var.hostname;
     networkmanager.enable = true;
-    firewall.allowedTCPPorts = [ 8080 ];
+    firewall.allowedTCPPorts = [8080];
   };
 }

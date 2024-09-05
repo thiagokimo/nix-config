@@ -19,6 +19,7 @@
     self,
     nixpkgs,
     home-manager,
+    nixos-hardware,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -36,7 +37,12 @@
     # Entry point for my NixOS machines
     nixosConfigurations = {
       framework = nixpkgs.lib.nixosSystem {
-        modules = [./hosts/framework/configuration.nix];
+        modules = [
+          nixos-hardware.nixosModules.framework-13-7040-amd
+          home-manager.nixosModules.home-manager
+          ./hosts/framework/configuration.nix
+        ];
+        specialArgs = {inherit inputs outputs;};
       };
     };
 

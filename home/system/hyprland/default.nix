@@ -1,4 +1,9 @@
-{pkgs, config, ...}: {
+{
+  inputs,
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     ./hyprlock.nix
   ];
@@ -6,34 +11,35 @@
   wayland.windowManager.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 
     settings = {
       "$mod" = "SUPER";
       "$modShift" = "SUPER_SHIFT";
 
-      monitor = [",preferred,auto,auto"]; 
-      bind = [
-        "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
-        "$mod, B, exec, ${pkgs.firefox}/bin/firefox"
-        "$modShift, L, exec, lock"
-        
-        "$mod, SPACE, exec, menu"
-        
-        "$mod, Q, killactive"
-        "$mod, T, togglefloating"
-        "$mod, F, fullscreen"
-        "$mod, J, togglesplit" 
-        
-        "$mod, left, movefocus, l"
-        "$mod, right, movefocus, r"
-        "$mod, up, movefocus, u"
-        "$mod, down, movefocus, d"
-        "$modShift, left, layoutmsg, addmaster"
-        "$modShift, right, layoutmsg, removemaster"
-      ] ++ (builtins.concatLists(builtins.getList(i: 
-        let ws = i + 1;
-        in[
+      monitor = [",preferred,auto,auto"];
+      bind =
+        [
+          "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
+          "$mod, B, exec, ${pkgs.firefox}/bin/firefox"
+          "$modShift, L, exec, lock"
+
+          "$mod, SPACE, exec, menu"
+
+          "$mod, Q, killactive"
+          "$mod, T, togglefloating"
+          "$mod, F, fullscreen"
+          "$mod, J, togglesplit"
+
+          "$mod, left, movefocus, l"
+          "$mod, right, movefocus, r"
+          "$mod, up, movefocus, u"
+          "$mod, down, movefocus, d"
+          "$modShift, left, layoutmsg, addmaster"
+          "$modShift, right, layoutmsg, removemaster"
+        ]
+        ++ (builtins.concatLists (builtins.genList (i: let
+          ws = i + 1;
+        in [
           "$mod, code:1${toString i}, workspace, ${toString ws}"
           "$modShift, code:1${toString i}, movetoworkspace, ${toString ws}"
         ]) 9));
@@ -73,10 +79,10 @@
         "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
         "col.inactive_border" = "rgba(595959aa)";
         resize_on_border = false;
-        allow_tearing = false
+        allow_tearing = false;
         layout = "dwindle";
       };
-      
+
       decoration = {
         rounding = 10;
         active_opacity = 1.0;
@@ -140,7 +146,6 @@
       windowrulev2 = [
         "suppressevent maximize, class:.*"
       ];
-
     };
   };
 }

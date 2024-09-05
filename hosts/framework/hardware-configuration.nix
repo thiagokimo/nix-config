@@ -17,9 +17,9 @@
       availableKernelModules = ["nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod"];
       kernelModules = [];
       luks.devices."luks-7c212fe7-7b5d-41b4-980b-371ceec34454".device = "/dev/disk/by-uuid/7c212fe7-7b5d-41b4-980b-371ceec34454";
-      kernelModules = ["kvm-amd"];
-      extraModulePackages = [];
     };
+    kernelModules = ["kvm-amd"];
+    extraModulePackages = [];
   };
 
   fileSystems."/" = {
