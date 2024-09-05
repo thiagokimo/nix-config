@@ -1,7 +1,6 @@
 {
-  inputs,
+  config,
   pkgs,
-  username,
   ...
 }: {
   imports = [inputs.home-manager.nixosModules.home-manager];
@@ -19,10 +18,12 @@
     };
   };
 
-  users.users.${username} = {
-    isNormalUser = true;
-    description = "${username}";
-    extraGroups = ["networkmanager" "wheel"];
-    shell = pkgs.zsh;
+  users = {
+    defaultUserShell = pkgs.zsh;
+    users.${config.var.username} = {
+      isNormalUser = true;
+      description = "${config.var.username}'s account";
+      extraGroups = ["networkmanager" "wheel"];
+    };
   };
 }
