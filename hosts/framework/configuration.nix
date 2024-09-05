@@ -5,6 +5,7 @@
   imports = [
     ../modules/boot.nix
     ../modules/fonts.nix
+    ../modules/hyprland.nix
     ../modules/keyboard.nix
     ../modules/network.nix
     ../modules/nix.nix
