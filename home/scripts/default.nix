@@ -1,0 +1,8 @@
+{
+  imports = [
+    ./brightness
+    ./sounds
+    ./menus
+  ];
+}
+

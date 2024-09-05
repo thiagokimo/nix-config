@@ -1,9 +1,9 @@
-{username, ...}: {
+{config, ...}: {
   nix = {
     settings = {
       auto-optimise-store = true;
       experimental-features = ["nix-command" "flakes"];
-      allowed-users = ["${username}"];
+      allowed-users = ["${config.var.username}"];
     };
     gc = {
       automatic = true;
