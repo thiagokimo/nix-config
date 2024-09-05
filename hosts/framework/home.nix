@@ -5,6 +5,7 @@
 }: {
   imports = [
     ./variables.nix
+    ../modules/nixpkgs.nix
 
     ../../home/programs/cli
     ../../home/scripts
