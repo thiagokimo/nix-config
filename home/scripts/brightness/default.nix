@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-let
+{pkgs, ...}: let
   increments = "5";
 
   brightness-change = pkgs.writeShellScriptBin "brightness-change" ''
@@ -19,7 +17,6 @@ let
   brightness-down = pkgs.writeShellScriptBin "brightness-down" ''
     brightness-change down ${increments}
   '';
-
 in {
   home.packages = [
     pkgs.brightnessctl
@@ -29,4 +26,3 @@ in {
     brightness-set
   ];
 }
-

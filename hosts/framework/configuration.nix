@@ -1,9 +1,12 @@
-{config, inputs, ...}: {
+{
+  config,
+  ...
+}: {
   imports = [
     ../modules/boot.nix
     ../modules/fonts.nix
     ../modules/keyboard.nix
-    ../modules/networking.nix
+    ../modules/network.nix
     ../modules/nix.nix
     ../modules/sound.nix
     ../modules/timezone.nix
@@ -11,8 +14,6 @@
     ../modules/users.nix
     ../modules/utils.nix
     ../modules/zsh.nix
-
-    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
     ./hardware-configuration.nix
     ./variables.nix
   ];

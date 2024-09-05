@@ -1,5 +1,4 @@
 {pkgs, ...}: {
-
   home.packages = [pkgs.wofi-emoji];
 
   programs.wofi = {

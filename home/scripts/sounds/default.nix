@@ -23,7 +23,6 @@
   sound-toggle = pkgs.writeShellScriptBin "sound-toggle" ''
     sound-change mute
   '';
-
 in {
   home.packages = [
     sound-change

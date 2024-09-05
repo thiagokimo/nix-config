@@ -2,12 +2,11 @@
   imports = [../modules/variables-config.nix];
 
   config.var = {
-
     stateVersion = "24.05";
 
     hostname = "nixos";
     username = "thiago";
-    homeDirectory = "/home." + config.var.username;
+    homeDirectory = "/home/" + config.var.username;
     configDirectory = config.var.homeDirectory + "/.config/nixos";
 
     keyboardLayout = "us";

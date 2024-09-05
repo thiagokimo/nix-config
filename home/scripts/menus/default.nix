@@ -10,13 +10,10 @@
   lock = pkgs.writeShellScriptBin "lock" ''
     ${pkgs.hyprlock}/bin/hyprlock
   '';
-
   # TODO add power menu
-
 in {
   home.packages = [
     menu
     lock
   ];
 }
-
