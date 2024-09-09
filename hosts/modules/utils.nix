@@ -7,6 +7,7 @@
     systemPackages = with pkgs; [
       curl
       git
+      vim
       xdg-utils
       wget
     ];
