@@ -32,6 +32,12 @@
       go
       nodejs
       jq
+     
+      # Design
+      aseprite
+      gimp
+      inkscape
+      krita
 
       # Fun
       peaclock
