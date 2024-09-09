@@ -1,7 +1,4 @@
-{
-  config,
-  ...
-}: {
+{config, ...}: {
   imports = [
     ../modules/boot.nix
     ../modules/fonts.nix

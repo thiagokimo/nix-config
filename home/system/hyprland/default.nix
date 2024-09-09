@@ -36,11 +36,12 @@
           "$modShift, right, layoutmsg, removemaster"
         ]
         ++ (builtins.concatLists (builtins.genList (i: let
-          ws = i + 1;
-        in [
-          "$mod, code:1${toString i}, workspace, ${toString ws}"
-          "$modShift, code:1${toString i}, movetoworkspace, ${toString ws}"
-        ]) 9));
+            ws = i + 1;
+          in [
+            "$mod, code:1${toString i}, workspace, ${toString ws}"
+            "$modShift, code:1${toString i}, movetoworkspace, ${toString ws}"
+          ])
+          9));
 
       bindm = [
         "$mod, mouse:272, movewindow"

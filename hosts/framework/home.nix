@@ -32,7 +32,7 @@
       go
       nodejs
       jq
-     
+
       # Design
       aseprite
       gimp
