@@ -8,7 +8,7 @@ pkgs.mkShell {
     home-manager
     nix
   ];
-  name = "Nix Development Environment";
+  name = "Nix Dev Environment";
   shellHook = ''
     echo "Entering Nix development environment"
   '';

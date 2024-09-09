@@ -8,7 +8,7 @@ pkgs.mkShell {
     go-tools
     delve
   ];
-  name = "Go Development Environment";
+  name = "Go Dev Environment";
   shellHook = ''
     echo "Entering Go development environment"
   '';

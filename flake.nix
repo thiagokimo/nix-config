@@ -31,6 +31,7 @@
       kotlin = import ./shells/kotlin.nix pkgsFor.${system};
       nix = import ./shells/nix.nix pkgsFor.${system};
       go = import ./shells/go.nix pkgsFor.${system};
+      flutter = import ./shells/flutter.nix pkgsFor.${system};
     });
     formatter = forAllSystems (system: pkgsFor.${system}.alejandra);
 

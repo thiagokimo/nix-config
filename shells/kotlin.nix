@@ -3,7 +3,7 @@ pkgs.mkShell {
   buildInputs = with pkgs; [
     jetbrains.idea-community
   ];
-  name = "Kotlin Development Environment";
+  name = "Kotlin Dev Environment";
   shellHook = ''
     echo "Entering Kotlin development environment"
   '';
