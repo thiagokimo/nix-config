@@ -7,7 +7,7 @@
     hostname = "nixos";
     username = "thiago";
     homeDirectory = "/home/" + config.var.username;
-    configDirectory = config.var.homeDirectory + "/.config/nixos";
+    configDirectory = config.var.homeDirectory + "/.config/nix-config";
 
     keyboardLayout = "us";
     keyboardVariant = "intl";
