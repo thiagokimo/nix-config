@@ -6,7 +6,6 @@ pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     flutter
     dart
-    androidSdk
     jdk11
   ];
   name = "Flutter Dev Environment";

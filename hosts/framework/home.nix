@@ -24,6 +24,7 @@
       discord
       vlc
       firefox
+      google-chrome
 
       # Dev
       jetbrains.idea-community
@@ -32,6 +33,8 @@
       go
       nodejs
       jq
+      flutter
+      jdk11
 
       # Design
       aseprite
