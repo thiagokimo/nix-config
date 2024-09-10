@@ -18,7 +18,7 @@
       bind =
         [
           "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
-          "$mod, B, exec, ${pkgs.firefox}/bin/firefox"
+          "$mod, B, exec, ${pkgs.google-chrome}/bin/google-chrome-stable"
           "$modShift, L, exec, lock"
 
           "$mod, SPACE, exec, menu"
