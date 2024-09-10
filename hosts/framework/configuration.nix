@@ -8,7 +8,7 @@
     ../modules/nix.nix
     ../modules/sound.nix
     ../modules/timezone.nix
-    #../modules/tuigreet.nix
+    ../modules/tuigreet.nix
     ../modules/users.nix
     ../modules/utils.nix
     ../modules/zsh.nix
