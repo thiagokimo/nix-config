@@ -2,10 +2,12 @@
   imports = [
     ../modules/boot.nix
     ../modules/fonts.nix
+    ../modules/home-manager.nix
     ../modules/hyprland.nix
     ../modules/keyboard.nix
     ../modules/network.nix
     ../modules/nix.nix
+    ../modules/nixpkgs.nix
     ../modules/sound.nix
     ../modules/timezone.nix
     ../modules/tuigreet.nix

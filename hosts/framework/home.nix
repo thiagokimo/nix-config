@@ -4,14 +4,12 @@
   ...
 }: {
   imports = [
-    ./variables.nix
-    ../modules/nixpkgs.nix
-
     ../../home/programs/cli
     ../../home/scripts
     ../../home/system/hyprland
-    ../../home/system/wofi
     ../../home/system/mime
+    ../../home/system/wofi
+    ./variables.nix
   ];
 
   home = {

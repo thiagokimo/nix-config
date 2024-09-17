@@ -40,7 +40,6 @@
       framework = nixpkgs.lib.nixosSystem {
         modules = [
           nixos-hardware.nixosModules.framework-13-7040-amd
-          home-manager.nixosModules.home-manager
           ./hosts/framework/configuration.nix
         ];
         specialArgs = {inherit inputs outputs;};
