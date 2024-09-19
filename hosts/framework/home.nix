@@ -28,11 +28,7 @@
       jetbrains.idea-community
       vscode
       postman
-      go
-      nodejs
       jq
-      flutter
-      jdk11
 
       # Design
       aseprite
