@@ -21,7 +21,6 @@
       # Apps
       discord
       vlc
-      firefox
       google-chrome
 
       # Dev
