@@ -2,7 +2,7 @@
   home = {
     packages = with pkgs; [
       flutter
-      dart
+      # dart
       jdk11
     ];
     sessionVariables = {
