@@ -4,6 +4,7 @@ pkgs.mkShell {
     CHROME_EXECUTABLE = pkgs.chromedriver + "/bin/chromedriver";
     FLUTTER_ROOT = pkgs.flutter;
     JAVA_HOME = pkgs.jdk11.home;
+    DART_ROOT = "${pkgs.flutter}/bin/cache/dart-sdk";
   };
   nativeBuildInputs = with pkgs; [
     flutter
