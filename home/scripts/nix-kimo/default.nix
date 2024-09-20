@@ -6,6 +6,7 @@
         echo "          nix-kimo [options]"
         echo "Options:"
         echo "          rebuild:        Rebuild NixOS with local config flake"
+        echo "          rebuild-remote: Rebuild NixOS with remote config flake"
         echo "          update:         Update local config flake"
         echo "          upgrade:        Push local config flake to Github"
         echo "          gc:             Garbage collect"
@@ -15,13 +16,25 @@
       [[ $1 == "" ]] && help
 
       if [[ $1 == "rebuild" ]];then
-        echo "Execute nixos rebuild"
+        echo "Initiating system rebuild..."
+        sudo nixos-rebuild switch --flake ${config.var.configDirectory}#${config.var.hostname}
+        echo "System rebuild completed!"
+        exit 0
       elif [[ $1 == "update" ]];then
-        echo "Execute update"
+        echo "Initiating local config update..."
+        sudo nix flake update --flake ${config.var.configDirectory}
+        echo "Local config update completed!"
+        exit 0
       elif [[ $1 == "upgrade" ]];then
-        echo "Execute upgrade"
+        echo "Initiating remote flake upgrade..."
+        cd ${config.var.configDirectory} && git add . && git commit -m "Update from nix-kimo" && git push
+        sudo nix flake update github:thiagokimo/nix-config
+        echo "Remote flake upgrade completed!"
       elif [[ $1 == "gc" ]];then
-        echo "Execute garbage collection"
+        echo "Initiating garbage collection..."
+        nix-collect-garbage -d
+        echo "Garbage collection completed!"
+        exit 0
       elif [[ $1 == "help" ]];then
         help
       else

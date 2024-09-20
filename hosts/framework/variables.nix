@@ -4,7 +4,7 @@
   config.var = {
     stateVersion = "24.05";
 
-    hostname = "nixos";
+    hostname = "framework";
     username = "thiago";
     homeDirectory = "/home/" + config.var.username;
     configDirectory = config.var.homeDirectory + "/.config/nix-config";
