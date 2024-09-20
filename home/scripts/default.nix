@@ -3,5 +3,6 @@
     ./brightness
     ./sounds
     ./menus
+    ./nix-kimo
   ];
 }
