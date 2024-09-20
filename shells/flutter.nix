@@ -2,6 +2,8 @@
 pkgs.mkShell {
   env = {
     CHROME_EXECUTABLE = pkgs.chromedriver + "/bin/chromedriver";
+    FLUTTER_ROOT = pkgs.flutter;
+    JAVA_HOME = pkgs.jdk11.home;
   };
   nativeBuildInputs = with pkgs; [
     flutter
