@@ -28,7 +28,7 @@
       elif [[ $1 == "upgrade" ]];then
         echo "Initiating remote flake upgrade..."
         cd ${config.var.configDirectory} && git add . && git commit -m "Update from nix-kimo" && git push
-        sudo nix flake update --flake github:thiagokimo/nix-config
+        sudo nix flake update github:thiagokimo/nix-config
         echo "Remote flake upgrade completed!"
       elif [[ $1 == "gc" ]];then
         echo "Initiating garbage collection..."
