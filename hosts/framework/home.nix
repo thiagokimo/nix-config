@@ -5,6 +5,7 @@
 }: {
   imports = [
     ../../home/programs/cli
+    ../../home/programs/dev
     ../../home/scripts
     ../../home/system/hyprland
     ../../home/system/mime
@@ -22,12 +23,6 @@
       discord
       vlc
       google-chrome
-
-      # Dev
-      jetbrains.idea-community
-      vscode
-      postman
-      jq
 
       # Design
       aseprite
