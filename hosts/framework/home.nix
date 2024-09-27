@@ -23,6 +23,7 @@
       discord
       vlc
       google-chrome
+      xfce.thunar
 
       # Design
       aseprite
