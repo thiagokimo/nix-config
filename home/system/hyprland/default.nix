@@ -19,6 +19,7 @@
         [
           "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
           "$mod, B, exec, ${pkgs.google-chrome}/bin/google-chrome-stable"
+          "$mod, E, exec, ${pkgs.xfce.thunar}/bin/thunar"
           "$modShift, L, exec, lock"
 
           "$mod, SPACE, exec, menu"
