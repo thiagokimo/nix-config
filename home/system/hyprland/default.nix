@@ -15,7 +15,7 @@
       "$mod" = "SUPER";
       "$modShift" = "SUPER_SHIFT";
 
-      monitor = [",preferred,auto,auto"];
+      monitor = ["eDP-1,1920x1080@60,auto,1"];
       bind =
         [
           "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
