@@ -12,6 +12,7 @@
       url = "https://github.com/hyprwm/Hyprland";
       submodules = true;
     };
+    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
@@ -40,6 +41,9 @@
       framework = nixpkgs.lib.nixosSystem {
         modules = [
           nixos-hardware.nixosModules.framework-13-7040-amd
+          {
+            nixpkgs.overlays = [inputs.hyprpanel.overlay];
+          }
           ./hosts/framework/configuration.nix
         ];
         specialArgs = {inherit inputs outputs;};
