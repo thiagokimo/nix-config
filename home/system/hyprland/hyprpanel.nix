@@ -26,7 +26,7 @@
               "network",
               "volume",
               "battery",
-              "clock"
+              "clock",
               "notifications"
             ]
           }
