@@ -10,6 +10,7 @@
 
   home.packages = with pkgs; [
     hyprpicker
+    wl-clipboard
   ];
 
   wayland.windowManager.hyprland = {
