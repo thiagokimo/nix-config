@@ -5,6 +5,7 @@
 }: {
   imports = [
     ./hyprlock.nix
+    ./hyprpanel.nix
   ];
 
   wayland.windowManager.hyprland = {
