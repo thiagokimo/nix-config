@@ -9,7 +9,7 @@
 
   home.packages = with pkgs; [hyprpanel libnotify];
 
-  # home.file.".cache/ags/hyprpanel/options.json" = {
+  home.file.".cache/ags/hyprpanel/options.json" = builtins.readFile = ./options.json;
   #   text = ''
   #     {
   #       "bar.layouts" = {

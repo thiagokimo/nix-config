@@ -5,7 +5,7 @@
 }: {
   imports = [
     ./hyprlock.nix
-    ./hyprpanel.nix
+    ./hyprpanel
   ];
 
   home.packages = with pkgs; [
