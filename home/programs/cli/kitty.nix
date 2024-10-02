@@ -1,6 +1,6 @@
 {
   programs.kitty = {
     enable = true;
-    theme = "Gruvbox Dark";
+    themeFile = "Gruvbox Dark";
   };
 }
