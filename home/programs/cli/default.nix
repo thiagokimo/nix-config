@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./bat.nix
-    ./btop.nix
+    ./btop
     ./git.nix
     ./kitty.nix
     ./neovim.nix
