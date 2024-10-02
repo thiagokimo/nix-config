@@ -9,30 +9,7 @@
 
   home.packages = with pkgs; [hyprpanel libnotify];
 
-  home.file.".cache/ags/hyprpanel/options.json" = builtins.readFile = ./options.json;
-  #   text = ''
-  #     {
-  #       "bar.layouts" = {
-  #         "*": {
-  #           "left": [
-  #             "dashboard",
-  #             "workspaces",
-  #           ],
-  #           "middle": [
-  #             "windowtitle"
-  #           ],
-  #           "right": [
-  #             "systray",
-  #             "network",
-  #             "volume",
-  #             "battery",
-  #             "clock",
-  #             "notifications"
-  #           ]
-  #         }
-  #       },
-  #       "bar.launcher.icon": "",
-  #     }
-  #   '';
-  # };
+  home.file.".cache/ags/hyprpanel/options.json" = { 
+    text = builtins.readFile ./options.json;
+  };
 }
