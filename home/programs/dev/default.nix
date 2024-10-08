@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   imports = [
-    # ./flutter.nix
+    ./ides.nix
     ./tools.nix
   ];
 }
