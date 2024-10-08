@@ -1,8 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    jetbrains-toolbox
+    jetbrains.idea-community
     vscode
-    postman
-    jq
   ];
 }
