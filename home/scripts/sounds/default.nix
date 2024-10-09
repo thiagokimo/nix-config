@@ -9,7 +9,7 @@
   '';
 
   sound-up = pkgs.writeShellScriptBin "sound-up" ''
-    sound-change set ''${increments}
+    sound-change up ${increments}
   '';
 
   sound-set = pkgs.writeShellScriptBin "sound-set" ''
