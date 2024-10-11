@@ -6,6 +6,7 @@
   imports = [
     ./hyprlock.nix
     ./hyprpanel
+    ./hyprpaper
   ];
 
   home.packages = with pkgs; [
