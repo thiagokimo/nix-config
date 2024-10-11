@@ -20,6 +20,8 @@
       "$mod" = "SUPER";
       "$modShift" = "SUPER_SHIFT";
 
+      exec-once = ["hyprpaper"];
+
       monitor = ["eDP-1,2256x1504@60,auto,1"];
       bind =
         [
