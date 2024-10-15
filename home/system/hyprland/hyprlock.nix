@@ -62,7 +62,6 @@ in {
         inner_color = "rgba(255, 255, 255, 0.1)";
         font_color = color;
         fade_on_empty = false;
-        font_family = font + " Bold";
         placeholder_text = "<i>🔒 Enter Password</i>";
         hide_input = false;
         position = "0, -250";
