@@ -93,11 +93,9 @@ in {
         gaps_in = gaps-in;
         gaps_out = gaps-out;
         border_size = border-size;
-        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        "col.inactive_border" = "rgba(595959aa)";
-        resize_on_border = false;
-        allow_tearing = false;
-        layout = "dwindle";
+        resize_on_border = true;
+        border_part_of_window = true;
+        layout = "master";
       };
 
       decoration = {
@@ -107,7 +105,6 @@ in {
         drop_shadow = true;
         shadow_range = 20;
         shadow_render_power = 3;
-        "col.shadow" = "rgba(1a1a1aee)";
         blur = { enabled = blur; };
       };
 
@@ -130,7 +127,9 @@ in {
       };
 
       master = {
-        new_status = "master";
+        new_status = true;
+        allow_small_split = true;
+        mfact = 0.5;
       };
 
       misc = {
@@ -143,7 +142,9 @@ in {
         kb_layout = "${config.var.keyboardLayout}";
         kb_variant = "${config.var.keyboardVariant}";
         follow_mouse = true;
-        sensitivity = 0;
+        sensitivity = 0.5;
+        repeat_delay = 300;
+        repeat_rate = 50;
 
         touchpad = {
           natural_scroll = true;
