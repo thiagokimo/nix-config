@@ -133,8 +133,9 @@
       };
 
       misc = {
-        force_default_wallpaper = -1;
-        disable_hyprland_logo = false;
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+        vfr = true;
       };
 
       input = {
