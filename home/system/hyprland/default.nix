@@ -108,7 +108,7 @@ in {
         shadow_range = 20;
         shadow_render_power = 3;
         "col.shadow" = "rgba(1a1a1aee)";
-        blur = { enable = blur; }
+        blur = { enable = blur; };
       };
 
       animations = {
