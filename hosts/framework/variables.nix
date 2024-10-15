@@ -16,6 +16,10 @@
     defaultLocale = "en_US.UTF-8";
     extraLocale = "pt_BR.UTF-8";
 
-    # TODO Add theme stuff later
+    # TODO Add more theme stuff 
+    theme = {
+      wallpapersHome = "/home/" + config.var.username + "/wallpapers";
+      wallpaper = config.var.theme.wallpapersHome + "/wallhaven-3l828y.jpg";
+    };
   };
 }
