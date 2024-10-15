@@ -2,7 +2,15 @@
   pkgs,
   config,
   ...
-}: {
+}: let 
+  border-size = config.var.theme.border-size;
+  gaps-in = config.var.theme.gaps-in;
+  gaps-out = config.var.theme.gaps-out;
+  active-opacity = config.var.theme.active-opacity;
+  inactive-opacity = config.var.theme.inactive-opacity;
+  rounding = config.var.theme.rounding;
+  blur = config.var.theme.blur;
+in {
   imports = [
     ./hyprlock.nix
     ./hyprpanel
@@ -82,9 +90,9 @@
       ];
 
       general = {
-        gaps_in = 5;
-        gaps_out = 20;
-        border_size = 2;
+        gaps_in = gaps-in;
+        gaps_out = gaps-out;
+        border_size = border-size;
         "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
         "col.inactive_border" = "rgba(595959aa)";
         resize_on_border = false;
@@ -93,21 +101,14 @@
       };
 
       decoration = {
-        rounding = 10;
-        active_opacity = 1.0;
-        inactive_opacity = 1.0;
+        rounding = rounding;
+        active_opacity = active-opacity;
+        inactive_opacity = inactive-opacity;
         drop_shadow = true;
-        shadow_range = 4;
+        shadow_range = 20;
         shadow_render_power = 3;
         "col.shadow" = "rgba(1a1a1aee)";
-
-        blur = {
-          enabled = true;
-          size = 3;
-          passes = 1;
-
-          vibrancy = 0.1696;
-        };
+        blur = { enable = blur; }
       };
 
       animations = {
