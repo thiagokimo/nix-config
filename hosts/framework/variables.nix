@@ -28,6 +28,7 @@
       inactive-opacity = 0.89;
       blur = true;
       border-size = 3;
+      layout = "dwindle";
     };
   };
 }
