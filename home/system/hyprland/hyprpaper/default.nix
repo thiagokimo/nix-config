@@ -8,7 +8,7 @@ in {
       splash = false;
       splash_offset = 2.0;
       preload = wallpaper;
-      wallpaper = wallpaper;
+      wallpaper = [", ${wallpaper}"];
     };
   };
 }
