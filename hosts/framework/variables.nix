@@ -19,7 +19,7 @@
     # TODO Add more theme stuff 
     theme = {
       wallpapersHome = "/home/" + config.var.username + "/wallpapers";
-      wallpaper = config.var.theme.wallpapersHome + "/wallhaven-3l828y.jpg";
+      wallpaper = config.var.theme.wallpapersHome + "/wallhaven-p9pd23.png";
     };
   };
 }
