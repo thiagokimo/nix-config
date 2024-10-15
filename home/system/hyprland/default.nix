@@ -10,6 +10,7 @@
   inactive-opacity = config.var.theme.inactive-opacity;
   rounding = config.var.theme.rounding;
   blur = config.var.theme.blur;
+  layout = config.var.theme.layout;
 in {
   imports = [
     ./hyprlock.nix
@@ -95,7 +96,7 @@ in {
         border_size = border-size;
         resize_on_border = true;
         border_part_of_window = true;
-        layout = "master";
+        layout = layout;
       };
 
       decoration = {
