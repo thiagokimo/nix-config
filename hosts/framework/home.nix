@@ -6,6 +6,7 @@
   imports = [
     ../../home/programs/cli
     ../../home/programs/dev
+    ../../home/programs/thunar.nix
     ../../home/scripts
     ../../home/system/hyprland
     ../../home/system/mime
@@ -23,7 +24,6 @@
       discord
       vlc
       google-chrome
-      xfce.thunar
 
       # Design
       aseprite
