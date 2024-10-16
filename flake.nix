@@ -26,6 +26,7 @@
     nixpkgs,
     home-manager,
     nixos-hardware,
+    nix-wallpapers,
     stylix,
     ...
   } @ inputs: let
