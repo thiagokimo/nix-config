@@ -6,7 +6,6 @@
       wofi --show drun
     fi
   '';
-
   # TODO add power menu
 in {
   home.packages = [

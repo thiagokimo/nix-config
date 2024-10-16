@@ -16,7 +16,7 @@
     defaultLocale = "en_US.UTF-8";
     extraLocale = "pt_BR.UTF-8";
 
-    # TODO Add more theme stuff 
+    # TODO Add more theme stuff
     theme = {
       rounding = 15;
       gaps-in = 10;

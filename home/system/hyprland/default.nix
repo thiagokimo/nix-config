@@ -2,7 +2,7 @@
   pkgs,
   config,
   ...
-}: let 
+}: let
   border-size = config.var.theme.border-size;
   gaps-in = config.var.theme.gaps-in;
   gaps-out = config.var.theme.gaps-out;
@@ -100,7 +100,7 @@ in {
         drop_shadow = true;
         shadow_range = 20;
         shadow_render_power = 3;
-        blur = { enabled = blur; };
+        blur = {enabled = blur;};
       };
 
       animations = {
