@@ -10,7 +10,6 @@
       echo "          nk [options]"
       echo "Options:"
       echo "          help:           Displays this message"
-      echo "          cd:             Navigate to local config folder"
       echo "          check:          Check if the local config flake evaluates"
       echo "          gc:             Garbage collect"
       echo "          push:           Push local configs to Github"
@@ -51,10 +50,6 @@
       exit 0
     elif [[ $1 == "help" ]];then
       help
-      exit 0
-    elif [[ $1 == "cd" ]];then
-      echo "Entering local config folder..."
-      cd ${config.var.configDirectory}
       exit 0
     elif [[ $1 == "push" ]];then
       echo "Pushing local changes to Github..."
