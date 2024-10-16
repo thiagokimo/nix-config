@@ -12,12 +12,6 @@
   blur = config.var.theme.blur;
   layout = config.var.theme.layout;
 in {
-  imports = [
-    ./hyprlock.nix
-    ./hyprpanel
-    ./hyprpaper
-  ];
-
   home.packages = with pkgs; [
     hyprpicker
     wl-clipboard
@@ -150,6 +144,10 @@ in {
         touchpad = {
           natural_scroll = true;
         };
+      };
+
+      cursor = {
+        no_hardware_cursors = true;
       };
 
       gestures = {
