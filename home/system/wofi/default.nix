@@ -1,9 +1,9 @@
 {pkgs, ...}: {
   home.packages = [pkgs.wofi-emoji];
 
-  home.file.".config/wofi/style.css" = {
-    text = builtins.readFile ./style.css;
-  };
+  # home.file.".config/wofi/style.css" = {
+  #   text = builtins.readFile ./style.css;
+  # };
 
   programs.wofi = {
     enable = true;
