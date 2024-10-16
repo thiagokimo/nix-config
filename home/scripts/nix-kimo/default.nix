@@ -3,16 +3,21 @@
   config,
   ...
 }: let
-  nix-kimo = pkgs.writeShellScriptBin "nix-kimo" ''
+  nix-kimo = pkgs.writeShellScriptBin "nk" ''
     function help() {
+      echo "NixKimo (nk)"
       echo "Usage:"
-      echo "          nix-kimo [options]"
+      echo "          nk [options]"
       echo "Options:"
-      echo "          rebuild:        Rebuild NixOS with local config flake"
+      echo "          help:           Displays this message"
+      echo "          cd:             Navigate to local config folder"
+      echo "          check:          Check if the local config flake evaluates"
+      echo "          gc:             Garbage collect"
+      echo "          push:           Push local configs to Github"
       echo "          rebuild-remote: Rebuild NixOS with remote config flake"
+      echo "          rebuild:        Rebuild NixOS with local config flake"
       echo "          update:         Update local config flake"
       echo "          upgrade:        Push local config flake to Github"
-      echo "          gc:             Garbage collect"
       exit 0
     }
 
@@ -33,15 +38,31 @@
       cd ${config.var.configDirectory} && git add . && git commit -m "Update from nix-kimo" && git push
       sudo nix flake update github:thiagokimo/nix-config
       echo "Remote flake upgrade completed!"
+      exit 0
     elif [[ $1 == "gc" ]];then
       echo "Initiating garbage collection..."
       nix-collect-garbage -d
       echo "Garbage collection completed!"
       exit 0
+    elif [[ $1 == "check" ]]; then
+      echo "Checking local config flake..."
+      sudo nix flake check ${config.var.configDirectory}
+      echo "Local config flake checked!"
+      exit 0
     elif [[ $1 == "help" ]];then
       help
+      exit 0
+    elif [[ $1 == "cd" ]];then
+      echo "Entering local config folder..."
+      cd ${config.var.configDirectory}
+      exit 0
+    elif [[ $1 == "push" ]];then
+      echo "Pushing local changes to Github..."
+      git -C ${config.var.configDirectory} push origin
+      exit 0
     else
       echo "Invalid argument"
+      exit 0
     fi
   '';
 in {home.packages = [nix-kimo];}
