@@ -1,4 +1,8 @@
-{pkgs, inputs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   stylix = {
     enable = true;
 
@@ -18,7 +22,7 @@
       base0C = "89b482";
       base0D = "7daea3";
       base0E = "d3869b";
-      base0F = "bd6f3e";    
+      base0F = "bd6f3e";
     };
 
     cursor = {
@@ -51,7 +55,7 @@
         terminal = 13;
       };
     };
-    
+
     polarity = "dark";
     image = inputs.nix-wallpapers + "/wallpapers/jxzzlw.jpg";
   };
