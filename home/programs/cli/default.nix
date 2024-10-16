@@ -2,6 +2,7 @@
   imports = [
     ./bat.nix
     ./btop
+    ./fzf.nix
     ./git.nix
     ./kitty.nix
     ./neovim.nix
