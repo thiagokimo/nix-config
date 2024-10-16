@@ -1,21 +1,22 @@
 {config, ...}: {
   imports = [
-    ../modules/boot.nix
-    ../modules/fonts.nix
-    ../modules/home-manager.nix
-    ../modules/hyprland.nix
-    ../modules/keyboard.nix
-    ../modules/network.nix
-    ../modules/nix.nix
-    ../modules/nixpkgs.nix
-    ../modules/sound.nix
-    ../modules/timezone.nix
-    ../modules/tuigreet.nix
-    ../modules/users.nix
-    ../modules/utils.nix
-    ../modules/zsh.nix
+    ../../nixos/boot.nix
+    ../../nixos/fonts.nix
+    ../../nixos/home-manager.nix
+    ../../nixos/hyprland.nix
+    ../../nixos/keyboard.nix
+    ../../nixos/network.nix
+    ../../nixos/nix.nix
+    ../../nixos/nixpkgs.nix
+    ../../nixos/sound.nix
+    ../../nixos/timezone.nix
+    ../../nixos/tuigreet.nix
+    ../../nixos/users.nix
+    ../../nixos/utils.nix
+    ../../nixos/zsh.nix
     ./hardware-configuration.nix
     ./variables.nix
+    ../../themes/gruvbox-dark.nix
   ];
 
   home-manager.users."${config.var.username}" = import ./home.nix;

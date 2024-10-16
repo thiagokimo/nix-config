@@ -18,9 +18,6 @@
 
     # TODO Add more theme stuff 
     theme = {
-      wallpapersHome = "/home/" + config.var.username + "/wallpapers";
-      wallpaper = config.var.theme.wallpapersHome + "/wp11058333.png";
-
       rounding = 15;
       gaps-in = 10;
       gaps-out = 10 * 2;
