@@ -1,7 +1,6 @@
 {
   programs.kitty = {
     enable = true;
-    # themeFile = "GruvboxMaterialDarkHard";
     settings = {
       scrollback_lines = 10000;
       initial_window_width = 1200;
