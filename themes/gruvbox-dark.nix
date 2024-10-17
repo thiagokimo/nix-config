@@ -32,18 +32,18 @@
     };
 
     fonts = {
-      # monospace = {
-      #   package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
-      #   name = "JetBrains Mono Nerd Font";
-      # };
-      # sansSerif = {
-      #   package = inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd;
-      #   name = "SFProDisplay Nerd Font";
-      # };
-      # serif = {
-      #   package = inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd;
-      #   name = "SFProDisplay Nerd Font";
-      # };
+      monospace = {
+        package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
+        name = "JetBrainsMono Nerd Font";
+      };
+      sansSerif = {
+        package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
+        name = "JetBrainsMono Nerd Font";
+      };
+      serif = {
+        package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
+        name = "JetBrainsMono Nerd Font";
+      };
       emoji = {
         package = pkgs.noto-fonts-emoji;
         name = "Noto Color Emoji";
