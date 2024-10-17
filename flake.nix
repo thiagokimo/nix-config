@@ -14,6 +14,11 @@
     };
     hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nix-wallpapers = {
+      url = "github:thiagokimo/nix-wallpapers";
+      flake = false;
+    };
+    stylix.url = "github:danth/stylix";
   };
 
   outputs = {
@@ -21,6 +26,8 @@
     nixpkgs,
     home-manager,
     nixos-hardware,
+    nix-wallpapers,
+    stylix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -41,6 +48,7 @@
       framework = nixpkgs.lib.nixosSystem {
         modules = [
           nixos-hardware.nixosModules.framework-13-7040-amd
+          stylix.nixosModules.stylix
           {
             nixpkgs.overlays = [inputs.hyprpanel.overlay];
           }

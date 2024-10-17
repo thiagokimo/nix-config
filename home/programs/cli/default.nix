@@ -6,7 +6,7 @@
     ./fzf.nix
     ./git.nix
     ./kitty.nix
-    ./neovim.nix
+    ./nvim
     ./zsh.nix
   ];
 

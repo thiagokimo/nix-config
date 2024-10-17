@@ -9,6 +9,8 @@
     ../../home/programs/thunar.nix
     ../../home/scripts
     ../../home/system/hyprland
+    ../../home/system/hyprpanel
+    ../../home/system/hyprpaper
     ../../home/system/mime
     ../../home/system/wofi
     ./variables.nix

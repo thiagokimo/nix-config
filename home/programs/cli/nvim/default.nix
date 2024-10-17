@@ -10,10 +10,9 @@
     defaultEditor = true;
     plugins = with pkgs.vimPlugins; [
       vim-nix
-      gruvbox
     ];
 
-    extraConfig = lib.fileContents ./vim/init.vim;
+    extraConfig = lib.fileContents ./init.vim;
   };
 
   home.sessionVariables = {
