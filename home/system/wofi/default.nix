@@ -39,7 +39,7 @@ in {
       key_expand = "Tab";
       sort_order = "default";
     };
-    style = ''
+    style = lib.mkForce ''
       * {
         font-family: "${font}";
         font-weight: 500;
