@@ -1,12 +1,12 @@
 {pkgs, ...}: {
   imports = [
     ./bat.nix
-    ./btop
+    ./btop.nix
     ./eza.nix
     ./fzf.nix
     ./git.nix
     ./kitty.nix
-    ./nvim
+    ./neovim.nix
     ./zsh.nix
   ];
 

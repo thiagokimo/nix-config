@@ -12,7 +12,11 @@
       vim-nix
     ];
 
-    extraConfig = lib.fileContents ./init.vim;
+    extraConfig = ''
+      syntax on
+      set encoding=utf-8
+      set number relativenumber
+    '';
   };
 
   home.sessionVariables = {
