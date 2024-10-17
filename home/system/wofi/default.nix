@@ -39,11 +39,7 @@ in {
       key_expand = "Tab";
       sort_order = "default";
     };
-  };
-  style =
-    lib.mkForce
-    # css
-    ''
+    style = ''
       * {
         font-family: "${font}";
         font-weight: 500;
@@ -103,4 +99,5 @@ in {
         border-radius: ${toString rounding}px;
       }
     '';
+  };
 }
