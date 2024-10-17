@@ -2,7 +2,7 @@
   pkgs,
   config,
   ...
-}: let 
+}: let
   border-size = config.var.theme.border-size;
   gaps-in = config.var.theme.gaps-in;
   gaps-out = config.var.theme.gaps-out;
@@ -12,12 +12,6 @@
   blur = config.var.theme.blur;
   layout = config.var.theme.layout;
 in {
-  imports = [
-    ./hyprlock.nix
-    ./hyprpanel
-    ./hyprpaper
-  ];
-
   home.packages = with pkgs; [
     hyprpicker
     wl-clipboard
@@ -106,7 +100,7 @@ in {
         drop_shadow = true;
         shadow_range = 20;
         shadow_render_power = 3;
-        blur = { enabled = blur; };
+        blur = {enabled = blur;};
       };
 
       animations = {
@@ -150,6 +144,10 @@ in {
         touchpad = {
           natural_scroll = true;
         };
+      };
+
+      cursor = {
+        no_hardware_cursors = true;
       };
 
       gestures = {

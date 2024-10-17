@@ -1,4 +1,5 @@
-{config, ...}: let 
+{config, ...}: let
+  imageStr = toString config.stylix.image;
   color = "rgba(216, 222, 233, 0.70)";
 in {
   programs.hyprlock = {
@@ -11,7 +12,7 @@ in {
       };
       background = {
         monitor = "";
-        path = config.var.theme.wallpaper;
+        path = imageStr;
         blur_passes = 0;
         contrast = 0.8916;
         brightness = 0.7172;
@@ -51,23 +52,25 @@ in {
           valign = "center";
         }
       ];
-      input-field = [{
-        monitor = "";
-        size = "300, 60";
-        outline_thickness = 2;
-        dots_size = 0.2;
-        dots_spacing = 0.2;
-        dots_center = true;
-        outer_color = "rgba(255, 255, 255, 0)";
-        inner_color = "rgba(255, 255, 255, 0.1)";
-        font_color = color;
-        fade_on_empty = false;
-        placeholder_text = "<i>🔒 Enter Password</i>";
-        hide_input = false;
-        position = "0, -250";
-        halign = "center";
-        valign = "center";
-      }];
+      input-field = [
+        {
+          monitor = "";
+          size = "300, 60";
+          outline_thickness = 2;
+          dots_size = 0.2;
+          dots_spacing = 0.2;
+          dots_center = true;
+          outer_color = "rgba(255, 255, 255, 0)";
+          inner_color = "rgba(255, 255, 255, 0.1)";
+          font_color = color;
+          fade_on_empty = false;
+          placeholder_text = "<i>🔒 Enter Password</i>";
+          hide_input = false;
+          position = "0, -250";
+          halign = "center";
+          valign = "center";
+        }
+      ];
     };
   };
 }
