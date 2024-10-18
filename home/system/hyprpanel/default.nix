@@ -17,7 +17,7 @@
   gaps-out = config.var.theme.gaps-out;
   gaps-in = config.var.theme.gaps-in;
 
-  location = config.var.theme.location;
+  location = config.var.location;
 in {
   wayland.windowManager.hyprland.settings.exec-once = [
     "${pkgs.hyprpanel}/bin/hyprpanel"
