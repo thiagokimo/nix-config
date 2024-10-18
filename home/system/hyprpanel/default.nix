@@ -98,7 +98,7 @@ in {
       "theme.bar.margin_sides": "${toString gaps-out}px",
       "theme.bar.margin_bottom": "0px",
       "theme.bar.border_radius": "${toString rounding}px",
-      "theme.bar.buttons.battery.enableBorder": false
+      "theme.bar.buttons.battery.enableBorder": false,
       "theme.bar.floating": true,
       "theme.bar.location": "top",
       "theme.bar.menus.monochrome": true,
