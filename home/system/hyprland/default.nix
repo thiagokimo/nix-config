@@ -10,7 +10,7 @@
   inactive-opacity = config.var.theme.inactive-opacity;
   rounding = config.var.theme.rounding;
   blur = config.var.theme.blur;
-  layout = config.var.theme.layout;
+  layout = "dwindle";
 in {
   home.packages = with pkgs; [
     hyprpicker
