@@ -25,6 +25,9 @@
       # Eza overrides
       ls = "eza --icons=always --no-quotes";
       tree = "eza --icons=always --tree --no-quotes";
+
+      # Bat overrides
+      cat = "bat";
     };
   };
 }
