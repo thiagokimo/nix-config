@@ -451,11 +451,11 @@
     "nix-wallpapers": {
       "flake": false,
       "locked": {
-        "lastModified": 1729106280,
-        "narHash": "sha256-xAouHR16e1qbdj5WSDfhWtQH0c1hg5H/BzPOvCsULDA=",
+        "lastModified": 1730127254,
+        "narHash": "sha256-ICUF5+0JNgNJuQeLkX3FB3vaJsfqZuKuEIPAqJszCnA=",
         "owner": "thiagokimo",
         "repo": "nix-wallpapers",
-        "rev": "0271a45bc188e7b8863165237eaee1cedd8102b6",
+        "rev": "70c07308dbca5d5055720a75d6ac54bcfbd58f6e",
         "type": "github"
       },
       "original": {
