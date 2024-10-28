@@ -14,9 +14,9 @@
     ../../nixos/users.nix
     ../../nixos/utils.nix
     ../../nixos/zsh.nix
+    ../../themes/stylix/gruvbox-dark.nix
     ./hardware-configuration.nix
     ./variables.nix
-    ../../themes/gruvbox-dark.nix
   ];
 
   home-manager.users."${config.var.username}" = import ./home.nix;
