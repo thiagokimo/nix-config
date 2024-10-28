@@ -57,6 +57,6 @@
     };
 
     polarity = "dark";
-    image = inputs.nix-wallpapers + "/wallpapers/jxzzlw.jpg";
+    image = inputs.nix-wallpapers + "/wallpapers/15.png";
   };
 }
