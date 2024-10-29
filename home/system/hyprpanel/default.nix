@@ -4,7 +4,7 @@
   ...
 }: let
   font = "${config.stylix.fonts.serif.name}";
-  fontsize = "${toString config.stylix.fonts.sizes.desktop}";
+  fontSize = "${toString config.stylix.fonts.sizes.desktop}";
   rounding = config.var.theme.rounding;
   border-size = config.var.theme.border-size;
   gaps-out = config.var.theme.gaps-out;
@@ -57,9 +57,9 @@ in {
       },
       "wallpaper.image": "${wallpaper}",
       "theme.font.name": "${font}",
-      "theme.font.size": "${fontsize}px",
+      "theme.font.size": "${fontSize}px",
       "theme.matugen": true,
-      "theme.matugen_settings.mode": ${polarity},
+      "theme.matugen_settings.mode": "${polarity}",
       "theme.matugen_settings.scheme_type": "tonal-spot",
       "theme.matugen_settings.variation": "standard_1"
     } 
