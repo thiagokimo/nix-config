@@ -44,6 +44,7 @@ in {
           ],
           "middle":[
             "windowtitle"
+          ],
           "right":[
             "volume",
             "network",
