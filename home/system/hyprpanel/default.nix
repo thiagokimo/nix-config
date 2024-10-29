@@ -40,7 +40,7 @@ in {
       "menus.dashboard.directories.right.directory2.command": "bash -c \"thunar $HOME/Projects/\"",
       "menus.dashboard.directories.right.directory3.label": " Config",
       "menus.dashboard.directories.right.directory3.command": "bash -c \"thunar $HOME/.config/\"",
-      menus.dashboard.shortcuts.right.shortcut3.command":"hyprpicker -a",
+      "menus.dashboard.shortcuts.right.shortcut3.command":"hyprpicker -a",
       "menus.dashboard.shortcuts.left.shortcut4.command":"menu",
       "bar.layouts":{
         "*":{

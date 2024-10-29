@@ -38,6 +38,6 @@
     };
 
     polarity = "dark";
-    image = inputs.nix-wallpapers + "/gruvbox/12.png";
+    image = inputs.nix-wallpapers + "/gruvbox/wp11058333.png";
   };
 }
