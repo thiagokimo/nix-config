@@ -12,7 +12,7 @@
   location = config.var.location;
   wallpaper = config.stylix.image;
 in {
-  wayland.windowmanager.hyprland.settings.exec-once = [
+  wayland.windowManager.hyprland.settings.exec-once = [
     "${pkgs.hyprpanel}/bin/hyprpanel"
   ];
   home.packages = with pkgs; [hyprpanel libnotify];
