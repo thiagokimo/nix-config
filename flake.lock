@@ -310,11 +310,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1730122745,
-        "narHash": "sha256-K9qqg8MgKzbgAUWCryplQ36hly8AGfkMloeVOZ/tPiY=",
+        "lastModified": 1730143527,
+        "narHash": "sha256-3uRuQHxAd/+8PptDpIZZlC588O0eTV1mTa+z8v4cWPU=",
         "ref": "refs/heads/main",
-        "rev": "2c481202effe707451608e272b5a801f8c970052",
-        "revCount": 5386,
+        "rev": "d679d200299ed4670f0d0f138c793d5f507b7cec",
+        "revCount": 5390,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -451,11 +451,11 @@
     "nix-wallpapers": {
       "flake": false,
       "locked": {
-        "lastModified": 1730127254,
-        "narHash": "sha256-ICUF5+0JNgNJuQeLkX3FB3vaJsfqZuKuEIPAqJszCnA=",
+        "lastModified": 1730227264,
+        "narHash": "sha256-OOOXbTTPoes2Qeex+lU7ob8FbbwVT7LAWEb/E4KO1B4=",
         "owner": "thiagokimo",
         "repo": "nix-wallpapers",
-        "rev": "70c07308dbca5d5055720a75d6ac54bcfbd58f6e",
+        "rev": "21e4516388d3872b5e5732ad1c70cd03a2d7b6cb",
         "type": "github"
       },
       "original": {
@@ -466,11 +466,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1730068391,
-        "narHash": "sha256-jlAGtfMuI8pUUoUmNkm2P/38pOtHZdcAf3Az8XQLAf4=",
+        "lastModified": 1730161780,
+        "narHash": "sha256-z5ILcmwMtiCoHTXS1KsQWqigO7HJO8sbyK7f7wn9F/E=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "6906ac67a1078cf950b8527341e229eeecb5bc30",
+        "rev": "07d15e8990d5d86a631641b4c429bc0a7400cfb8",
         "type": "github"
       },
       "original": {
