@@ -10,7 +10,6 @@
   gaps-out = config.var.theme.gaps-out;
   gaps-in = config.var.theme.gaps-in;
   location = config.var.location;
-  polarity = config.stylix.polarity;
 in {
   wayland.windowManager.hyprland.settings.exec-once = [
     "${pkgs.hyprpanel}/bin/hyprpanel"
@@ -61,11 +60,7 @@ in {
         }
       },
       "theme.font.name": "${font}",
-      "theme.font.size": "${fontSize}px",
-      "theme.matugen": true,
-      "theme.matugen_settings.mode": "${polarity}",
-      "theme.matugen_settings.scheme_type": "tonal-spot",
-      "theme.matugen_settings.variation": "standard_1"
+      "theme.font.size": "${fontSize}px"
     } 
   '';
  }
