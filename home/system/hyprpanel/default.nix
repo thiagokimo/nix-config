@@ -10,7 +10,6 @@
   gaps-out = config.var.theme.gaps-out;
   gaps-in = config.var.theme.gaps-in;
   location = config.var.location;
-  wallpaper = config.stylix.image;
   polarity = config.stylix.polarity;
 in {
   wayland.windowManager.hyprland.settings.exec-once = [
@@ -61,7 +60,6 @@ in {
           ]
         }
       },
-      "wallpaper.image": "${wallpaper}",
       "theme.font.name": "${font}",
       "theme.font.size": "${fontSize}px",
       "theme.matugen": true,
