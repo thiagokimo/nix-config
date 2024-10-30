@@ -4,10 +4,6 @@
   lib,
   ...
 }: let
-  accent = "#${config.lib.stylix.colors.base0D}";
-  background = "#${config.lib.stylix.colors.base00}";
-  background-alt = "#${config.lib.stylix.colors.base01}";
-  foreground = "#${config.lib.stylix.colors.base05}";
   font = config.stylix.fonts.serif.name;
   rounding = config.var.theme.rounding;
   font-size = config.stylix.fonts.sizes.popups;
@@ -39,7 +35,9 @@ in {
       key_expand = "Tab";
       sort_order = "default";
     };
-    style = lib.mkForce ''
+
+    style = with config.lib.stylix.colors; lib.mkForce ''
+      
       * {
         font-family: "${font}";
         font-weight: 500;
@@ -47,56 +45,56 @@ in {
       }
 
       #window {
-        background-color: ${background};
-        color: ${foreground};
+        background-color: ${base00};
+        color: ${base05};
         border-radius: ${toString rounding}px;
-      }
-
-      #outer-box {
-        padding: 20px;
-      }
-
-      #input {
-        background-color: ${background-alt};
-        border: 0px solid ${accent};
-        color: ${foreground};
-        padding: 8px 12px;
-      }
-
-      #scroll {
-        margin-top: 20px;
-      }
-
-      #inner-box {}
-
-      #img {
-        padding-right: 8px;
-      }
-
-      #text {
-        color: ${foreground};
-      }
-
-      #text:selected {
-        color: ${foreground};
-      }
-
-      #entry {
-        padding: 6px;
-      }
-
-      #entry:selected {
-        background-color: ${accent};
-        color: ${foreground};
       }
 
       #unselected {}
 
       #selected {}
 
-      #input,
+      #img {
+        padding-right: 8px;
+      }
+
+      #inner-box {}
+
+      #outer-box {
+        padding: 20px;
+      }
+
+      #entry {
+        padding: 6px;
+      }
+
+      #entry:nth-child(odd) {
+        background-color: ${base00};
+      }
+
+      #entry:nth-child(even) {
+        background-color: ${base01};
+      }
+
       #entry:selected {
+        background-color: ${base02};
         border-radius: ${toString rounding}px;
+      }
+
+      #input {
+        background-color: ${base01};
+        color: ${base04};
+        border-radius: ${toString rounding}px;
+        border-color: ${base02};
+        padding: 8px 12px;
+      }
+
+      #input:focus {
+        border-color: ${base0A};
+      }
+
+      #scroll {
+        margin-top: 20px;
       }
     '';
   };
