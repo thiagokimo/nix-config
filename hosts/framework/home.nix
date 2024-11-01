@@ -39,6 +39,9 @@
       pipes
       cmatrix
     ];
+
+    # Used in hyprpanel
+    file.".profile-picture.jpeg" = { source = ./profile-picture.jpeg; };
   };
 
   programs.home-manager.enable = true;
