@@ -8,8 +8,15 @@
 
   background = "#${config.lib.stylix.colors.base00}";
   background-alt = "#${config.lib.stylix.colors.base01}";
-  accent = "#${config.lib.stylix.colors.base0D}";
-  accent-alt = "#${config.lib.stylix.colors.base08}";
+
+  red = "#${config.lib.stylix.colors.base08}";
+  orange = "#${config.lib.stylix.colors.base09}";
+  yellow = "#${config.lib.stylix.colors.base0A}";
+  green = "#${config.lib.stylix.colors.base0B}";
+  cyan = "#${config.lib.stylix.colors.base0C}";
+  blue = "#${config.lib.stylix.colors.base0D}";
+  purple = "#${config.lib.stylix.colors.base0E}";
+  brown = "#${config.lib.stylix.colors.base0F}";
 
   transparent = config.var.theme.bar.transparent;
   transparentButtons = config.var.theme.bar.transparentButtons;
@@ -84,18 +91,21 @@ in {
       "theme.bar.buttons.radius": "${if transparent then toString rounding else toString (rounding - 8)}px",
       "theme.bar.buttons.spacing": "0.3em",
       "theme.bar.buttons.style": "default",
-      "theme.bar.buttons.workspaces.active": "${accent}",
-      "theme.bar.buttons.workspaces.available": "${background}",
-      "theme.bar.buttons.workspaces.hover": "${accent-alt}",
+      "theme.bar.buttons.workspaces.active": "${green}",
+      "theme.bar.buttons.workspaces.available": "${blue}",
+      "theme.bar.buttons.workspaces.hover": "${orange}",
+      "theme.bar.buttons.workspaces.occupied": "${red}",
       "theme.bar.buttons.y_margins": "${if floating && transparent then "0" else "8"}px",
       "theme.bar.floating": ${if floating then "true" else "false"},
       "theme.bar.location": "${position}",
       "theme.bar.margin_bottom": "${if position == "top" then "0" else toString (gaps-in * 2)}px",
       "theme.bar.margin_sides": "${toString gaps-out}px",
       "theme.bar.margin_top": "${if position == "top" then toString (gaps-in * 2) else "0"}px",
+      "theme.bar.menus.background": "${background}",
       "theme.bar.menus.border.radius": "${toString rounding}px",
       "theme.bar.menus.border.size": "${toString border-size}px",
       "theme.bar.menus.card_radius": "${toString rounding}px",
+      "theme.bar.menus.cards": "${background-alt}",
       "theme.bar.menus.menu.media.card.tint": 90,
       "theme.bar.menus.monochrome": true,
       "theme.bar.outer_spacing": "${if floating && transparent then "0" else "8"}px",
