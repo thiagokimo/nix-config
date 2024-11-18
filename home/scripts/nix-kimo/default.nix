@@ -25,28 +25,23 @@
     if [[ $1 == "rebuild" ]];then
       echo "Initiating system rebuild..."
       sudo nixos-rebuild switch --flake ${config.var.configDirectory}#${config.var.hostname}
-      echo "System rebuild completed!"
       exit 0
     elif [[ $1 == "update" ]];then
       echo "Initiating local config update..."
       sudo nix flake update --flake ${config.var.configDirectory}
-      echo "Local config update completed!"
       exit 0
     elif [[ $1 == "upgrade" ]];then
       echo "Initiating remote flake upgrade..."
       cd ${config.var.configDirectory} && git add . && git commit -m "Update from nix-kimo" && git push
       sudo nix flake update github:thiagokimo/nix-config
-      echo "Remote flake upgrade completed!"
       exit 0
     elif [[ $1 == "gc" ]];then
       echo "Initiating garbage collection..."
       nix-collect-garbage -d
-      echo "Garbage collection completed!"
       exit 0
     elif [[ $1 == "check" ]]; then
       echo "Checking local config flake..."
       sudo nix flake check ${config.var.configDirectory}
-      echo "Local config flake checked!"
       exit 0
     elif [[ $1 == "help" ]];then
       help
