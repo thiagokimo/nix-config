@@ -2,7 +2,7 @@
   imports = [../../nixos/variables-config.nix];
 
   config.var = {
-    stateVersion = "24.05";
+    stateVersion = "24.11";
 
     hostname = "framework";
     username = "thiago";
