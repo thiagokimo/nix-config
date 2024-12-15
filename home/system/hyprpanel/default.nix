@@ -23,7 +23,7 @@
 
   floating = config.var.theme.bar.floating;
   position = config.var.theme.bar.position;
-  
+
   rounding = config.var.theme.rounding;
   border-size = config.var.theme.border-size;
   gaps-out = config.var.theme.gaps-out;
@@ -82,25 +82,59 @@ in {
       "menus.dashboard.shortcuts.right.shortcut3.command":"hyprpicker -a",
       "scalingpriority":"hyprland",
       "tear":true,
-      "theme.bar.background": "${background + (if transparentButtons then "00" else "")}",
+      "theme.bar.background": "${background
+      + (
+        if transparentButtons
+        then "00"
+        else ""
+      )}",
       "theme.bar.border_radius": "${toString rounding}px",
-      "theme.bar.buttons.background": "${(if transparent then background else background-alt) + (if transparentButtons then "00" else "")}",
+      "theme.bar.buttons.background": "${(
+        if transparent
+        then background
+        else background-alt
+      )
+      + (
+        if transparentButtons
+        then "00"
+        else ""
+      )}",
       "theme.bar.buttons.monochrome": true,
       "theme.bar.buttons.padding_x": "0.8rem",
       "theme.bar.buttons.padding_y": "0.4rem",
-      "theme.bar.buttons.radius": "${if transparent then toString rounding else toString (rounding - 8)}px",
+      "theme.bar.buttons.radius": "${
+      if transparent
+      then toString rounding
+      else toString (rounding - 8)
+    }px",
       "theme.bar.buttons.spacing": "0.3em",
       "theme.bar.buttons.style": "default",
       "theme.bar.buttons.workspaces.active": "${green}",
       "theme.bar.buttons.workspaces.available": "${blue}",
       "theme.bar.buttons.workspaces.hover": "${orange}",
       "theme.bar.buttons.workspaces.occupied": "${red}",
-      "theme.bar.buttons.y_margins": "${if floating && transparent then "0" else "8"}px",
-      "theme.bar.floating": ${if floating then "true" else "false"},
+      "theme.bar.buttons.y_margins": "${
+      if floating && transparent
+      then "0"
+      else "8"
+    }px",
+      "theme.bar.floating": ${
+      if floating
+      then "true"
+      else "false"
+    },
       "theme.bar.location": "${position}",
-      "theme.bar.margin_bottom": "${if position == "top" then "0" else toString (gaps-in * 2)}px",
+      "theme.bar.margin_bottom": "${
+      if position == "top"
+      then "0"
+      else toString (gaps-in * 2)
+    }px",
       "theme.bar.margin_sides": "${toString gaps-out}px",
-      "theme.bar.margin_top": "${if position == "top" then toString (gaps-in * 2) else "0"}px",
+      "theme.bar.margin_top": "${
+      if position == "top"
+      then toString (gaps-in * 2)
+      else "0"
+    }px",
       "theme.bar.menus.background": "${background}",
       "theme.bar.menus.border.radius": "${toString rounding}px",
       "theme.bar.menus.border.size": "${toString border-size}px",
@@ -108,8 +142,16 @@ in {
       "theme.bar.menus.cards": "${background-alt}",
       "theme.bar.menus.menu.media.card.tint": 90,
       "theme.bar.menus.monochrome": true,
-      "theme.bar.outer_spacing": "${if floating && transparent then "0" else "8"}px",
-      "theme.bar.transparent": ${if transparent then "true" else "false"},
+      "theme.bar.outer_spacing": "${
+      if floating && transparent
+      then "0"
+      else "8"
+    }px",
+      "theme.bar.transparent": ${
+      if transparent
+      then "true"
+      else "false"
+    },
       "theme.font.name": "${font}",
       "theme.font.size": "${fontSize}px",
       "theme.notification.border_radius": "${toString rounding}px",
@@ -120,6 +162,6 @@ in {
       "theme.osd.orientation": "vertical",
       "theme.osd.radius": "${toString rounding}px",
       "wallpaper.enable": false
-    } 
+    }
   '';
- }
+}

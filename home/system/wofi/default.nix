@@ -36,66 +36,67 @@ in {
       sort_order = "default";
     };
 
-    style = with config.lib.stylix.colors; lib.mkForce ''
-      
-      * {
-        font-family: "${font}";
-        font-weight: 500;
-        font-size: ${toString font-size}px;
-      }
+    style = with config.lib.stylix.colors;
+      lib.mkForce ''
 
-      #window {
-        background-color: ${base00};
-        color: ${base05};
-        border-radius: ${toString rounding}px;
-      }
+        * {
+          font-family: "${font}";
+          font-weight: 500;
+          font-size: ${toString font-size}px;
+        }
 
-      #unselected {}
+        #window {
+          background-color: ${base00};
+          color: ${base05};
+          border-radius: ${toString rounding}px;
+        }
 
-      #selected {}
+        #unselected {}
 
-      #img {
-        padding-right: 8px;
-      }
+        #selected {}
 
-      #inner-box {}
+        #img {
+          padding-right: 8px;
+        }
 
-      #outer-box {
-        padding: 20px;
-      }
+        #inner-box {}
 
-      #entry {
-        padding: 6px;
-      }
+        #outer-box {
+          padding: 20px;
+        }
 
-      #entry:nth-child(odd) {
-        background-color: ${base00};
-      }
+        #entry {
+          padding: 6px;
+        }
 
-      #entry:nth-child(even) {
-        background-color: ${base01};
-      }
+        #entry:nth-child(odd) {
+          background-color: ${base00};
+        }
 
-      #entry:selected {
-        background-color: ${base02};
-        border-radius: ${toString rounding}px;
-      }
+        #entry:nth-child(even) {
+          background-color: ${base01};
+        }
 
-      #input {
-        background-color: ${base01};
-        color: ${base04};
-        border-radius: ${toString rounding}px;
-        border-color: ${base02};
-        padding: 8px 12px;
-      }
+        #entry:selected {
+          background-color: ${base02};
+          border-radius: ${toString rounding}px;
+        }
 
-      #input:focus {
-        border-color: ${base0A};
-      }
+        #input {
+          background-color: ${base01};
+          color: ${base04};
+          border-radius: ${toString rounding}px;
+          border-color: ${base02};
+          padding: 8px 12px;
+        }
 
-      #scroll {
-        margin-top: 20px;
-      }
-    '';
+        #input:focus {
+          border-color: ${base0A};
+        }
+
+        #scroll {
+          margin-top: 20px;
+        }
+      '';
   };
 }
