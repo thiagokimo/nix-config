@@ -13,6 +13,7 @@
     ../../nixos/tuigreet.nix
     ../../nixos/users.nix
     ../../nixos/utils.nix
+    ../../nixos/power.nix
     ../../nixos/zsh.nix
     ../../themes/stylix/gruvbox-dark.nix
     ./hardware-configuration.nix
