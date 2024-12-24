@@ -7,6 +7,7 @@
     ../../home/programs/cli
     ../../home/programs/dev
     ../../home/programs/thunar.nix
+    ../../home/programs/steam.nix
     ../../home/scripts
     ../../home/system/hyprland
     ../../home/system/hyprpanel
