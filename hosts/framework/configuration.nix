@@ -8,12 +8,13 @@
     ../../nixos/network.nix
     ../../nixos/nix.nix
     ../../nixos/nixpkgs.nix
+    ../../nixos/power.nix
     ../../nixos/sound.nix
+    ../../nixos/steam.nix
     ../../nixos/timezone.nix
     ../../nixos/tuigreet.nix
     ../../nixos/users.nix
     ../../nixos/utils.nix
-    ../../nixos/power.nix
     ../../nixos/zsh.nix
     ../../themes/stylix/gruvbox-dark.nix
     ./hardware-configuration.nix
