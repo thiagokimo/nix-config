@@ -37,6 +37,18 @@
   in {
     formatter = forAllSystems (system: pkgsFor.${system}.alejandra);
 
+    devShells.default = forAllSystems (system:
+      with pkgsFor.${system};
+        mkShell {
+          env = {
+            NIX_CONFIG = "extra-experimental-features = nix-command flakes ca-derivations";
+          };
+          nativeBuildInputs = [
+            nix
+            home-manager
+          ];
+        });
+
     # Entry point for my NixOS machines
     nixosConfigurations = {
       framework = nixpkgs.lib.nixosSystem {
@@ -52,17 +64,6 @@
       };
     };
 
-    # Entry point for my non NixOS machines :P
-    # homeConfigurations = {
-    #   "thiago" = home-manager.lib.homeManagerConfiguration {
-    #     modules = [./homes/thiago];
-
-    #     # Required by home-manager standalone version
-    #     # TODO find out a better way to specify the system
-    #     pkgs = pkgsFor.x86_64-linux;
-    #     extraSpecialArgs = {inherit inputs outputs;};
-    #   };
-    # };
     templates = {
       go = {
         path = ./templates/go;
