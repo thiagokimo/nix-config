@@ -17,6 +17,7 @@
       echo "          rebuild:        Rebuild NixOS with local config flake"
       echo "          update:         Update local config flake"
       echo "          upgrade:        Push local config flake to Github"
+      echo "          show:           Show the output attributes of local config flake"
       exit 0
     }
 
@@ -49,6 +50,10 @@
     elif [[ $1 == "push" ]];then
       echo "Pushing local changes to Github..."
       git -C ${config.var.configDirectory} push origin
+      exit 0
+    elif [[ $1 == "show" ]];then
+      echo "Output attributes of local config flake..."
+      sudo nix flake show ${config.var.configDirectory}
       exit 0
     else
       echo "Invalid argument"
