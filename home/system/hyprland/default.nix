@@ -40,6 +40,9 @@ in {
           "$mod, T, togglefloating"
           "$mod, F, fullscreen"
           "$mod, J, togglesplit"
+          "$mod, N, movetoworkspace, special:minimized"
+          "$mod, M, movetoworkspace, +0"
+          "$mod, M, togglespecialworkspace, minimized"
 
           "$mod, left, movefocus, l"
           "$mod, right, movefocus, r"
