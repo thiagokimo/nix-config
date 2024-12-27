@@ -35,12 +35,6 @@
     forAllSystems = nixpkgs.lib.genAttrs systems;
     pkgsFor = nixpkgs.legacyPackages;
   in {
-    devShells = forAllSystems (system: {
-      kotlin = import ./shells/kotlin.nix pkgsFor.${system};
-      nix = import ./shells/nix.nix pkgsFor.${system};
-      go = import ./shells/go.nix pkgsFor.${system};
-      flutter = import ./shells/flutter.nix pkgsFor.${system};
-    });
     formatter = forAllSystems (system: pkgsFor.${system}.alejandra);
 
     # Entry point for my NixOS machines
@@ -69,5 +63,23 @@
     #     extraSpecialArgs = {inherit inputs outputs;};
     #   };
     # };
+    templates = {
+      go = {
+        path = ./templates/go;
+        description = "Go dev environment";
+      };
+      kotlin = {
+        path = ./templates/kotlin;
+        description = "Kotlin dev environment";
+      };
+      flutter = {
+        path = ./templates/flutter;
+        description = "Flutter dev environment";
+      };
+      nix = {
+        path = ./templates/nix;
+        description = "Nix dev environment";
+      };
+    };
   };
 }
