@@ -43,6 +43,7 @@ in {
           "$mod, N, movetoworkspace, special:minimized"
           "$mod, M, movetoworkspace, +0"
           "$mod, M, togglespecialworkspace, minimized"
+          "$modShift, R, exec, hyprctl reload"
 
           "$mod, left, movefocus, l"
           "$mod, right, movefocus, r"
