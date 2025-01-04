@@ -26,7 +26,7 @@ in {
 
       exec-once = ["hyprpaper"];
 
-      monitor = ["eDP-1,2256x1504@60,auto,1.75"];
+      monitor = ["eDP-1,2256x1504@60,auto,1"];
       bind =
         [
           "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
