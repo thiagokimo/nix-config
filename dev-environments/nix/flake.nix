@@ -1,5 +1,5 @@
 {
-  description = "Go dev environment";
+  description = "Nix dev environment";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
@@ -9,7 +9,6 @@
     self,
     nixpkgs,
   }: let
-    goVersion = 22;
     supportedSystems = [
       "x86_64-linux"
     ];
@@ -17,24 +16,28 @@
     forEachSupportedSystem = f:
       nixpkgs.lib.genAttrs supportedSystems (system:
         f {
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [self.overlays.default];
-          };
+          pkgs = import nixpkgs {inherit system;};
         });
   in {
-    overlays.default = final: prev: {
-      go = final."go_1_${toString goVersion}";
-    };
     devShells = forEachSupportedSystem ({pkgs}: {
       default = pkgs.mkShell {
         packages = with pkgs; [
-          go
-          gotools
-          golangci-lint
+          alejandra
+          home-manager
+          nix
+          cachix
+          lorri
+          niv
+          nixfmt-classic
+          statix
+          vulnix
+          haskellPackages.dhall-nix
         ];
-        env = {};
+        env = {
+          NIX_CONFIG = "extra-experimental-features = nix-command flakes";
+        };
         shellHook = ''
+          nix --version
         '';
       };
     });
