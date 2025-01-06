@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,6 +25,7 @@
   outputs = {
     self,
     nixpkgs,
+    flake-utils,
     home-manager,
     nixos-hardware,
     nix-wallpapers,
@@ -36,56 +38,38 @@
     pkgsFor = nixpkgs.legacyPackages;
   in {
     formatter = forAllSystems (system: pkgsFor.${system}.alejandra);
-
-    # Shell that I use to develop this own package
-    devShells.default = forAllSystems (system:
-      with pkgsFor.${system};
-        mkShell {
-          env = {
-            NIX_CONFIG = "extra-experimental-features = nix-command flakes ca-derivations";
-          };
-          nativeBuildInputs = [
-            nix
-            home-manager
-          ];
-          shellHook = ''
-            Welcome back, Thiago :)
-          '';
-        }
-    );
+    devShells = forAllSystems (system: import ./shell.nix pkgsFor.${system});
 
     # Entry point for my NixOS machines
-    # TODO add entry point for my non NixOS machines (pixelbook, thinkpads, etc)
     nixosConfigurations = {
-      framework = nixpkgs.lib.nixosSystem {
-        modules = [
-          nixos-hardware.nixosModules.framework-13-7040-amd
-          stylix.nixosModules.stylix
-          {
-            nixpkgs.overlays = [inputs.hyprpanel.overlay];
-          }
-          ./hosts/framework/configuration.nix
-        ];
-        specialArgs = {inherit inputs outputs;};
-      };
+      framework = forAllSystems (system:
+        pkgsFor.${system}.lib.nixosSystem {
+          modules = [
+            nixos-hardware.nixosModules.framework-13-7040-amd
+            stylix.nixosModules.stylix
+            {
+              nixpkgs.overlays = [inputs.hyprpanel.overlay];
+            }
+            ./hosts/framework/configuration.nix
+          ];
+          specialArgs = {inherit inputs outputs;};
+        });
     };
-
-    # Dev environments I use to begin various projects
     templates = {
       go = {
-        path = ./dev-environments/go;
+        path = ./templates/go;
         description = "Go dev environment";
       };
       kotlin = {
-        path = ./dev-environments/kotlin;
+        path = ./templates/kotlin;
         description = "Kotlin dev environment";
       };
       flutter = {
-        path = ./dev-environments/flutter;
+        path = ./templates/flutter;
         description = "Flutter dev environment";
       };
       nix = {
-        path = ./dev-environments/nix;
+        path = ./templates/nix;
         description = "Nix dev environment";
       };
     };

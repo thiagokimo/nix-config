@@ -1,5 +1,6 @@
 {pkgs ? import <nixpkgs> {}, ...}: {
   default = pkgs.mkShell {
+    name = "NixKimo";
     nativeBuildInputs = with pkgs; [
       nix
       home-manager
