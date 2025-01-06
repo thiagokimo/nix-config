@@ -18,6 +18,7 @@
       echo "          update:         Update local config flake"
       echo "          upgrade:        Push local config flake to Github"
       echo "          show:           Show the output attributes of local config flake"
+      echo "          fmt:            Execute formatter in local config flake root"
       exit 0
     }
 
@@ -54,6 +55,10 @@
     elif [[ $1 == "show" ]];then
       echo "Output attributes of local config flake..."
       sudo nix flake show ${config.var.configDirectory}
+      exit 0
+    elif [[ $1 == "fmt" ]];then
+      echo "Formatting files..."
+      sudo nix fmt ${config.var.configDirectory}
       exit 0
     else
       echo "Invalid argument"
