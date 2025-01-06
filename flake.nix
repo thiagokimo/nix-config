@@ -42,18 +42,17 @@
 
     # Entry point for my NixOS machines
     nixosConfigurations = {
-      framework = forAllSystems (system:
-        pkgsFor.${system}.lib.nixosSystem {
-          modules = [
-            nixos-hardware.nixosModules.framework-13-7040-amd
-            stylix.nixosModules.stylix
-            {
-              nixpkgs.overlays = [inputs.hyprpanel.overlay];
-            }
-            ./hosts/framework/configuration.nix
-          ];
-          specialArgs = {inherit inputs outputs;};
-        });
+      framework = nixpkgs.lib.nixosSystem {
+        modules = [
+          nixos-hardware.nixosModules.framework-13-7040-amd
+          stylix.nixosModules.stylix
+          {
+            nixpkgs.overlays = [inputs.hyprpanel.overlay];
+          }
+          ./hosts/framework/configuration.nix
+        ];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
     templates = {
       go = {
