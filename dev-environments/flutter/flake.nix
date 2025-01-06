@@ -56,6 +56,7 @@
             else
               export PATH="$PATH:$PUB_CACHE/bin"
             fi
+            flutter --version
           '';
         };
     });

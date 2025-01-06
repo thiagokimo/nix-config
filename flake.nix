@@ -37,6 +37,7 @@
   in {
     formatter = forAllSystems (system: pkgsFor.${system}.alejandra);
 
+    # Shell that I use to develop this own package
     devShells.default = forAllSystems (system:
       with pkgsFor.${system};
         mkShell {
@@ -47,9 +48,14 @@
             nix
             home-manager
           ];
-        });
+          shellHook = ''
+            Welcome back, Thiago :)
+          '';
+        }
+    );
 
     # Entry point for my NixOS machines
+    # TODO add entry point for my non NixOS machines (pixelbook, thinkpads, etc)
     nixosConfigurations = {
       framework = nixpkgs.lib.nixosSystem {
         modules = [
@@ -64,21 +70,22 @@
       };
     };
 
+    # Dev environments I use to begin various projects
     templates = {
       go = {
-        path = ./templates/go;
+        path = ./dev-environments/go;
         description = "Go dev environment";
       };
       kotlin = {
-        path = ./templates/kotlin;
+        path = ./dev-environments/kotlin;
         description = "Kotlin dev environment";
       };
       flutter = {
-        path = ./templates/flutter;
+        path = ./dev-environments/flutter;
         description = "Flutter dev environment";
       };
       nix = {
-        path = ./templates/nix;
+        path = ./dev-environments/nix;
         description = "Nix dev environment";
       };
     };
