@@ -16,6 +16,6 @@
     defaultLocale = "en_US.UTF-8";
     extraLocale = "pt_BR.UTF-8";
 
-    theme = import ../../themes/var/dynamic.nix;
+    theme = import ../../themes/var/default.nix;
   };
 }
