@@ -16,7 +16,7 @@
     ../../modules/nixos/users.nix
     ../../modules/nixos/utils.nix
     ../../modules/nixos/zsh.nix
-    ../../themes/stylix/gruvbox-dark.nix
+    ./theme.nix
     ./hardware-configuration.nix
     ./variables.nix
   ];
