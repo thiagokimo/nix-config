@@ -4,15 +4,15 @@
   ...
 }: {
   imports = [
-    ../../home/programs/cli
-    ../../home/programs/dev
-    ../../home/programs/thunar.nix
-    ../../home/scripts
-    ../../home/system/hyprland
-    ../../home/system/hyprpanel
-    ../../home/system/hyprpaper
-    ../../home/system/mime
-    ../../home/system/wofi
+    ../../modules/home-manager/programs/cli
+    ../../modules/home-manager/programs/dev
+    ../../modules/home-manager/programs/thunar.nix
+    ../../modules/home-manager/scripts
+    ../../modules/home-manager/system/hyprland
+    ../../modules/home-manager/system/hyprpanel
+    ../../modules/home-manager/system/hyprpaper
+    ../../modules/home-manager/system/mime
+    ../../modules/home-manager/system/wofi
     ./variables.nix
   ];
 

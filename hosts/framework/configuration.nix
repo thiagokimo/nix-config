@@ -1,21 +1,21 @@
 {config, ...}: {
   imports = [
-    ../../nixos/boot.nix
-    ../../nixos/fonts.nix
-    ../../nixos/home-manager.nix
-    ../../nixos/hyprland.nix
-    ../../nixos/keyboard.nix
-    ../../nixos/network.nix
-    ../../nixos/nix.nix
-    ../../nixos/nixpkgs.nix
-    ../../nixos/power.nix
-    ../../nixos/sound.nix
-    ../../nixos/steam.nix
-    ../../nixos/timezone.nix
-    ../../nixos/tuigreet.nix
-    ../../nixos/users.nix
-    ../../nixos/utils.nix
-    ../../nixos/zsh.nix
+    ../../modules/nixos/boot.nix
+    ../../modules/nixos/fonts.nix
+    ../../modules/nixos/home-manager.nix
+    ../../modules/nixos/hyprland.nix
+    ../../modules/nixos/keyboard.nix
+    ../../modules/nixos/network.nix
+    ../../modules/nixos/nix.nix
+    ../../modules/nixos/nixpkgs.nix
+    ../../modules/nixos/power.nix
+    ../../modules/nixos/sound.nix
+    ../../modules/nixos/steam.nix
+    ../../modules/nixos/timezone.nix
+    ../../modules/nixos/tuigreet.nix
+    ../../modules/nixos/users.nix
+    ../../modules/nixos/utils.nix
+    ../../modules/nixos/zsh.nix
     ../../themes/stylix/gruvbox-dark.nix
     ./hardware-configuration.nix
     ./variables.nix

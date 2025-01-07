@@ -5,7 +5,7 @@
 }: let
   nix-kimo = pkgs.writeShellScriptBin "nk" ''
     function help() {
-      echo "NixKimo (nk)"
+      echo "NixKimo (nk) - My nix command shortcuts :)"
       echo "Usage:"
       echo "          nk [options]"
       echo "Options:"
@@ -20,6 +20,7 @@
       echo "          show:           Show the output attributes of local config flake"
       echo "          fmt:            Execute formatter in local config flake root"
       echo "          search [query]  Search for package in nixpkgs"
+      echo " --- "
       exit 0
     }
 
