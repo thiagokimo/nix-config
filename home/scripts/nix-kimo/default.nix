@@ -19,6 +19,7 @@
       echo "          upgrade:        Push local config flake to Github"
       echo "          show:           Show the output attributes of local config flake"
       echo "          fmt:            Execute formatter in local config flake root"
+      echo "          search [query]  Search for package in nixpkgs"
       exit 0
     }
 
@@ -59,6 +60,10 @@
     elif [[ $1 == "fmt" ]];then
       echo "Formatting files..."
       sudo nix fmt ${config.var.configDirectory}
+      exit 0
+    elif [[ $1 == "search" ]];then
+      echo "Searching in nixpkgs for $2"
+      sudo nix search nixpkgs $2
       exit 0
     else
       echo "Invalid argument"
