@@ -38,6 +38,6 @@
     };
 
     polarity = "dark";
-    image = inputs.nix-wallpapers + "/gruvbox/sushi.jpg";
+    image = inputs.nix-wallpapers + "/monochrome/berserk.jpg";
   };
 }
