@@ -101,9 +101,6 @@ in {
         rounding = rounding;
         active_opacity = active-opacity;
         inactive_opacity = inactive-opacity;
-        # drop_shadow = true;
-        # shadow_range = 20;
-        # shadow_render_power = 3;
         blur = {enabled = blur;};
       };
 
