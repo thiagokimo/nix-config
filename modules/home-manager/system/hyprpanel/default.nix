@@ -40,7 +40,7 @@ in {
     hyprland.enable = true;
     overwrite.enable = true;
     systemd.enable = true;
-    # theme = "monochrome";
+    theme = "gruvbox_split";
     layout = {
       "bar.layouts" = {
         "*" = {
