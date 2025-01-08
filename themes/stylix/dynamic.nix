@@ -38,6 +38,6 @@
     };
 
     polarity = "dark";
-    image = inputs.nix-wallpapers + "/monochrome/berserk.jpg";
+    image = inputs.nix-wallpapers + "/gruvbox/boxes.png";
   };
 }
