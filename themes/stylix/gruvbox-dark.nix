@@ -57,6 +57,6 @@
     };
 
     polarity = "dark";
-    image = inputs.nix-wallpapers + "/gruvbox/sushi.jpg";
+    image = inputs.nix-wallpapers + "/gruvbox/boxes.png";
   };
 }

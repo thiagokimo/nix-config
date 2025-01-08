@@ -1,5 +1,5 @@
 {
   imports = [
-    ../../themes/stylix/dynamic.nix
+    ../../themes/stylix/gruvbox-dark.nix
   ];
 }
