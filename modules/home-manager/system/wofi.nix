@@ -7,6 +7,11 @@
   font = config.stylix.fonts.serif.name;
   rounding = config.var.theme.rounding;
   font-size = config.stylix.fonts.sizes.popups;
+
+  background = "#${config.lib.stylix.colors.base00}";
+  background-alt = "#${config.lib.stylix.colors.base01}";
+  foreground = "#${config.lib.stylix.colors.base05}";
+  accent = "#${config.lib.stylix.colors.base0B}";
 in {
   home.packages = [pkgs.wofi-emoji];
 
@@ -46,8 +51,8 @@ in {
         }
 
         #window {
-          background-color: ${base00};
-          color: ${base05};
+          background-color: ${background};
+          color: ${foreground};
           border-radius: ${toString rounding}px;
         }
 
@@ -83,7 +88,7 @@ in {
         }
 
         #input {
-          background-color: ${base01};
+          background-color: ${background-alt};
           color: ${base04};
           border-radius: ${toString rounding}px;
           border-color: ${base02};
@@ -91,7 +96,7 @@ in {
         }
 
         #input:focus {
-          border-color: ${base0A};
+          border-color: ${accent};
         }
 
         #scroll {
