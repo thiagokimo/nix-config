@@ -1,9 +1,10 @@
 {pkgs, ...}: let
-  menu = pkgs.writeShellScriptBin "lock-hypr" ''
+  lock-hypr = pkgs.writeShellScriptBin "lock-hypr" ''
     ${pkgs.hyprlock}/bin/hyprlock
   '';
 in {
   home.packages = [
+    hyprlock 
     lock-hypr
   ];
 }
