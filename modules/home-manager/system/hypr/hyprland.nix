@@ -32,7 +32,9 @@ in {
           "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
           "$mod, B, exec, ${pkgs.google-chrome}/bin/google-chrome-stable"
           "$mod, E, exec, ${pkgs.xfce.thunar}/bin/thunar"
-          "$modShift, L, exec, ${pkgs.hyprlock}/bin/hyprlock"
+          "$modShift, L, exec, lock-hypr"
+          "$mod, PRINT, exec, screenshot"
+          "$modShift, PRINT, exec, screenshot-region"
 
           "$mod, SPACE, exec, app-launcher"
 

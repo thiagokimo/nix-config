@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  menu = pkgs.writeShellScriptBin "app-launcher" ''
+  app-launhcer = pkgs.writeShellScriptBin "app-launcher" ''
     if pgrep wofi; then
       pkill wofi
     else
@@ -7,8 +7,9 @@
     fi
   '';
   # TODO add power menu
+  # TODO add emoji menu
 in {
   home.packages = [
-    menu
+    app-launcher
   ];
 }

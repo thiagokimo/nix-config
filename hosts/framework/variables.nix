@@ -9,6 +9,7 @@
     homeDirectory = "/home/" + config.var.username;
     configDirectory = config.var.homeDirectory + "/.config/nix-config";
     avatar = config.var.homeDirectory + "/.profile-picture.jpeg";
+    picturesDirectory = config.var.homeDirectory + "/Pictures";
 
     keyboardLayout = "us";
     keyboardVariant = "intl";
