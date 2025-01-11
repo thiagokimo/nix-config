@@ -38,8 +38,8 @@
       cmatrix
     ];
 
-    # Used in hyprpanel
-    file.".profile-picture.jpeg" = {source = ./profile-picture.jpeg;};
+    # Used in hyprpanel and hyprlock
+    file.".profile-picture.jpeg"= {source = ./profile-picture.jpeg;};
   };
 
   programs.home-manager.enable = true;

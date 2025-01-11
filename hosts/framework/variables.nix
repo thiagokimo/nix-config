@@ -8,6 +8,7 @@
     username = "thiago";
     homeDirectory = "/home/" + config.var.username;
     configDirectory = config.var.homeDirectory + "/.config/nix-config";
+    avatar = config.var.homeDirectory + "/.profile-picture.jpeg";
 
     keyboardLayout = "us";
     keyboardVariant = "intl";
