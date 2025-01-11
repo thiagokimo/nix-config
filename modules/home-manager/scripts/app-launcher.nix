@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  app-launhcer = pkgs.writeShellScriptBin "app-launcher" ''
+  app-launcher = pkgs.writeShellScriptBin "app-launcher" ''
     if pgrep wofi; then
       pkill wofi
     else
