@@ -1,4 +1,8 @@
-{pkgs, config, ...}: let
+{
+  pkgs,
+  config,
+  ...
+}: let
   screenshot = pkgs.writeShellScriptBin "screenshot" ''
     ${pkgs.hyprshot}/bin/hyprshot -m output -o ${config.var.picturesDirectory}
   '';

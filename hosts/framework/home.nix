@@ -39,7 +39,7 @@
     ];
 
     # Used in hyprpanel and hyprlock
-    file.".profile-picture.jpeg"= {source = ./profile-picture.jpeg;};
+    file.".profile-picture.jpeg" = {source = ./profile-picture.jpeg;};
   };
 
   programs.home-manager.enable = true;

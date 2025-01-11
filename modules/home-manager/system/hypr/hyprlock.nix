@@ -46,7 +46,7 @@ in {
         placeholder_text = "Password...";
         shadow_passes = 2;
       };
-      label =[
+      label = [
         {
           monitor = "";
           text = ''cmd[update:1000] echo "$(date +"%A, %Y - %B - %d")"'';
@@ -65,7 +65,7 @@ in {
           font_family = "${font}";
           position = "0, 200";
           halign = "center";
-          valign = "center"; 
+          valign = "center";
         }
         # {
         #   monitor = "";
