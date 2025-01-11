@@ -8,11 +8,9 @@
     ../../modules/home-manager/programs/dev
     ../../modules/home-manager/programs/thunar.nix
     ../../modules/home-manager/scripts
-    ../../modules/home-manager/system/hyprland
-    ../../modules/home-manager/system/hyprpanel
-    ../../modules/home-manager/system/hyprpaper
-    ../../modules/home-manager/system/mime
-    ../../modules/home-manager/system/wofi
+    ../../modules/home-manager/system/hypr
+    ../../modules/home-manager/system/mime.nix
+    ../../modules/home-manager/system/wofi.nix
     ./variables.nix
   ];
 

@@ -34,7 +34,7 @@ in {
           "$mod, E, exec, ${pkgs.xfce.thunar}/bin/thunar"
           "$modShift, L, exec, ${pkgs.hyprlock}/bin/hyprlock"
 
-          "$mod, SPACE, exec, menu"
+          "$mod, SPACE, exec, app-launcher"
 
           "$mod, Q, killactive"
           "$mod, T, togglefloating"
