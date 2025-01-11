@@ -6,7 +6,7 @@
 }: let
   font = "${config.stylix.fonts.serif.name}";
   fontSize = "${toString config.stylix.fonts.sizes.desktop}";
-  
+
   transparent = config.var.theme.bar.transparent;
   transparentButtons = config.var.theme.bar.transparentButtons;
 
