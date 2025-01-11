@@ -57,6 +57,6 @@
     };
 
     polarity = "dark";
-    image = inputs.nix-wallpapers + "/gruvbox/boxes.png";
+    image = inputs.nix-wallpapers + "/gruvbox/iuh3jkasndjans.jpg";
   };
 }
