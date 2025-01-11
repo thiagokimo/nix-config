@@ -70,11 +70,23 @@ in {
       "menus.dashboard.directories.right.directory3.command" = "bash -c \"thunar $HOME/.config/\"";
       "menus.dashboard.directories.right.directory3.label" = " Config";
       "menus.dashboard.powermenu.avatar.image" = "/home/${username}/.profile-picture.jpeg";
+      
       "menus.dashboard.shortcuts.left.shortcut1.command" = "google-chrome-stable";
       "menus.dashboard.shortcuts.left.shortcut1.icon" = "";
       "menus.dashboard.shortcuts.left.shortcut1.tooltip" = "Google Chrome";
+
+      "menus.dashboard.shortcuts.left.shortcut4.tooltip" = "Launch App";
+      "menus.dashboard.shortcuts.left.shortcut4.icon" = "";
       "menus.dashboard.shortcuts.left.shortcut4.command" = "app-launcher";
+      
+      "menus.dashboard.shortcuts.right.shortcut1.tooltip" = "Color Picker";
+      "menus.dashboard.shortcuts.left.shortcut1.icon" = "";
+      "menus.dashboard.shortcuts.right.shortcut1.command" = "sleep 0.5 && hyprpicker -a";
+
+      "menus.dashboard.shortcuts.right.shortcut3.tooltip" = "Take screenshot";
+      "menus.dashboard.shortcuts.right.shortcut3.icon" = "󰄀";
       "menus.dashboard.shortcuts.right.shortcut3.command" = "screenshot";
+      
       "scalingPriority" = "hyprland";
       "tear" = true;
       "theme.bar.border_radius" = "${toString rounding}px";
