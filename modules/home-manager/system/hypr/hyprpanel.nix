@@ -74,7 +74,7 @@ in {
       "menus.dashboard.shortcuts.left.shortcut1.icon" = "";
       "menus.dashboard.shortcuts.left.shortcut1.tooltip" = "Google Chrome";
       "menus.dashboard.shortcuts.left.shortcut4.command" = "app-launcher";
-      "menus.dashboard.shortcuts.right.shortcut3.command" = "hyprpicker -a";
+      "menus.dashboard.shortcuts.right.shortcut3.command" = "screenshot";
       "scalingPriority" = "hyprland";
       "tear" = true;
       "theme.bar.border_radius" = "${toString rounding}px";
