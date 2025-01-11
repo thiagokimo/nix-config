@@ -1,3 +1,3 @@
 {pkgs, ...} : {
-  home.pakcages = [pkgs.hyprshot];
+  home.packages = [pkgs.hyprshot];
 }
