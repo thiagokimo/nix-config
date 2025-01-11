@@ -1,9 +1,9 @@
-{pkgs, ...}: let 
+{pkgs, ...}: let
   lock-cmd = "lock-hypr";
 in {
   services.hypridle = {
     enable = true;
-    
+
     settings = {
       general = {
         after_sleep_cmd = "hyprctl dispatch dpms on";

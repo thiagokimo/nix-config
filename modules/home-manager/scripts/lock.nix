@@ -4,7 +4,7 @@
   '';
 in {
   home.packages = [
-    pkgs.hyprlock 
+    pkgs.hyprlock
     lock-hypr
   ];
 }
