@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  menu = pkgs.writeShellScriptBin "menu" ''
+  menu = pkgs.writeShellScriptBin "app-launcher" ''
     if pgrep wofi; then
       pkill wofi
     else
