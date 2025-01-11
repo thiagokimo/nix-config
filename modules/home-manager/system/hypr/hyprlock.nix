@@ -1,5 +1,9 @@
 {config, ...}: let
   imageStr = toString config.stylix.image;
+  font = config.stylix.fonts.serif.name;
+
+  avatar = config.var.avatar;
+  textColor = "#${config.lib.stylix.colors.base07}";
 in {
   programs.hyprlock = {
     enable = true;
@@ -20,39 +24,63 @@ in {
         vibrancy = 0.2;
         vibrancy_darkness = 0.2;
       };
+      # image = [
+      #   {
+      #     path = avatar;
+      #     size = 150;
+      #     border_size = 4;
+      #     border_color = "rgb(0C96F9)";
+      #     rounding = -1; # Negative means circle
+      #     position = "0, -300";
+      #     halign = "center";
+      #     valign = "center";
+      #   }
+      # ];
+      input-field = {
+        size = "200, 50";
+        position = "0, -80";
+        monitor = "";
+        dots_center = true;
+        fade_on_empty = false;
+        outline_thickness = 5;
+        placeholder_text = "Password...";
+        shadow_passes = 2;
+      };
       label =[
         {
           monitor = "";
-          text = ''cmd[update:1000] echo "$(date +"%A, %B %d")"'';
-          color = "rgba(255, 255, 255, 0.75)";
-          font_size = 22;
-          font_family = "JetBrains Mono";
-          position = "0, 300";
+          text = ''cmd[update:1000] echo "$(date +"%A, %Y - %B - %d")"'';
+          color = textColor;
+          font_size = 28;
+          font_family = "${font} Bold";
+          position = "0, 370";
           halign = "center";
           valign = "center";
         }
-        {
-          
-        }
-      ];
-      input-field = [
         {
           monitor = "";
-          size = "300, 60";
-          outline_thickness = 2;
-          dots_size = 0.2;
-          dots_spacing = 0.35;
-          dots_center = true;
-          outer_color = "rgba(0, 0, 0, 0)";
-          inner_color = "rgba(0, 0, 0, 0.2)";
-          font_color = color;
-          rounding = -1;
-          placeholder_text = "<i>🔒 Enter Password</i>";
-          hide_input = false;
-          position = "0, -250";
+          text = ''cmd[update:1000] echo "<span>$(date +"%I:%M")</span>"'';
+          color = textColor;
+          font_size = 160;
+          font_family = "${font}";
+          position = "0, 200";
           halign = "center";
-          valign = "center";
+          valign = "center"; 
         }
+        # {
+        #   monitor = "";
+        #   text = "    $USER";
+        #   color = textColor;
+        #   outline_thickness = 2;
+        #   dots_size = 0.2;
+        #   dots_spacing = 0.2;
+        #   dots_center = true;
+        #   font_size = 28;
+        #   font_family ="${font} Bold";
+        #   position = "0, -180";
+        #   halign = "center";
+        #   valign = "center";
+        # }
       ];
     };
   };
