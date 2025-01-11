@@ -73,7 +73,7 @@ in {
       "menus.dashboard.shortcuts.left.shortcut1.command" = "google-chrome-stable";
       "menus.dashboard.shortcuts.left.shortcut1.icon" = "";
       "menus.dashboard.shortcuts.left.shortcut1.tooltip" = "Google Chrome";
-      "menus.dashboard.shortcuts.left.shortcut4.command" = "menu";
+      "menus.dashboard.shortcuts.left.shortcut4.command" = "app-launcher";
       "menus.dashboard.shortcuts.right.shortcut3.command" = "hyprpicker -a";
       "scalingPriority" = "hyprland";
       "tear" = true;
