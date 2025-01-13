@@ -16,7 +16,7 @@
       inherit system;
       config.allowUnfree = true;
     };
-    fhs = pkgs.buildFHSUserEnv {
+    fhs = pkgs.buildFHSEnv {
       name = "pico8";
       targetPkgs = pkgs: (with pkgs; [
         xorg.libX11
