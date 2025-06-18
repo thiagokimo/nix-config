@@ -16,5 +16,11 @@
     ranger
     unzip
     zip
+
+    # Fun
+    peaclock
+    cbonsai
+    pipes
+    cmatrix
   ];
 }
