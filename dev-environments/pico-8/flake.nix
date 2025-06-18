@@ -11,37 +11,36 @@
     nixpkgs,
     flake-utils,
     ...
-  }: flake-utils.lib.eachDefaultSystem(system: let
-    pkgs = import nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    fhs = pkgs.buildFHSEnv {
-      name = "pico8";
-      targetPkgs = pkgs: (with pkgs; [
-        xorg.libX11
-        xorg.libXext
-        xorg.libXcursor
-        xorg.libXinerama
-        xorg.libXi
-        xorg.libXrandr
-        xorg.libXScrnSaver
-        xorg.libXxf86vm
-        xorg.libxcb
-        xorg.libXrender
-        xorg.libXfixes
-        xorg.libXau
-        xorg.libXdmcp
-        alsa-lib
-        udev
-        wget
-      ]);
-      runScript = "bash -c ./pico8";
-    };
-
-  in {
-    formatter = pkgs.alejandra;
-    devShells.default = fhs.env;
-  }); 
-
+  }:
+    flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      fhs = pkgs.buildFHSEnv {
+        name = "pico8";
+        targetPkgs = pkgs: (with pkgs; [
+          xorg.libX11
+          xorg.libXext
+          xorg.libXcursor
+          xorg.libXinerama
+          xorg.libXi
+          xorg.libXrandr
+          xorg.libXScrnSaver
+          xorg.libXxf86vm
+          xorg.libxcb
+          xorg.libXrender
+          xorg.libXfixes
+          xorg.libXau
+          xorg.libXdmcp
+          alsa-lib
+          udev
+          wget
+        ]);
+        runScript = "bash -c ./pico8";
+      };
+    in {
+      formatter = pkgs.alejandra;
+      devShells.default = fhs.env;
+    });
 }
