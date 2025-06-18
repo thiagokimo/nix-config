@@ -58,7 +58,7 @@
     # Entry point for my non-NixOS machines
     homeConfigurations = {
       "thiago@penguin" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor.${system};
+        pkgs = forAllSystems (system: pkgsFor.${system});
         modules = [
           ./hosts/penguin/home.nix
         ];
