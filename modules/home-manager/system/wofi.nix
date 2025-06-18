@@ -64,7 +64,7 @@ in {
       #entry {
         padding: 6px;
       }
-        
+
       #entry:selected {
         border-radius: ${toString rounding}px;
       }
