@@ -28,27 +28,27 @@ in {
     hyprland.enable = true;
     overwrite.enable = true;
     systemd.enable = true;
-    theme = "monochrome";
-    layout = {
-      "bar.layouts" = {
-        "*" = {
-          "left" = [
-            "dashboard"
-            "workspaces"
-            "windowtitle"
-          ];
-          "middle" = [];
-          "right" = [
-            "volume"
-            "network"
-            "battery"
-            "clock"
-            "notifications"
-            "systray"
-          ];
-        };
-      };
-    };
+    # theme = "monochrome";
+    # layout = {
+    #   "bar.layouts" = {
+    #     "*" = {
+    #       "left" = [
+    #         "dashboard"
+    #         "workspaces"
+    #         "windowtitle"
+    #       ];
+    #       "middle" = [];
+    #       "right" = [
+    #         "volume"
+    #         "network"
+    #         "battery"
+    #         "clock"
+    #         "notifications"
+    #         "systray"
+    #       ];
+    #     };
+    #   };
+    # };
     override = {
       "bar.customModules.updates.pollingInterval" = 1440000;
       "bar.launcher.icon" = "";

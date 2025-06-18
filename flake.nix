@@ -27,7 +27,6 @@
   outputs = {
     self,
     nixpkgs,
-    flake-utils,
     home-manager,
     nixos-hardware,
     nix-wallpapers,
