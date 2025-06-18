@@ -54,6 +54,18 @@
         specialArgs = {inherit inputs outputs;};
       };
     };
+
+    # Entry point for my non-NixOS machines
+    homeConfigurations = {
+      "thiago@penguin" = home-manager.lib.homeManagerConfiguration {
+        pkgs = forAllSystems (system: pkgsFor.${system});
+        modules = [
+          ./hosts/penguin/home.nix
+        ];
+        extraSpecialArgs = {inherit inputs outputs;};
+      };
+    };
+
     templates = {
       go = {
         path = ./dev-environments/go;
