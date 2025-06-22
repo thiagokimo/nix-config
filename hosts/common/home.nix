@@ -14,28 +14,6 @@
     inherit (config.var) username;
     inherit (config.var) homeDirectory;
     inherit (config.var) stateVersion;
-
-    packages = with pkgs; [
-      # Apps
-      discord
-      vlc
-      google-chrome
-
-      # Design
-      aseprite
-      gimp
-      inkscape
-      krita
-
-      # Fun
-      peaclock
-      cbonsai
-      pipes
-      cmatrix
-    ];
-
-    # Used in hyprpanel and hyprlock
-    file.".profile-picture.jpeg" = {source = ./profile-picture.jpeg;};
   };
 
   programs.home-manager.enable = true;
