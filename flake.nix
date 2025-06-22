@@ -57,8 +57,9 @@
     # Entry point for my non-NixOS machines
     homeConfigurations = {
       "thiago@penguin" = home-manager.lib.homeManagerConfiguration {
-        pkgs = forAllSystems (system: pkgsFor.${system});
+        pkgs = pkgsFor.x86_64-linux; 
         modules = [
+          stylix.homeModules.stylix
           ./hosts/penguin/home.nix
         ];
         extraSpecialArgs = {inherit inputs outputs;};

@@ -2,8 +2,6 @@
   imports = [../../modules/nixos/variables-config.nix];
 
   config.var = {
-    stateVersion = "24.11";
-
     hostname = "framework";
     username = "thiago";
     homeDirectory = "/home/" + config.var.username;
