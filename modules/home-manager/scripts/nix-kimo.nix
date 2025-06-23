@@ -9,17 +9,18 @@
       echo "Usage:"
       echo "          nk [options]"
       echo "Options:"
-      echo "          help:           Displays this message"
-      echo "          check:          Check if the local config flake evaluates"
-      echo "          gc:             Garbage collect"
-      echo "          push:           Push local configs to Github"
-      echo "          rebuild-remote: Rebuild NixOS with remote config flake"
-      echo "          rebuild:        Rebuild NixOS with local config flake"
-      echo "          update:         Update local config flake"
-      echo "          upgrade:        Push local config flake to Github"
-      echo "          show:           Show the output attributes of local config flake"
-      echo "          fmt:            Execute formatter in local config flake root"
-      echo "          search [query]  Search for package in nixpkgs"
+      echo "          help:             Displays this message"
+      echo "          check:            Check if the local config flake evaluates"
+      echo "          gc:               Garbage collect"
+      echo "          push:             Push local configs to Github"
+      echo "          rebuild-remote:   Rebuild NixOS with remote config flake"
+      echo "          rebuild:          Rebuild NixOS with local config flake"
+      echo "          rebuild-hm [name] Rebuild home-manager's entry point"
+      echo "          update:           Update local config flake"
+      echo "          upgrade:          Push local config flake to Github"
+      echo "          show:             Show the output attributes of local config flake"
+      echo "          fmt:              Execute formatter in local config flake root"
+      echo "          search [query]    Search for package in nixpkgs"
       echo " --- "
       exit 0
     }
@@ -30,6 +31,15 @@
       echo "Initiating system rebuild..."
       sudo nixos-rebuild switch --flake ${config.var.configDirectory}#${config.var.hostname}
       exit 0
+    elif [[ $1 == "rebuild-hm" ]];then
+      if [ -z $2 ];then
+        echo "Error: Provide the name of the hm's entry point."
+        exit 1
+      else
+        echo "Initiating home manager rebuild..."
+        home-manager switch --flake ${config.var.configDirectory}.#$2
+        exit 0
+      fi
     elif [[ $1 == "update" ]];then
       echo "Initiating local config update..."
       sudo nix flake update --flake ${config.var.configDirectory}
