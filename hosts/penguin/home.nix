@@ -7,6 +7,7 @@
     ../common/home.nix
     ./variables.nix
     ./nixgl.nix
+    ./kitty-desktop-entry.nix
   ];
   
   nixpkgs.config.allowUnfree = true;
