@@ -59,7 +59,11 @@
     # Entry point for my non-NixOS machines
     homeConfigurations = {
       "thiago@penguin" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor.x86_64; 
+        # TODO: Make this support other systems
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          overlays = [nixgl.overlay];
+        };
         modules = [
           stylix.homeModules.stylix
           ./hosts/penguin/home.nix
