@@ -37,7 +37,7 @@
         exit 1
       else
         echo "Initiating home manager rebuild..."
-        home-manager switch --flake ${config.var.configDirectory}.#$2
+        home-manager switch --flake ${config.var.configDirectory}#$2
         exit 0
       fi
     elif [[ $1 == "update" ]];then
