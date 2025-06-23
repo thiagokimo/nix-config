@@ -22,6 +22,7 @@
       flake = false;
     };
     stylix.url = "github:danth/stylix";
+    nixgl.url = "github:nix-community/nixGL";
   };
 
   outputs = {
@@ -31,6 +32,7 @@
     nixos-hardware,
     nix-wallpapers,
     stylix,
+    nixgl,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -57,7 +59,7 @@
     # Entry point for my non-NixOS machines
     homeConfigurations = {
       "thiago@penguin" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor.x86_64-linux; 
+        pkgs = pkgsFor.x86_64; 
         modules = [
           stylix.homeModules.stylix
           ./hosts/penguin/home.nix
