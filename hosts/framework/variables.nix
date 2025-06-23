@@ -1,5 +1,5 @@
 {config, ...}: {
-  imports = [../../modules/nixos/variables-config.nix];
+  imports = [../common/variables.nix];
 
   config.var = {
     hostname = "framework";
