@@ -21,6 +21,10 @@
       url = "github:thiagokimo/nix-wallpapers";
       flake = false;
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     stylix.url = "github:danth/stylix";
     nixgl.url = "github:nix-community/nixGL";
   };
@@ -31,6 +35,7 @@
     home-manager,
     nixos-hardware,
     nix-wallpapers,
+    nixvim,
     stylix,
     nixgl,
     ...
@@ -65,6 +70,7 @@
           overlays = [nixgl.overlay];
         };
         modules = [
+          nixvim.homeModules.nixvim
           stylix.homeModules.stylix
           ./hosts/penguin/home.nix
         ];
