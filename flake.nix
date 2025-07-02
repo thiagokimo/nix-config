@@ -70,7 +70,6 @@
           overlays = [nixgl.overlay];
         };
         modules = [
-          nixvim.homeModules.nixvim
           stylix.homeModules.stylix
           ./hosts/penguin/home.nix
         ];

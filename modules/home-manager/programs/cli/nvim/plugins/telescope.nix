@@ -1,14 +1,12 @@
-{
-  programs.nixvim.plugins = {
+{pkgs, ...}:{
+  programs.nixvim.plugins.telescope = {
     enable = true;
-    defaults = {
+    settings.defaults = {
       layout_strategy = "horizontal";
       sorting_strategy = "descending";
     };
     extensions = {
-      fzf = {
-        enable = true;
-      };
+      fzf-native.enable = true;
     };
   };
 }

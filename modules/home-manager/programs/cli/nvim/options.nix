@@ -33,6 +33,7 @@
     wrap = false; # Prevent text from wrapping
 
     # Tab options
+    showtabline = 2; # show tabline always
     tabstop = 2; # Number of spaces a <Tab> in the text stands for (local to buffer)
     shiftwidth = 2; # Number of spaces used for each step of (auto)indent (local to buffer)
     expandtab = true; # Expand <Tab> to spaces in Insert mode (local to buffer)
