@@ -2,9 +2,11 @@
   imports = [
     ./lualine.nix
     ./telescope.nix
-    ./devicons.nix
+    ./web-devicons.nix
   ];
-  programs.nixvim.plugins = with pkgs.vimPlugins; [
-    vim-nix
-  ];
+  programs.nixvim = {
+    extraPlugins = with pkgs.vimPlugins; [
+      vim-nix
+    ];
+  };
 }
