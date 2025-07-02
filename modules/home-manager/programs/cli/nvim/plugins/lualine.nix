@@ -1,6 +1,3 @@
 {
-  programs.nixvim.plugins.lualine = {
-    enable = true;
-    icons_enabled = true;
-  };
+  programs.nixvim.plugins.lualine.enable = true;
 }
