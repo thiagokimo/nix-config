@@ -10,7 +10,7 @@ in {
       maplocalleader = " ";
     };
 
-    keymaps = {
+    keymaps = [
       # Disable the spacebar key's default behavior in normal and visual modes
       {
         mode = [ "n" "v" ];
@@ -280,7 +280,6 @@ in {
           desc = "Open diagnostics list";
         };
       }
-
-    };
+    ];
   };
 }
