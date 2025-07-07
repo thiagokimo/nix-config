@@ -1,8 +1,10 @@
 {pkgs, ...}: {
   imports = [
+    ./neotree.nix
+    ./bufferline.nix
     ./lualine.nix
     ./telescope.nix
-    ./web-devicons.nix
+    ./treesitter.nix
   ];
   programs.nixvim = {
     extraPlugins = with pkgs.vimPlugins; [
