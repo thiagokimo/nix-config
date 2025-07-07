@@ -35,7 +35,7 @@ in {
         action = "<C-d>zz";
         mode = "n";
         options = optionsDefaults // {
-          desc = "Scroll down and center"
+          desc = "Scroll down and center";
         };
       }
       {
@@ -43,7 +43,7 @@ in {
         action = "<C-u>zz";
         mode = "n";
         options = optionsDefaults // {
-          desc = "Scroll up and center"
+          desc = "Scroll up and center";
         };
       }
       # Resize windows with arrows
@@ -52,7 +52,7 @@ in {
         action = ":resize -2<CR>";
         mode = "n";
         options = optionsDefaults // {
-          desc = "Decrease the size of the buffer horizontally"
+          desc = "Decrease the size of the buffer horizontally";
         };
       }
       {
@@ -60,7 +60,7 @@ in {
         action = ":resize +2<CR>";
         mode = "n";
         options = optionsDefaults // {
-          desc = "Increase the size of the buffer horizontally"
+          desc = "Increase the size of the buffer horizontally";
         };
       }
       {
@@ -68,7 +68,7 @@ in {
         action = ":vertical resize +2<CR>";
         mode = "n";
         options = optionsDefaults // {
-          desc = "Increase the size of the buffer on the right"
+          desc = "Increase the size of the buffer on the right";
         };
       }
       {
@@ -76,7 +76,7 @@ in {
         action = ":vertical resize -2<CR>";
         mode = "n";
         options = optionsDefaults // {
-          desc = "Increase the size of the buffer on the left"
+          desc = "Increase the size of the buffer on the left";
         };
       }
       # Buffers
@@ -85,7 +85,7 @@ in {
         action = ":bnext<CR>";
         mode = "n";
         options = optionsDefaults // {
-          desc = "Navigate to the next buffer"
+          desc = "Navigate to the next buffer";
         };
       }
       {
@@ -93,7 +93,7 @@ in {
         action = ":bprevious<CR>";
         mode = "n";
         options = optionsDefaults // {
-          desc = "Navigate to the previous buffer"
+          desc = "Navigate to the previous buffer";
         };
       }
       {
@@ -101,7 +101,7 @@ in {
         action = ":Bdelete!<CR>";
         mode = "n";
         options = optionsDefaults // {
-          desc = "Close buffer"
+          desc = "Close buffer";
         };
       }
       {
@@ -109,7 +109,7 @@ in {
         action = "<cmd> enew <CR>";
         mode = "n";
         options = optionsDefaults // {
-          desc = "New buffer"
+          desc = "New buffer";
         };
       }
       # Navigate between splits
