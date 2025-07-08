@@ -225,7 +225,7 @@ in {
       {
         key = "p";
         action = "\"_dP";
-        mode = "v ";
+        mode = "v";
         options = optionsDefaults // {
           desc = "Keep the last copied text after pasting";
         };
