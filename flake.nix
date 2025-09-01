@@ -51,6 +51,7 @@
     # Entry point for my NixOS machines
     nixosConfigurations = {
       framework = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         modules = [
           nixos-hardware.nixosModules.framework-13-7040-amd
           stylix.nixosModules.stylix
@@ -59,41 +60,18 @@
         ];
         specialArgs = {inherit inputs outputs;};
       };
+      t14 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/t14];
+      };
     };
 
-    # Entry point for my non-NixOS machines
-    homeConfigurations = {
-      "thiago@penguin" = home-manager.lib.homeManagerConfiguration {
-        # TODO: Make this support other systems
-        pkgs = import nixpkgs {
-          system = "x86_64-linux";
-          overlays = [nixgl.overlay];
-        };
-        modules = [
-          stylix.homeModules.stylix
-          ./hosts/penguin/home.nix
-        ];
+    homeConfigurations = forAllSystems (system:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor.${system};
         extraSpecialArgs = {inherit inputs outputs;};
-      };
-    };
-
-    templates = {
-      go = {
-        path = ./dev-environments/go;
-        description = "Go dev environment";
-      };
-      kotlin = {
-        path = ./dev-environments/kotlin;
-        description = "Kotlin dev environment";
-      };
-      flutter = {
-        path = ./dev-environments/flutter;
-        description = "Flutter dev environment";
-      };
-      nix = {
-        path = ./dev-environments/nix;
-        description = "Nix dev environment";
-      };
-    };
+        modules = [./homes/thiago];
+      });
   };
 }
