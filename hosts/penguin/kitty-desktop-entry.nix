@@ -1,4 +1,4 @@
-{pkgs, ...} : {
+{pkgs, ...}: {
   home.file.".local/share/applications/kitty.desktop".text = ''
     [Desktop Entry]
     Type=Application

@@ -10,7 +10,7 @@
     ./kitty-desktop-entry.nix
     ./cros-garcon.nix
   ];
-  
+
   nixpkgs.config.allowUnfree = true;
   nix = {
     package = pkgs.nix;
