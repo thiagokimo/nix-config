@@ -1,6 +1,8 @@
-{config, ...}: {
+{
   services.xserver.xkb = {
-    layout = config.var.keyboardLayout;
-    variant = config.var.keyboardVariant;
+    layout = "us";
+    variant = "intl";
   };
+
+  console.keyMap = "us-acentos";
 }
