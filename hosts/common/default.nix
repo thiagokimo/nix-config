@@ -34,4 +34,3 @@
     nixPath = ["/etc/nix/path"];
   };
 }
-

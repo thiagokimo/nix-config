@@ -23,7 +23,7 @@
     forAllSystems = nixpkgs.lib.genAttrs systems;
     pkgsFor = nixpkgs.legacyPackages;
   in {
-    packages = forAllSystems(system: import ./pkgs pkgsFor.${system});
+    packages = forAllSystems (system: import ./pkgs pkgsFor.${system});
     overlays = import ./overlays {inherit inputs;};
     formatter = forAllSystems (system: pkgsFor.${system}.alejandra);
     devShells = forAllSystems (system: import ./shell.nix pkgsFor.${system});
