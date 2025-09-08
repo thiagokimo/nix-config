@@ -62,9 +62,6 @@
     packages = with pkgs; [];
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -86,10 +83,6 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  nix.settings = {
-    experimental-features = ["nix-command" "flakes"];
-    trusted-users = ["root" "thiago"];
-  };
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
