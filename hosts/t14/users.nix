@@ -1,4 +1,4 @@
-{pkgs,...}:{
+{pkgs, ...}: {
   users = {
     defaultUserShell = pkgs.zsh;
     users.thiago = {
@@ -6,6 +6,6 @@
       description = "Thiago";
       extraGroups = ["networkmanager" "wheel"];
       packages = with pkgs; [];
-    }; 
-  }; 
+    };
+  };
 }

@@ -9,6 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    hyprland.url = "github:hyprwm/Hyprland";
   };
 
   outputs = {
@@ -16,6 +17,7 @@
     nixpkgs,
     home-manager,
     nixos-hardware,
+    hyprland,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -38,7 +40,10 @@
       t14 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
-        modules = [./hosts/t14];
+        modules = [
+          nixos-hardware.nixosModules.lenovo-thinkpad-t14
+          ./hosts/t14
+        ];
       };
 
       # x13s = nixpkgs.lib.nixosSystem {
