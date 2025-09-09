@@ -95,7 +95,6 @@ in {
         gaps_out = gaps-out;
         border_size = border-size;
         resize_on_border = true;
-        border_part_of_window = true;
         layout = layout;
       };
 
