@@ -20,4 +20,5 @@
   programs.zsh.enable = true;
   time.timeZone = "America/Sao_Paulo";
   system.stateVersion = "25.05";
+  home-manager.users.thiago = import ../../home/thiago/home.nix;
 }
