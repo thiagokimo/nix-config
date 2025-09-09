@@ -4,6 +4,9 @@
   pkgs,
   ...
 }: {
+
+  imports = [./cli];
+
   home = {
     username = lib.mkDefault "thiago";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
