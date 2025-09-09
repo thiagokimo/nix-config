@@ -9,7 +9,11 @@
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = "25.05";
     packages = with pkgs; [
-      cowsay
+      firefox
+      neovim
+      kitty 
+      vlc
+      wofi
     ];
     sessionVariables = {};
     file = {};

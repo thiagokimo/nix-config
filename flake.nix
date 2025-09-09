@@ -52,7 +52,7 @@
       home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsFor.${system};
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [./homes/thiago];
+        modules = [./home/thiago];
       });
   };
 }
