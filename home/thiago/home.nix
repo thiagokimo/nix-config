@@ -4,17 +4,16 @@
   pkgs,
   ...
 }: {
-
-  imports = [./cli];
+  imports = [./cli ./hypr];
 
   home = {
     username = lib.mkDefault "thiago";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = "25.05";
     packages = with pkgs; [
-      firefox
+      google-chrome
       neovim
-      kitty 
+      kitty
       vlc
       wofi
     ];

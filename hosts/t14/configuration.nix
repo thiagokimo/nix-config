@@ -14,7 +14,7 @@
 
   environment.systemPackages = with pkgs; [
     git
-    neovim 
+    neovim
   ];
 
   programs.zsh.enable = true;
