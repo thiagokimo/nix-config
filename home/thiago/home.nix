@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  imports = [./cli ./hypr];
+  imports = [./cli ./hypr ./scripts];
 
   home = {
     username = lib.mkDefault "thiago";
