@@ -350,6 +350,22 @@
         "type": "github"
       }
     },
+    "nix-wallpapers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1736303952,
+        "narHash": "sha256-9DaHaQ/Hi3qTNFw9+KVYsPgP4tYW736QxX68DLk66Kc=",
+        "owner": "thiagokimo",
+        "repo": "nix-wallpapers",
+        "rev": "56d690b528e5aaf05538ae61ac2cac22fc66a623",
+        "type": "github"
+      },
+      "original": {
+        "owner": "thiagokimo",
+        "repo": "nix-wallpapers",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1751432711,
@@ -441,6 +457,7 @@
       "inputs": {
         "home-manager": "home-manager",
         "hyprland": "hyprland",
+        "nix-wallpapers": "nix-wallpapers",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable"
