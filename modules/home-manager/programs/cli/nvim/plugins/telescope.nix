@@ -1,4 +1,4 @@
-{pkgs, ...}:{
+{pkgs, ...}: {
   programs.nixvim.plugins.telescope = {
     enable = true;
     settings.defaults = {

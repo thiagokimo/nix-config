@@ -30,7 +30,7 @@
         show_buffer_close_icons = true;
         show_close_icon = true;
         persist_buffer_sort = true;
-        separator_style = [ "│" "│" ];
+        separator_style = ["│" "│"];
         enforce_regular_tabs = true;
         always_show_bufferline = true;
         show_tab_indicators = false;
