@@ -4,7 +4,7 @@
   ...
 }: let
   configDirectory = "${config.home.homeDirectory}/.config/nix-config";
-  hostName = builtins.getEnv "HOSTNAME";
+  hostName = "${config.networking.hostName}";
 
   nix-kimo = pkgs.writeShellScriptBin "nk" ''
     function help() {
