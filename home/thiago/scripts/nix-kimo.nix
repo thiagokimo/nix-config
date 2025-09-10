@@ -1,11 +1,11 @@
 {
   pkgs,
   config,
+  configVars,
   ...
 }: let
   configDirectory = "${config.home.homeDirectory}/.config/nix-config";
-  hostName = "${config.networking.hostName}";
-
+  hostName = configVars.hostName;
   nix-kimo = pkgs.writeShellScriptBin "nk" ''
     function help() {
       echo "NixKimo (nk) - My nix command shortcuts :)"

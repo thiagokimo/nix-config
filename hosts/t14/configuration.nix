@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, config, ...}: {
   imports = [
     ./boot.nix
     ./fonts.nix
@@ -10,6 +10,7 @@
     ./networking.nix
     ./services.nix
     ./users.nix
+    ./variables.nix
   ];
 
   environment.systemPackages = with pkgs; [
@@ -19,6 +20,5 @@
 
   programs.zsh.enable = true;
   time.timeZone = "America/Sao_Paulo";
-  system.stateVersion = "25.05";
-  home-manager.users.thiago = import ../../home/thiago/home.nix;
+  system.stateVersion = config.var.stateVersion;
 }
