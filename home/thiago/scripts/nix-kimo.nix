@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  configDirectory = "${config.home.homeDirectory}/.config";
+  configDirectory = "${config.home.homeDirectory}/.config/nix-config";
   hostName = builtins.getEnv "HOSTNAME";
 
   nix-kimo = pkgs.writeShellScriptBin "nk" ''
