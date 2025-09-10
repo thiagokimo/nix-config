@@ -1,6 +1,6 @@
-{
+{config, ...}: {
   networking = {
-    hostName = "t14";
+    hostName = config.var.hostName;
     networkmanager.enable = true;
   };
 }
