@@ -15,7 +15,6 @@
       neovim
       kitty
       vlc
-      wofi
     ];
     sessionVariables = {};
     file = {};
