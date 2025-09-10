@@ -73,7 +73,7 @@
       exit 0
     elif [[ $1 == "fmt" ]];then
       echo "Formatting files..."
-      nix fmt ${configDirectory}
+      cd ${configDirectory} && nix fmt ${configDirectory}
       exit 0
     elif [[ $1 == "search" ]];then
       echo "Searching in nixpkgs for $2"
