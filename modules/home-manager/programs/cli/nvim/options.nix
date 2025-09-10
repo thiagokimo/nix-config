@@ -44,5 +44,5 @@
     undofile = true; # Automatically save and restore undo history
     updatetime = 250; # Faster completion
     wrap = false; # Prevent text from wrapping
-  }; 
+  };
 }
