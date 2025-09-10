@@ -5,6 +5,7 @@
 }: {
   imports = [
     ./boot.nix
+    ./console.nix
     ./fonts.nix
     ./hardware-configuration.nix
     ./home-manager.nix
