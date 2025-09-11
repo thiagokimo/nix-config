@@ -14,6 +14,10 @@
       url = "github:thiagokimo/nix-wallpapers";
       flake = false;
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -23,6 +27,7 @@
     nixos-hardware,
     hyprland,
     nix-wallpapers,
+    nixvim,
     ...
   } @ inputs: let
     inherit (self) outputs;
