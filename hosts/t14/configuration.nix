@@ -6,6 +6,7 @@
   imports = [
     ./boot.nix
     ./console.nix
+    ./environment.nix
     ./fonts.nix
     ./hardware-configuration.nix
     ./home-manager.nix
@@ -16,11 +17,6 @@
     ./services.nix
     ./users.nix
     ./variables.nix
-  ];
-
-  environment.systemPackages = with pkgs; [
-    git
-    neovim
   ];
 
   programs.zsh.enable = true;
