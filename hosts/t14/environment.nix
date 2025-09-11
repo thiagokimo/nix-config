@@ -7,7 +7,7 @@
     systemPackages = with pkgs; [
       curl
       git
-      neovim 
+      vim 
       xdg-utils
       wget
     ];
