@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  configVars,
   ...
 }: {
   imports = [./cli ./hypr ./scripts ./programs];
@@ -9,10 +10,9 @@
   home = {
     username = lib.mkDefault "thiago";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
-    stateVersion = "25.05";
+    stateVersion = configVars.stateVersion;
     packages = with pkgs; [
       google-chrome
-      neovim
       kitty
       vlc
     ];

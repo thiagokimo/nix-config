@@ -1,7 +1,7 @@
 {
   imports = [
-    ./thunar.nix
-    ./design.nix
+    # ./thunar.nix
+    # ./design.nix
     ./wofi.nix
   ];
 }
