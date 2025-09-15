@@ -7,6 +7,6 @@ in {
     package = pkgs.bibata-cursors;
     size = cursorSize;
     gtk.enable = true;
-    hyprland.enable = true;
+    hyprcursor.enable = true;
   };
 }
