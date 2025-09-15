@@ -2,6 +2,7 @@
   imports = [
     ./lualine.nix
     ./neotree.nix
+    ./bufferline.nix
   ];
   programs.nixvim = {
     extraPlugins = with pkgs.vimPlugins; [
