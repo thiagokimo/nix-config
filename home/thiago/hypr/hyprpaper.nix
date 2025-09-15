@@ -1,4 +1,4 @@
-{configVars,...}: {
+{configVars, ...}: {
   services.hyprpaper = {
     enable = true;
     settings = {

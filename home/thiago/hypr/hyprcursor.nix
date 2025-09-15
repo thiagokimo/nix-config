@@ -1,15 +1,12 @@
-{pkgs,...}: {
+{pkgs, ...}: let
+  cursorTheme = "Bibata-Modern-Ice";
+  cursorSize = 24;
+in {
   home.pointerCursor = {
-    name = "Bibata-Modern-Ice";
+    name = cursorTheme;
     package = pkgs.bibata-cursors;
-    size = 24;
+    size = cursorSize;
     gtk.enable = true;
-  };
-
-  wayland.windowManager.hyprland.settings = {
-    env = [
-      "XCURSOR_THEME,Bibata-Modern-Ice"
-      "XCURSOR_SIZE,24"
-    ];
+    hyprland.enable = true;
   };
 }
