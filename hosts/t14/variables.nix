@@ -1,4 +1,8 @@
-{config, inputs, ...}: {
+{
+  config,
+  inputs,
+  ...
+}: {
   imports = [../common/variables-config.nix];
   config.var = {
     hostName = "t14";

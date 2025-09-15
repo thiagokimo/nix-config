@@ -13,7 +13,6 @@
   layout = "dwindle";
 in {
   home.packages = with pkgs; [
-    hyprpicker
     wl-clipboard
   ];
 
