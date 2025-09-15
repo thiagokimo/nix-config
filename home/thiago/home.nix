@@ -5,7 +5,7 @@
   configVars,
   ...
 }: {
-  imports = [./cli ./hypr ./scripts ./programs];
+  imports = [./cli ./hypr ./scripts ./programs ./mime.nix];
 
   home = {
     username = lib.mkDefault "thiago";

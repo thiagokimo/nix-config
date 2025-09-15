@@ -1,8 +1,8 @@
-{pkgs, ...}: {
+{pkgs, config, ...}: {
   environment = {
     variables = {
       XDG_DATA_HOME = "$HOME/.local/share";
-      EDITOR = "nvim";
+      EDITOR = config.var.editor;
     };
     systemPackages = with pkgs; [
       curl
