@@ -5,7 +5,7 @@
   configVars,
   ...
 }: {
-  imports = [./cli ./hypr ./scripts ./programs ./mime.nix];
+  imports = [./cli ./hypr ./scripts ./programs ./mime.nix ./stylix.nix];
 
   home = {
     username = lib.mkDefault "thiago";

@@ -18,6 +18,10 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -28,6 +32,7 @@
     hyprland,
     nix-wallpapers,
     nixvim,
+    stylix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -50,10 +55,7 @@
       t14 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
-        modules = [
-          nixos-hardware.nixosModules.lenovo-thinkpad-t14
-          ./hosts/t14
-        ];
+        modules = [./hosts/t14];
       };
 
       # x13s = nixpkgs.lib.nixosSystem {
