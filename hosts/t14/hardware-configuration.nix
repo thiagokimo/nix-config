@@ -6,9 +6,11 @@
   lib,
   pkgs,
   modulesPath,
+  nixos-hardware,
   ...
 }: {
   imports = [
+    nixos-hardware.nixosModules.lenovo-thinkpad-t14
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
