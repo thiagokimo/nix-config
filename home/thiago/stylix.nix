@@ -1,14 +1,13 @@
 {
-  stylix,
   pkgs,
-  nix-wallpapers,
+  inputs,
+  configVars,
   ...
 }: {
-  imports = [stylix.homeModules.stylix];
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-    image = nix-wallpapers + "/gruvbox/iuh3jkasndjans.jpg";
+    image = inputs.nix-wallpapers + "/gruvbox/iuh3jkasndjans.jpg";
     polarity = "dark";
     cursor = {
       package = pkgs.bibata-cursors;

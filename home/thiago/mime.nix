@@ -1,4 +1,4 @@
-{configVars,...}: {
+{configVars, ...}: {
   xdg.mimeApps = {
     enable = true;
 
