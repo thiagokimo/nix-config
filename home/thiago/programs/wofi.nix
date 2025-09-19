@@ -4,8 +4,6 @@
   lib,
   ...
 }: let
-  font = "JetBrainsMono Nerd Font";
-  font-size = 16;
   rounding = 15;
 in {
   home.packages = [pkgs.wofi-emoji];
@@ -38,9 +36,7 @@ in {
 
     style = lib.mkForce ''
       * {
-        font-family: "${font}";
         font-weight: 500;
-        font-size: ${toString font-size}px;
       }
 
       #window {

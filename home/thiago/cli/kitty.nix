@@ -1,11 +1,6 @@
 {
   programs.kitty = {
     enable = true;
-    themeFile = "gruvbox-dark";
-    font = {
-      name = "Jetbrains Mono Nerd Font";
-      size = 16;
-    };
     settings = {
       scrollback_lines = 10000;
       initial_window_width = 1200;
