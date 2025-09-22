@@ -2,19 +2,12 @@
   lib,
   inputs,
   outputs,
+  nixpkgsConfigs,
   ...
 }: {
   nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.stable-packages
-    ];
-    config = {
-      allowUnfree = true;
-    };
+    config = nixpkgsConfigs;
   };
-
   nix = {
     settings = {
       experimental-features = "nix-command flakes";

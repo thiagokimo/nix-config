@@ -38,7 +38,15 @@
     inherit (self) outputs;
     systems = ["x86_64-linux" "aarch64-linux"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
-    pkgsFor = nixpkgs.legacyPackages;
+    nixpkgsConfigs = {
+      allowUnfree = true;
+      allowUNfreePredicate = _: true;
+    };
+    pkgsFor = forAllSystems(system: 
+      import nixpkgs { 
+        inherit system;
+        config = nixpkgsConfigs;
+      });
   in {
     packages = forAllSystems (system: import ./pkgs pkgsFor.${system});
     overlays = import ./overlays {inherit inputs;};
@@ -54,7 +62,7 @@
 
       t14 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {inherit inputs outputs nixpkgsConfigs;};
         modules = [./hosts/t14];
       };
 
