@@ -42,8 +42,8 @@
       allowUnfree = true;
       allowUNfreePredicate = _: true;
     };
-    pkgsFor = forAllSystems(system: 
-      import nixpkgs { 
+    pkgsFor = forAllSystems (system:
+      import nixpkgs {
         inherit system;
         config = nixpkgsConfigs;
       });

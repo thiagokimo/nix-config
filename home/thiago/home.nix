@@ -6,7 +6,15 @@
   configVars,
   ...
 }: {
-  imports = [inputs.stylix.homeModules.stylix ./cli ./hypr ./scripts ./programs ./mime.nix ./stylix.nix];
+  imports = [
+    inputs.stylix.homeModules.stylix
+    ./cli
+    ./hypr
+    ./scripts
+    ./programs
+    ./mime.nix
+    ./stylix.nix
+  ];
 
   home = {
     username = lib.mkDefault "thiago";
