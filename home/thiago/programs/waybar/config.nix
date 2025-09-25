@@ -3,7 +3,7 @@
     mainBar = {
       layer = "top";
       position = "top";
-      height = 34;
+      height = 36;
       spacing = 0;
       margin-top = 5;
       margin-left = 100;
@@ -98,7 +98,7 @@
       };
       "clock" = {
         format = "{:%a/%d/%m │ %I:%M}";
-       tooltip-format = "{:%B - %Y}";
+        tooltip-format = "{:%B - %Y}";
       };
     };
   };
