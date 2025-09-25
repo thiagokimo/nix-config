@@ -17,6 +17,7 @@
       modules-center = [];
       modules-right = [
         "wireplumber"
+        "bluetooth"
         "network"
         "cpu"
         "memory"
@@ -55,7 +56,17 @@
         format-icons = {
           default = [" " " " " "];
         };
-        on-click = "sound-toogle";
+        on-click = "sound-toggle";
+      };
+      "bluetooth" = {
+	      format = "󰂲";
+        format-on = "";
+	      format-connected = " {num_connections}";
+	      tooltip-format = "{status}";
+	      tooltip-format-on = "{status}";
+	      tooltip-format-connected = "{device_alias}";
+	      on-click = "kitty --class bluetui -e bluetui";
+	      interval = 1;
       };
       "network" = {
         format-wifi = " ";
