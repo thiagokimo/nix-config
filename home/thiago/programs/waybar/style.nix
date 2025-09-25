@@ -96,5 +96,39 @@ in {
       border-right-style: solid;
       border-right-color: ${yellow};
     }
+
+    #battery {
+      color: ${foreground};
+      padding-left: 0.5em;
+      padding-right: 1.5em;
+    }
+    #battery.charging,
+    #battery.plugged {
+      color: ${foreground};
+    }
+    
+    #memory {
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+    
+    #cpu {
+      padding-right: 1em;
+      padding-left: 1.5em;
+      border-left: 3px;
+      border-left-style: solid;
+      border-left-color: ${green};
+    }
+    
+    #network {
+      padding-right: 2em;
+      padding-left: 1em;
+    }
+    
+    #wireplumber {
+      background-color: ${background};
+      padding-right: 1em;
+      padding-left: 1.5em;
+    }
   ''; 
 }
