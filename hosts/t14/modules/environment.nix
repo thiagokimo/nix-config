@@ -9,6 +9,7 @@
       EDITOR = config.var.editor;
     };
     systemPackages = with pkgs; [
+      bluetui
       curl
       git
       vim
