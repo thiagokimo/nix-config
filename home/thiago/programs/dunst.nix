@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       global = {
-        format = "<b>%s %p</b>\n%b";
+        format = "<b>%s %p</b>\\n%b";
         sort = "yes";
         indicate_hidden = true;
         idle_threshold = 0;
