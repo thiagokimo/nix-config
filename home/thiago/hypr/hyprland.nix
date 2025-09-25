@@ -24,6 +24,7 @@ in {
       "$modShift" = "SUPER_SHIFT";
 
       exec-once = [
+        "dunst"
         "hyprpaper"
         "waybar"
       ];
