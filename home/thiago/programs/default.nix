@@ -1,7 +1,7 @@
 {
   imports = [
     # ./design.nix
-    ./waybar.nix
+    ./waybar
     ./wofi.nix
   ];
 }

@@ -23,7 +23,10 @@ in {
       "$mod" = "SUPER";
       "$modShift" = "SUPER_SHIFT";
 
-      exec-once = ["hyprpaper"];
+      exec-once = [
+        "hyprpaper"
+        "waybar"
+      ];
 
       monitor = ["eDP-1,1920x1080@60,auto,1"];
       bind =
@@ -149,10 +152,6 @@ in {
 
       cursor = {
         no_hardware_cursors = true;
-      };
-
-      gestures = {
-        workspace_swipe = false;
       };
 
       windowrulev2 = [
