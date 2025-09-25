@@ -14,7 +14,7 @@
 in {
   programs.waybar.style = ''
     * {
-      font-family: "${font}";
+      font-family: ${font};
     }
     #waybar {
       box-shadow: 10px 10px 10px 10px #000000;
