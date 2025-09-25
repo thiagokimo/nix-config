@@ -5,7 +5,7 @@
 }: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    ./variables.nix
+    ../variables.nix
   ];
 
   home-manager = {
@@ -17,7 +17,7 @@
     };
 
     users.thiago = {
-      imports = [../../home/thiago/home.nix];
+      imports = [../../../home/thiago/home.nix];
       home.username = "thiago";
       home.homeDirectory = "/home/thiago";
       home.stateVersion = config.var.stateVersion;
