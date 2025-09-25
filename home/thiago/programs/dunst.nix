@@ -19,6 +19,15 @@
         frame_width = 3;
         offset = "(20,20)";
       };
+      urgency_low = {
+        timeout = 7;
+      };
+      urgency_normal = {
+        timeout = 7;
+      };
+      urgency_critical = {
+        timeout = 7;
+      };
     };
   };
 }
