@@ -51,8 +51,8 @@
         };
       };
       "wireplumber" = {
-        format = "{volume}% {icon}";
-        format-muted = "{volume}% 󰝟 ";
+        format = "{icon} {volume}%";
+        format-muted = "󰝟 {volume}%";
         format-icons = {
           default = ["" " " " "];
         };
@@ -75,12 +75,12 @@
         tooltip-format = "{essid}";
       };
       "cpu" = {
-        format = "{usage}%  ";
+        format = "  {usage}%";
         interval = 1;
       };
       "memory" = {
         interval = 1;
-        format = "{}%  ";
+        format = "  {}%";
       };
 
       "battery" = {
@@ -90,10 +90,10 @@
           warning = 15;
           critical = 5;
         };
-        format = "{capacity}% {icon}";
-        format-full = "{capacity}% {icon}";
-        format-charging = "{capacity}% ";
-        format-plugged = "{capacity}% ";
+        format = "{icon} {capacity}%";
+        format-full = "{icon} {capacity}%";
+        format-charging = " {capacity}%";
+        format-plugged = " {capacity}%";
         format-icons = [" " " " " " " " " "];
       };
       "clock" = {
