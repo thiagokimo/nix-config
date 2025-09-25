@@ -52,9 +52,9 @@
       };
       "wireplumber" = {
         format = "{volume}% {icon}";
-        format-muted = " 󰝟 ";
+        format-muted = "󰝟 ";
         format-icons = {
-          default = [" " " " " "];
+          default = ["" " " " "];
         };
         on-click = "sound-toggle";
       };
