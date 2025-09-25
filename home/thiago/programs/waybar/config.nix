@@ -52,7 +52,7 @@
       };
       "wireplumber" = {
         format = "{volume}% {icon}";
-        format-muted = "󰝟 ";
+        format-muted = "{volume}% 󰝟 ";
         format-icons = {
           default = ["" " " " "];
         };
