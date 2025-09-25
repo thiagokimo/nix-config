@@ -7,7 +7,7 @@
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-    image = inputs.nix-wallpapers + "/gruvbox/iuh3jkasndjans.jpg";
+    image = inputs.nix-wallpapers + "/gruvbox/7.jpg";
     polarity = "dark";
     cursor = {
       package = pkgs.bibata-cursors;
