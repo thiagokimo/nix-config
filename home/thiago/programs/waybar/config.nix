@@ -86,7 +86,7 @@
         format-icons = [" " " " " " " " " "];
       };
       "clock" = {
-        format = "{:%a /%d /%m │ %I:%M}";
+        format = "{:%a/%d/%m │ %I:%M}";
        tooltip-format = "{:%B - %Y}";
       };
     };
