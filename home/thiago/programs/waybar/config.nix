@@ -59,14 +59,14 @@
         on-click = "sound-toggle";
       };
       "bluetooth" = {
-	      format = "󰂲";
+        format = "󰂲";
         format-on = "";
-	      format-connected = " {num_connections}";
-	      tooltip-format = "{status}";
-	      tooltip-format-on = "{status}";
-	      tooltip-format-connected = "{device_alias}";
-	      on-click = "kitty --class bluetui -e bluetui";
-	      interval = 1;
+        format-connected = " {num_connections}";
+        tooltip-format = "{status}";
+        tooltip-format-on = "{status}";
+        tooltip-format-connected = "{device_alias}";
+        on-click = "kitty --class bluetui -e bluetui";
+        interval = 1;
       };
       "network" = {
         format-wifi = " ";

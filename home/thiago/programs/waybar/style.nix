@@ -1,4 +1,4 @@
-{config,...}: let 
+{config, ...}: let
   font = "${config.stylix.fonts.serif.name}";
   background = "#${config.lib.stylix.colors.base01}";
   hard-background = "#${config.lib.stylix.colors.base00}";
@@ -43,13 +43,13 @@ in {
       border-bottom: 3px solid;
       border-color: ${hard-background};
     }
-    
+
     .modules-center {
       border-top: 3px solid;
       border-bottom: 3px solid;
       border-color: ${hard-background};
     }
-    
+
     .modules-left {
       background-color: ${background};
       border-top: 3px solid;
@@ -85,7 +85,7 @@ in {
       color: #000000;
       font-size: 12px;
     }
-    
+
     #clock {
       font-size: 10px;
       background-color: ${background};
@@ -106,12 +106,12 @@ in {
     #battery.plugged {
       color: ${foreground};
     }
-    
+
     #memory {
       padding-left: 1em;
       padding-right: 1em;
     }
-    
+
     #cpu {
       padding-right: 1em;
       padding-left: 1.5em;
@@ -119,16 +119,16 @@ in {
       border-left-style: solid;
       border-left-color: ${green};
     }
-    
+
     #network {
       padding-right: 2em;
       padding-left: 1em;
     }
-    
+
     #wireplumber {
       background-color: ${background};
       padding-right: 1em;
       padding-left: 1.5em;
     }
-  ''; 
+  '';
 }
