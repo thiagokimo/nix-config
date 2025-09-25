@@ -14,7 +14,7 @@
 in {
   programs.waybar.style = ''
     * {
-      font-family: ${font};
+      font-family: "${font}";
     }
     #waybar {
       box-shadow: 10px 10px 10px 10px #000000;
@@ -56,6 +56,45 @@ in {
       border-left: 3px solid;
       border-bottom: 3px solid;
       border-color: ${hard-background};
+    }
+
+    #workspaces {
+      background-color: ${background};
+      color: ${foreground};
+      padding-left: 1em;
+      font-size: 9.9px;
+    }
+    #workspaces button {
+      color: ${foreground};
+      padding: 0 6px;
+      font-size: 9.9px;
+    }
+    #workspaces button:hover {
+      background-color: ${aqua};
+      color: #000000;
+    }
+    #workspaces button.visible.active {
+      color: ${red};
+      font-size: 12.5px;
+    }
+    #workspaces button.visible {
+      color: ${aqua};
+    }
+    #workspaces button.active:hover {
+      background-color: ${aqua};
+      color: #000000;
+      font-size: 12px;
+    }
+    
+    #clock {
+      font-size: 10px;
+      background-color: ${background};
+      padding-right: 1em;
+      padding-top: 3px;
+      padding-left: 1em;
+      border-right: 3px;
+      border-right-style: solid;
+      border-right-color: ${yellow};
     }
   ''; 
 }
