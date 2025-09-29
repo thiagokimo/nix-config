@@ -16,6 +16,7 @@
       ];
       modules-center = [];
       modules-right = [
+        "tray"
         "wireplumber"
         "bluetooth"
         "network"
@@ -52,7 +53,7 @@
       };
       "wireplumber" = {
         format = "{icon} {volume}%";
-        format-muted = "󰝟 {volume}%";
+        format-muted = "  {volume}%";
         format-icons = {
           default = ["" " " " "];
         };
