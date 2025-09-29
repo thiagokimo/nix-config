@@ -3,7 +3,6 @@
     mainBar = {
       layer = "top";
       position = "top";
-      height = 36;
       spacing = 0;
       margin-top = 5;
       margin-left = 100;
@@ -53,7 +52,7 @@
       };
       "wireplumber" = {
         format = "{icon} {volume}%";
-        format-muted = "  {volume}%";
+        format-muted = "  0%";
         format-icons = {
           default = ["" " " " "];
         };
