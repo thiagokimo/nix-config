@@ -13,7 +13,10 @@
         "clock"
         "hyprland/workspaces"
       ];
-      modules-center = [];
+      modules-center = [
+        "hyprland/window"
+      ];
+
       modules-right = [
         "tray"
         "wireplumber"
@@ -50,9 +53,14 @@
           "9" = "구";
         };
       };
+      "hyprland/window" = {
+        format = "{initialTitle}";
+        icon = true;
+        icon-size = 16;
+      };
       "wireplumber" = {
         format = "{icon} {volume}%";
-        format-muted = "  0%";
+        format-muted = "  {volume}%";
         format-icons = {
           default = ["" " " " "];
         };
