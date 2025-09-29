@@ -14,6 +14,7 @@
     ./modules/networking.nix
     ./modules/nixpkgs.nix
     ./modules/services.nix
+    ./modules/steam.nix
     ./modules/users.nix
     ./variables.nix
   ];
