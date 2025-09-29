@@ -12,11 +12,12 @@
     ./modules/keyboard.nix
     ./modules/locale.nix
     ./modules/networking.nix
+    ./modules/nixpkgs.nix
     ./modules/services.nix
     ./modules/users.nix
     ./variables.nix
   ];
-
+  
   programs.zsh.enable = true;
   time.timeZone = "America/Sao_Paulo";
   system.stateVersion = config.var.stateVersion;
