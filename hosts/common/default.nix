@@ -2,12 +2,8 @@
   lib,
   inputs,
   outputs,
-  nixpkgsConfigs,
   ...
 }: {
-  nixpkgs = {
-    config = nixpkgsConfigs;
-  };
   nix = {
     settings = {
       experimental-features = "nix-command flakes";

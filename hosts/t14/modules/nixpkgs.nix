@@ -1,0 +1,5 @@
+{nixpkgsConfigs, ...}: {
+  nixpkgs = {
+    config = nixpkgsConfigs;
+  };
+}

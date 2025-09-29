@@ -63,7 +63,9 @@
       t14 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs nixpkgsConfigs;};
-        modules = [./hosts/t14];
+        modules = [
+          ./hosts/t14
+        ];
       };
 
       # x13s = nixpkgs.lib.nixosSystem {
