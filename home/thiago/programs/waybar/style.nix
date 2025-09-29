@@ -125,6 +125,7 @@ in {
       padding-left: 1em;
     }
 
+    #wireplumber.muted,
     #wireplumber {
       background-color: ${background};
       padding-right: 1em;
