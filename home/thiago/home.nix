@@ -24,6 +24,7 @@
       google-chrome
       kitty
       vlc
+      wl-clipboard
     ];
     sessionVariables = {};
     file = {};

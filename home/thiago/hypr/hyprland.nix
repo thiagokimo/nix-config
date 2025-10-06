@@ -12,9 +12,6 @@
   blur = true;
   layout = "dwindle";
 in {
-  home.packages = with pkgs; [
-    wl-clipboard
-  ];
 
   wayland.windowManager.hyprland = {
     enable = true;
