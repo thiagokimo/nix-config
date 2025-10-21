@@ -7,6 +7,7 @@
   programs.nixvim = {
     extraPlugins = with pkgs.vimPlugins; [
       vim-nix
+      dart-vim-plugin
     ];
   };
 }
