@@ -1,6 +1,6 @@
 {
   pkgs,
-  config,
+  configVars,
   ...
 }: {
   programs.zsh = {
@@ -17,7 +17,7 @@
 
     shellAliases = {
       # Navigate to nix config dir
-      nkcd = "cd /home/thiago/.config/nix-config";
+      nkcd = "cd ${configVars.path}";
 
       # View images within kitty
       icat = "${pkgs.kitty}/bin/kitty +kitten icat";

@@ -18,7 +18,7 @@
     ./modules/users.nix
     ./variables.nix
   ];
-  
+
   programs.zsh.enable = true;
   time.timeZone = "America/Sao_Paulo";
   system.stateVersion = config.var.stateVersion;

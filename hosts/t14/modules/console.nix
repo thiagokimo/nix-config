@@ -1,8 +1,8 @@
 {pkgs, ...}: {
   # console = {
-    # packages = with pkgs; [
-    #   jetbrains-mono
-    # ];
-    # font = "${pkgs.jetbrains-mono}";
+  # packages = with pkgs; [
+  #   jetbrains-mono
+  # ];
+  # font = "${pkgs.jetbrains-mono}";
   # };
 }

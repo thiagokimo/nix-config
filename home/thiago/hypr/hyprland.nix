@@ -12,7 +12,6 @@
   blur = true;
   layout = "dwindle";
 in {
-
   wayland.windowManager.hyprland = {
     enable = true;
 

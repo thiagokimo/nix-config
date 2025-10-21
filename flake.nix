@@ -1,6 +1,64 @@
 {
   description = "My things :)";
 
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    forAllSystems = nixpkgs.lib.genAttrs [
+      "x86_64-linux" 
+      "aarch64-linux"
+    ];
+    configVars = {
+      username = "thiago";
+      email = "kimo@kimo.io";
+      path = "/home/${username}/.config/nix-config";
+    };
+    mkNixOSConfig = host: sys: {
+      system = sys; 
+      specialArgs = {inherit inputs outputs configVars;};
+      modules = [./hosts/${host}];
+    };
+  in {
+    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    overlays = import ./overlays {inherit inputs;};
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+    devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
+
+    nixosConfigurations = {
+      # framework = nixpkgs.nixosSystem {
+      #   system = "x86_64-linux";
+      #   specialArgs = {inherit inputs outputs;};
+      #   modules = [./hosts/framework];
+      # };
+
+      t14 = nixpkgs.lib.nixosSystem(mkNixOSConfig "t14-2" "x86_64-linux");
+
+      # t14 = nixpkgs.lib.nixosSystem {
+      #   system = "x86_64-linux";
+      #   specialArgs = {inherit inputs outputs nixpkgsConfigs;};
+      #   modules = [
+      #     ./hosts/t14
+      #   ];
+      # };
+
+      # x13s = nixpkgs.lib.nixosSystem {
+      #   system = "aarch64-linux";
+      #   specialArgs = {inherit inputs outputs;};
+      #   modules = [./hosts/x13s];
+      # };
+    };
+
+    # homeConfigurations = forAllSystems (system:
+    #   home-manager.lib.homeManagerConfiguration {
+    #     pkgs = pkgsFor.${system};
+    #     extraSpecialArgs = {inherit inputs outputs;};
+    #     modules = [./home/thiago];
+    #   });
+  };
+  
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
@@ -9,7 +67,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    hyprland.url = "github:hyprwm/Hyprland";
+    # hyprland.url = "github:hyprwm/Hyprland";
     nix-wallpapers = {
       url = "github:thiagokimo/nix-wallpapers";
       flake = false;
@@ -24,62 +82,4 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    nixos-hardware,
-    hyprland,
-    nix-wallpapers,
-    nixvim,
-    stylix,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    systems = ["x86_64-linux" "aarch64-linux"];
-    forAllSystems = nixpkgs.lib.genAttrs systems;
-    nixpkgsConfigs = {
-      allowUnfree = true;
-      allowUNfreePredicate = _: true;
-    };
-    pkgsFor = forAllSystems (system:
-      import nixpkgs {
-        inherit system;
-        config = nixpkgsConfigs;
-      });
-  in {
-    packages = forAllSystems (system: import ./pkgs pkgsFor.${system});
-    overlays = import ./overlays {inherit inputs;};
-    formatter = forAllSystems (system: pkgsFor.${system}.alejandra);
-    devShells = forAllSystems (system: import ./shell.nix pkgsFor.${system});
-
-    nixosConfigurations = {
-      # framework = nixpkgs.nixosSystem {
-      #   system = "x86_64-linux";
-      #   specialArgs = {inherit inputs outputs;};
-      #   modules = [./hosts/framework];
-      # };
-
-      t14 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {inherit inputs outputs nixpkgsConfigs;};
-        modules = [
-          ./hosts/t14
-        ];
-      };
-
-      # x13s = nixpkgs.lib.nixosSystem {
-      #   system = "aarch64-linux";
-      #   specialArgs = {inherit inputs outputs;};
-      #   modules = [./hosts/x13s];
-      # };
-    };
-
-    homeConfigurations = forAllSystems (system:
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor.${system};
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [./home/thiago];
-      });
-  };
 }
