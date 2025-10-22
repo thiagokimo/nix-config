@@ -25,7 +25,7 @@
     };
     mkNixOSConfig = host: sys: let
       # Merge the hostname into the "final" variables map
-      configVars = variables // {hostName = host;}; 
+      configVars = variables // {hostName = host;};
     in {
       system = sys;
       specialArgs = {inherit inputs outputs configVars;};
