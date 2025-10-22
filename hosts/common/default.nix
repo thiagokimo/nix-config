@@ -1,13 +1,18 @@
-{inputs,configVars,...}: {
+{
+  inputs,
+  outputs,
+  configVars,
+  ...
+}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     ../../modules/base
   ];
-  
-  programs = {
-    zsh.enable = true;
-  }
+
+  system.stateVersion = "${configVars.stateVersion}";
+  programs.zsh.enable = true;
   time.timeZone = "America/Sao_Paulo";
+  console.keyMap = "us-acentos";
 
   i18n = {
     defaultLocale = "en_US.UTF-8";

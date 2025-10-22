@@ -1,18 +1,18 @@
 {
   pkgs,
-  config,
+  configVars,
   ...
 }: {
   environment = {
     variables = {
-      XDG_DATA_HOME = "$HOME/.local/share";
-      EDITOR = config.var.editor;
+      XDG_DATA_HOME = "$/home/${configVars.username}/.local/share";
+      EDITOR = "${configVars.editor}";
     };
     systemPackages = with pkgs; [
       bluetui
       curl
       git
-      vim
+      neovim
       xdg-utils
       wget
     ];
