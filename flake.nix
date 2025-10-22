@@ -44,7 +44,7 @@
       #   modules = [./hosts/framework];
       # };
 
-      t14 = nixpkgs.lib.nixosSystem (mkNixOSConfig "t14-2" "x86_64-linux");
+      t14 = nixpkgs.lib.nixosSystem (mkNixOSConfig "t14" "x86_64-linux");
 
       # t14 = nixpkgs.lib.nixosSystem {
       #   system = "x86_64-linux";
