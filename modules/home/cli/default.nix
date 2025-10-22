@@ -15,6 +15,7 @@
     zip
     bat
     btop
+    wl-clipboard
 
     # Fun
     peaclock
