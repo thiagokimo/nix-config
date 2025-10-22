@@ -1,4 +1,8 @@
-{outputs, configVars, ...}: {
+{
+  outputs,
+  configVars,
+  ...
+}: {
   imports = [
     ../../modules/home/cli
   ];
@@ -14,7 +18,6 @@
       stable-packages
     ];
   };
-
 
   home = {
     username = "${configVars.username}";
