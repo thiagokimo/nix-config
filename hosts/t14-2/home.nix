@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, ...}: {
   imports = [
     ../../modules/home/hyprland
     ../../modules/home/mime.nix
@@ -16,7 +16,6 @@
     packages = with pkgs; [
       google-chrome
       vlc
-      wl-clipboard
     ];
     sessionVariables = {};
     file = {};
