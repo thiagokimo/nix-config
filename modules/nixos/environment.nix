@@ -5,7 +5,7 @@
 }: {
   environment = {
     variables = {
-      XDG_DATA_HOME = "$/home/${configVars.username}/.local/share";
+      XDG_DATA_HOME = "/home/${configVars.username}/.local/share";
       EDITOR = "${configVars.editor}";
     };
     systemPackages = with pkgs; [
