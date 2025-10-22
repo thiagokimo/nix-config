@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./lualine.nix
-    ./neotree.nix
+    # ./neotree.nix
     ./bufferline.nix
   ];
   programs.nixvim = {

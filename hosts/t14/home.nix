@@ -6,6 +6,7 @@
     ../../modules/home/programs/kitty.nix
     ../../modules/home/programs/waybar
     ../../modules/home/programs/wofi.nix
+    ../../modules/home/scripts
     ../../modules/home/stylix.nix
 
     # TODO Fix this
