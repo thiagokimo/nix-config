@@ -21,6 +21,7 @@
       email = "kimo@kimo.io";
       path = "/home/${username}/.config/nix-config";
       editor = "nvim";
+      browser = "google-chrome-stable";
     };
     mkNixOSConfig = host: sys: let
       # Merge the hostname into the "final" variables map

@@ -14,4 +14,10 @@
 
     ../../modules/nixos/desktop/hyprland.nix
   ];
+
+  home-manager.users.${configVars.username} = {
+      imports = [
+        ./home.nix
+      ];
+  };
 }
