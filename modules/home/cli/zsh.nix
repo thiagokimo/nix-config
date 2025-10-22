@@ -20,7 +20,7 @@
       nkcd = "cd ${configVars.path}";
 
       # View images within kitty
-      icat = "${pkgs.kitty}/bin/kitty +kitten icat";
+      # icat = "${pkgs.kitty}/bin/kitty +kitten icat";
 
       # Eza overrides
       ls = "eza --icons=always --no-quotes";

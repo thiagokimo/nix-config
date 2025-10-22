@@ -8,16 +8,25 @@
   } @ inputs: let
     inherit (self) outputs;
     forAllSystems = nixpkgs.lib.genAttrs [
-      "x86_64-linux" 
+      "x86_64-linux"
       "aarch64-linux"
     ];
-    configVars = {
+
+    # Global variables
+    variables = let
       username = "thiago";
+    in {
+      stateVersion = "25.05";
+      username = username;
       email = "kimo@kimo.io";
       path = "/home/${username}/.config/nix-config";
+      editor = "nvim";
     };
-    mkNixOSConfig = host: sys: {
-      system = sys; 
+    mkNixOSConfig = host: sys: let
+      # Merge the hostname into the "final" variables map
+      configVars = variables // {hostName = host;}; 
+    in {
+      system = sys;
       specialArgs = {inherit inputs outputs configVars;};
       modules = [./hosts/${host}];
     };
@@ -34,7 +43,7 @@
       #   modules = [./hosts/framework];
       # };
 
-      t14 = nixpkgs.lib.nixosSystem(mkNixOSConfig "t14-2" "x86_64-linux");
+      t14 = nixpkgs.lib.nixosSystem (mkNixOSConfig "t14-2" "x86_64-linux");
 
       # t14 = nixpkgs.lib.nixosSystem {
       #   system = "x86_64-linux";
@@ -58,7 +67,7 @@
     #     modules = [./home/thiago];
     #   });
   };
-  
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
@@ -67,7 +76,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    # hyprland.url = "github:hyprwm/Hyprland";
+    hyprland.url = "github:hyprwm/Hyprland";
     nix-wallpapers = {
       url = "github:thiagokimo/nix-wallpapers";
       flake = false;
@@ -81,5 +90,4 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-
 }
