@@ -1,4 +1,4 @@
-{
+{configVars, ...}: {
   imports = [
     ../common
     ./hardware-configuration.nix
@@ -16,8 +16,8 @@
   ];
 
   home-manager.users.${configVars.username} = {
-      imports = [
-        ./home.nix
-      ];
+    imports = [
+      ./home.nix
+    ];
   };
 }
