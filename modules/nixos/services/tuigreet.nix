@@ -3,13 +3,13 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
         user = "greeter";
       };
     };
   };
 
-  environment.systemPackages = with pkgs; [greetd.tuigreet];
+  environment.systemPackages = with pkgs; [tuigreet];
 
   # https://www.reddit.com/r/NixOS/comments/u0cdpi/tuigreet_with_xmonad_how/
   systemd.services.greetd.serviceConfig = {
@@ -25,5 +25,5 @@
   };
 
   # Prevent freeze at shutdown
-  systemd.extraConfig = "DefaultTimeoutStopSec=10s";
+  # systemd.extraConfig = "DefaultTimeoutStopSec=10s";
 }
