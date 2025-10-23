@@ -25,7 +25,7 @@ in {
         "waybar"
       ];
 
-      monitor = ["eDP-1,1920x1080@60,auto,1"];
+      monitor = [",highres,auto,1"];
       bind =
         [
           "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
