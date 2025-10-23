@@ -7,12 +7,12 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
+    inherit (inputs.nixpkgs.lib) nixosSystem;
     forAllSystems = nixpkgs.lib.genAttrs [
       "x86_64-linux"
       "aarch64-linux"
     ];
 
-    # Global variables
     variables = let
       username = "thiago";
     in {
@@ -23,8 +23,7 @@
       editor = "nvim";
       browser = "google-chrome-stable";
     };
-    mkNixOSConfig = host: sys: let
-      # Merge the hostname into the "final" variables map
+    buildSystem = host: sys: let
       configVars = variables // {hostName = host;};
     in {
       system = sys;
@@ -38,35 +37,11 @@
     devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
 
     nixosConfigurations = {
-      # framework = nixpkgs.nixosSystem {
-      #   system = "x86_64-linux";
-      #   specialArgs = {inherit inputs outputs;};
-      #   modules = [./hosts/framework];
-      # };
-
-      t14 = nixpkgs.lib.nixosSystem (mkNixOSConfig "t14" "x86_64-linux");
-
-      # t14 = nixpkgs.lib.nixosSystem {
-      #   system = "x86_64-linux";
-      #   specialArgs = {inherit inputs outputs nixpkgsConfigs;};
-      #   modules = [
-      #     ./hosts/t14
-      #   ];
-      # };
-
-      # x13s = nixpkgs.lib.nixosSystem {
-      #   system = "aarch64-linux";
-      #   specialArgs = {inherit inputs outputs;};
-      #   modules = [./hosts/x13s];
-      # };
+      framework = nixosSystem (buildSystem "framework" "x86_64-linux");
+      t14 = nixosSystem (buildSystem "t14" "x86_64-linux");
+      x13s = nixosSystem (buildSystem "x13s" "aarch64-linux");
+      # TODO fix case for penguin
     };
-
-    # homeConfigurations = forAllSystems (system:
-    #   home-manager.lib.homeManagerConfiguration {
-    #     pkgs = pkgsFor.${system};
-    #     extraSpecialArgs = {inherit inputs outputs;};
-    #     modules = [./home/thiago];
-    #   });
   };
 
   inputs = {
