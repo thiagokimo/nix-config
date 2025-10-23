@@ -1,4 +1,4 @@
-{configVars,...}:{
+{configVars, ...}: {
   programs.git = {
     enable = true;
     userName = "Thiago Rocha";
