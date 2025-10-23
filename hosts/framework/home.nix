@@ -1,29 +1,24 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
-    ../common/home.nix
-    ../../modules/home-manager/programs/thunar.nix
-    ../../modules/home-manager/programs/design.nix
-    ../../modules/home-manager/scripts
-    ../../modules/home-manager/scripts/nix-kimo.nix
-    ../../modules/home-manager/system/hypr
-    ../../modules/home-manager/system/mime.nix
-    ../../modules/home-manager/system/wofi.nix
-    ./variables.nix
+    ../../modules/home/hyprland
+    ../../modules/home/mime.nix
+    ../../modules/home/programs/dunst.nix
+    ../../modules/home/programs/kitty.nix
+    ../../modules/home/programs/waybar
+    ../../modules/home/programs/wofi.nix
+    ../../modules/home/scripts
+    ../../modules/home/stylix.nix
+
+    # TODO Fix this
+    # ../../modules/home/programs/design.nix
   ];
 
   home = {
     packages = with pkgs; [
-      # Apps
-      discord
-      vlc
       google-chrome
+      vlc
     ];
-
-    # Used in hyprpanel and hyprlock
-    file.".profile-picture.jpeg" = {source = ./profile-picture.jpeg;};
+    sessionVariables = {};
+    file = {};
   };
 }

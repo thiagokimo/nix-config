@@ -1,4 +1,8 @@
 {
+  imports = [
+    ./tuigreet.nix
+  ];
+
   services = {
     xserver.xkb = {
       layout = "us";
