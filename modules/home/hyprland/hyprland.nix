@@ -30,7 +30,7 @@ in {
         [
           "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
           "$mod, B, exec, ${pkgs.google-chrome}/bin/google-chrome-stable"
-          "$mod, E, exec, ${pkgs.kitty}/bin/kitty -e ${pkgs.ranger}/bin/ranger"
+          "$mod, E, exec, ${pkgs.kitty}/bin/kitty -e ${pkgs.yazi}/bin/yazi"
           "$modShift, L, exec, lock-hypr"
           "$mod, PRINT, exec, screenshot"
           "$modShift, PRINT, exec, screenshot-region"
