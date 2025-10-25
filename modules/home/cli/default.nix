@@ -4,13 +4,13 @@
     ./fzf.nix
     ./git.nix
     ./nvim
+    ./yazi.nix
     ./zsh.nix
   ];
 
   home.packages = with pkgs; [
     less
     neofetch
-    ranger
     unzip
     zip
     bat
