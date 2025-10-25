@@ -3,55 +3,56 @@
     mainBar = {
       layer = "top";
       position = "top";
-      spacing = 0;
-      margin-top = 5;
-      margin-left = 100;
-      margin-bottom = 0;
-      margin-right = 100;
-
+      
       modules-left = [
         "clock"
+        "custom/separator"
         "hyprland/workspaces"
+        "custom/separator"
+        "tray"
       ];
-      modules-center = [
-        "hyprland/window"
-      ];
+      modules-center = ["hyprland/window"];
 
       modules-right = [
-        "tray"
+        "temperature"
+        "memory"
+        "cpu"
         "wireplumber"
         "bluetooth"
-        "network"
-        "cpu"
-        "memory"
         "battery"
+        "network"
+        "custom/separator"
+        "custom/powermenu"
       ];
       "hyprland/workspaces" = {
+        separate-outputs = false;
         active-only = false;
         disable-scroll = false;
         all-outputs = true;
         format = "{icon}";
         on-click = "activate";
-
-        persistent-workspaces = {
-          "1" = [];
-          "2" = [];
-          "3" = [];
-          "4" = [];
-          "5" = [];
-        };
-
+        
         format-icons = {
-          "1" = "일";
-          "2" = "이";
-          "3" = "삼";
-          "4" = "사";
-          "5" = "오";
-          "6" = "육";
-          "7" = "칠";
-          "8" = "팔";
-          "9" = "구";
+          "1" = "1";
+          "2" = "2";
+          "3" = "3";
+          "4" = "4";
+          "5" = "5";
+          "6" = "6";
+          "7" = "7";
+          "8" = "8";
+          "9" = "9";
         };
+      };
+      "temperature" = {
+        format = "{icon} {temperatureC}°C ";
+        tooltip = false;
+        critical-threshold = 80;
+        format-icons = ["" "" ""];
+      };
+      "tray" = {
+        icon-size = 16;
+        spacing = 8;
       };
       "hyprland/window" = {
         format = "{initialTitle}";
@@ -85,10 +86,12 @@
       "cpu" = {
         format = "  {usage}%";
         interval = 1;
+        tooltip = false;
       };
       "memory" = {
         interval = 1;
         format = "  {}%";
+        tooltip = false;
       };
 
       "battery" = {
@@ -105,8 +108,20 @@
         format-icons = [" " " " " " " " " "];
       };
       "clock" = {
-        format = "{:%a/%d/%m │ %I:%M}";
-        tooltip-format = "{:%B - %Y}";
+        format = " 󰸗 {:%I:%M %p} ";
+        interval = 60;
+        tooltip = true;
+        tooltip-format = "{:%d %B %H:%M}";
+      };
+      "custom/powermenu" = {
+        format = "  ";
+        tooltip = false;
+        # on-click = "exec wlogout -p layer-shell";
+      };
+      "custom/separator" = {
+        format = "|";
+        interval = "once";
+        tooltip = false;
       };
     };
   };
