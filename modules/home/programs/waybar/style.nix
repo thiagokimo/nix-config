@@ -19,17 +19,17 @@ in {
     * {
       font-family: ${font};
     }
-    
+
     #tray {
       padding-left: 4px;
     }
-    
+
     #network {
       color: ${green};
       margin-left: ${side-margin};
       margin-right: ${side-margin};
     }
-        
+
     #wireplumber {
       color: ${purple};
       margin-left: ${side-margin};
@@ -47,25 +47,25 @@ in {
       margin-left: ${side-margin};
       margin-right: ${side-margin};
     }
-    
+
     #cpu {
       color: ${brown};
       margin-left: ${side-margin};
       margin-right: ${side-margin};
     }
-    
+
     #temperature {
       color: ${yellow};
       margin-left: ${side-margin};
       margin-right: ${side-margin};
     }
-    
+
     #memory {
       color: ${blue};
       margin-left: ${side-margin};
       margin-right: ${side-margin};
     }
-    
+
     #custom-powermenu {
       color: ${red};
       margin-left: ${side-margin};
