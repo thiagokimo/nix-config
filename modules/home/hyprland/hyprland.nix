@@ -25,7 +25,13 @@ in {
         "waybar"
       ];
 
-      monitor = [",highres,auto,1"];
+      # TODO Figure out how a smarter way to isolate monitor setups for multiple hosts
+      monitor = [
+        # laptop monitor
+        "eDP-1,highres,auto,1"
+        # home external monitor
+        "desc:Samsung Electric Company LC34G55T H4ZT700047,preferred,auto,1"
+      ];
       bind =
         [
           "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
