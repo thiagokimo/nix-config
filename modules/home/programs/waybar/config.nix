@@ -1,4 +1,6 @@
 {
+  # TODO Fix the way to open the terminal according to the main terminal
+  # instead of assuming kitty is installed
   programs.waybar.settings = {
     mainBar = {
       layer = "top";
@@ -66,6 +68,7 @@
           default = ["" " " " "];
         };
         on-click = "sound-toggle";
+        on-click-right = "kitty --class wiremix -e wiremix";
       };
       "bluetooth" = {
         format = "󰂲";
