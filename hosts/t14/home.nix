@@ -2,6 +2,8 @@
   imports = [
     ../../modules/home/hyprland
     ../../modules/home/mime.nix
+    ../../modules/home/programs/audio-and-video.nix
+    ../../modules/home/programs/browsers.nix
     ../../modules/home/programs/dunst.nix
     ../../modules/home/programs/kitty.nix
     ../../modules/home/programs/waybar
@@ -14,10 +16,7 @@
   ];
 
   home = {
-    packages = with pkgs; [
-      google-chrome
-      vlc
-    ];
+    # packages = with pkgs; [];
     sessionVariables = {};
     file = {};
   };
