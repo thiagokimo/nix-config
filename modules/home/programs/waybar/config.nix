@@ -5,7 +5,7 @@
     mainBar = {
       layer = "top";
       position = "top";
-      
+
       modules-left = [
         "clock"
         "custom/separator"
@@ -33,7 +33,7 @@
         all-outputs = true;
         format = "{icon}";
         on-click = "activate";
-        
+
         format-icons = {
           "1" = "1";
           "2" = "2";
