@@ -1,7 +1,9 @@
 {configVars, ...}: {
   programs.git = {
     enable = true;
-    userName = "Thiago Rocha";
-    userEmail = "${configVars.email}";
+    settings.user = {
+      name = "Thiago Rocha";
+      email = "${configVars.email}";
+    };
   };
 }
