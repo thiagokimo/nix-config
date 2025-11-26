@@ -12,5 +12,6 @@
     openssh = {
       enable = true;
     };
+    gvfs.enable = true;
   };
 }
