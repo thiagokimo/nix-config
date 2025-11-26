@@ -15,6 +15,11 @@
       neovim
       xdg-utils
       wget
+
+      # MTP stuff
+      jmtpfs
+      libmtp
+      simple-mtpfs
     ];
   };
 }
