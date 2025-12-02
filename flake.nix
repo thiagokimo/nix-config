@@ -16,7 +16,7 @@
     variables = let
       username = "thiago";
     in {
-      stateVersion = "25.05";
+      stateVersion = "25.11";
       username = username;
       email = "kimo@kimo.io";
       path = "/home/${username}/.config/nix-config";
@@ -46,7 +46,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
