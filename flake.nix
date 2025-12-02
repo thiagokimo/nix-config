@@ -26,9 +26,11 @@
     buildSystem = host: sys: let
       configVars = variables // {hostName = host;};
     in {
-      system = sys;
       specialArgs = {inherit inputs outputs configVars;};
-      modules = [./hosts/${host}];
+      modules = [
+        ./hosts/${host}
+        { nixpkgs.hostPlatform = sys; }
+      ];
     };
   in {
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
