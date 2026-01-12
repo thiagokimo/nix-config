@@ -16,7 +16,7 @@
     variables = let
       username = "thiago";
     in {
-      stateVersion = "25.05";
+      stateVersion = "25.11";
       username = username;
       email = "kimo@kimo.io";
       path = "/home/${username}/.config/nix-config";
@@ -26,9 +26,11 @@
     buildSystem = host: sys: let
       configVars = variables // {hostName = host;};
     in {
-      system = sys;
       specialArgs = {inherit inputs outputs configVars;};
-      modules = [./hosts/${host}];
+      modules = [
+        ./hosts/${host}
+        { nixpkgs.hostPlatform = sys; }
+      ];
     };
   in {
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
@@ -46,7 +48,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
