@@ -156,10 +156,6 @@ in {
       cursor = {
         no_hardware_cursors = true;
       };
-
-      windowrulev2 = [
-        "suppressevent maximize, class:.*"
-      ];
     };
   };
 }
