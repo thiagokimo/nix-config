@@ -1,4 +1,4 @@
-{configVars, ...}: {
+{vars, ...}: {
   imports = [
     ../common
     ./hardware-configuration.nix
@@ -15,9 +15,9 @@
     ../../modules/nixos/desktop/hyprland.nix
   ];
 
-  home-manager.users.${configVars.username} = {
-    imports = [
-      ./home.nix
-    ];
-  };
+  # home-manager.users.${configVars.username} = {
+  #   imports = [
+  #     ./home.nix
+  #   ];
+  # };
 }
