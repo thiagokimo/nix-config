@@ -1,15 +1,22 @@
 {
   inputs,
   outputs,
-  configVars,
+  vars,
   ...
 }: {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
     ../../modules/base
+    ../../modules/nixos/audio.nix
+    ../../modules/nixos/bluetooth.nix
+    ../../modules/nixos/boot.nix
+    ../../modules/nixos/environment.nix
+    ../../modules/nixos/fonts.nix
+    ../../modules/nixos/networking.nix
+    ../../modules/nixos/services
+    ../../modules/nixos/steam.nix
   ];
 
-  system.stateVersion = "${configVars.stateVersion}";
+  system.stateVersion = "${vars.stateVersion}";
   programs.zsh.enable = true;
   time.timeZone = "America/Sao_Paulo";
   console.keyMap = "us-acentos";
@@ -26,17 +33,6 @@
       LC_PAPER = "pt_BR.UTF-8";
       LC_TELEPHONE = "pt_BR.UTF-8";
       LC_TIME = "pt_BR.UTF-8";
-    };
-  };
-
-  home-manager = {
-    backupFileExtension = "hm-backup";
-    useUserPackages = true;
-    extraSpecialArgs = {inherit inputs outputs configVars;};
-    users.${configVars.username} = {
-      imports = [
-        ./home.nix
-      ];
     };
   };
 }

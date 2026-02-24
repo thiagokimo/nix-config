@@ -1,11 +1,11 @@
 {
-  configVars,
+  vars,
   pkgs,
   ...
 }: {
   users = {
     defaultUserShell = pkgs.zsh;
-    users.${configVars.username} = {
+    users.${vars.username} = {
       isNormalUser = true;
       extraGroups = ["networkmanager" "wheel"];
     };
