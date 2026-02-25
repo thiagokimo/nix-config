@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   vars,
   ...
 }: {
@@ -9,6 +10,8 @@
       EDITOR = "${vars.editor}";
     };
     systemPackages = with pkgs; [
+      inputs.home-manager.packages.${pkgs.system}.default
+
       bluetui
       curl
       git

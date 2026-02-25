@@ -1,14 +1,18 @@
-{ inputs, vars, ...}: {
-
+{
+  inputs,
+  vars,
+  ...
+}: {
   imports = [
     ./hyprland
+    ./cli
     ./mime.nix
     ./programs/audio-and-video.nix
     ./programs/browsers.nix
     ./programs/dunst.nix
     ./programs/kitty.nix
     ./programs/waybar
-    ./wofi.nix
+    ./programs/wofi.nix
     ./scripts
     ./stylix.nix
 
@@ -28,15 +32,13 @@
     ];
   };
 
+  programs.home-manager.enable = true;
+
   home = {
-    username = "${configVars.username}";
-    homeDirectory = "/home/${configVars.username}";
-    stateVersion = "${configVars.stateVersion}";
+    username = "${vars.username}";
+    homeDirectory = "/home/${vars.username}";
+    stateVersion = "${vars.stateVersion}";
 
-    backupFileExtension = "hm-backup";
-
-    programs.home-manager.enable = true;
-    
     sessionVariables = {
       EDITOR = vars.editor;
       XDG_DATA_HOME = "/home/${vars.username}/.local/share";
