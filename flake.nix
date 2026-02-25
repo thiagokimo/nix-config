@@ -1,6 +1,6 @@
 {
   description = "My things :)";
-  
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
@@ -37,26 +37,32 @@
     ];
 
     vars = import ./vars.nix;
-    myLib = import ./lib { inherit inputs; };
+    myLib = import ./lib {inherit inputs;};
 
     hosts = {
       framework = "x86_64-linux";
       # t14 = "x86_64-linux";
       # x13s = "aarch64-linux";
     };
-
   in {
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     overlays = import ./overlays {inherit inputs;};
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
     devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
 
-    nixosConfigurations = builtins.mapAttrs(hostname: system: myLib.buildSystem {
-      inherit hostname system;
-    }) hosts;
+    # OS entry point
+    nixosConfigurations = builtins.mapAttrs (hostname: system:
+      myLib.buildSystem {
+        inherit hostname system;
+      })
+    hosts;
 
-    homeConfigurations = builtins.mapAttrs(hostname: system: myLib.buildHome {
-      inherit system; 
-    }) hosts;
+    # Home entry point
+    homeConfigurations =
+      nixpkgs.lib.mapAttrs' (hostname: system: {
+        name = "${vars.username}@${hostname}";
+        value = myLib.buildHome {inherit system;};
+      })
+      hosts;
   };
 }

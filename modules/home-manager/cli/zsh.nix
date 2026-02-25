@@ -1,7 +1,6 @@
 {
   pkgs,
   vars,
-  hostname,
   ...
 }: {
   programs.zsh = {
@@ -19,6 +18,8 @@
     shellAliases = {
       # Navigate to nix config dir
       nkcd = "cd ${vars.path}";
+      
+      # TODO Verify if nh,bat,eza and any other software is installed before adding these aliases
 
       # Eza overrides
       ls = "eza --icons=always --no-quotes";
@@ -28,8 +29,8 @@
       cat = "bat";
 
       # nix-kimo legacy shortcuts
-      hms = "home-manager switch --flake ${vars.path}.#${vars.username}@${hostname}";
-      nrs = "sudo nixos-rebuild switch --flake ${vars.path}.#${hostname}";
+      hms = "nh home switch";
+      nrs = "nh os switch";
     };
   };
 }

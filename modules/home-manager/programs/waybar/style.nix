@@ -31,10 +31,10 @@ in {
       background: ${hard-background};
       padding: 3px 0;
     }
-    
+
     window#waybar.hidden {
       opacity: 0.98;
-    } 
+    }
     #window,
     #tray,
     #network,
@@ -70,7 +70,7 @@ in {
       margin-left: 2px;
       padding: 0;
     }
-    
+
     #workspaces button {
       color: ${foreground};
       border-radius: 0;
@@ -81,17 +81,17 @@ in {
       min-width: 20px;
       padding: 0 2px;
     }
-    
+
     #workspaces button:hover {
       background: ${orange};
       color: ${hard-background};
     }
-    
+
     #workspaces button.active {
       background: ${green};
       color: ${hard-background};
     }
-    
+
     #workspaces button.urgent {
       background: ${red};
     }
@@ -111,7 +111,7 @@ in {
       padding: 3px 7px;
       border-bottom-color: ${aqua};
     }
-    
+
     window#waybar.empty #window {
       margin: 0;
       padding: 0;
@@ -128,7 +128,7 @@ in {
       color: ${green};
       border-bottom-color: ${green};
     }
-    
+
     #network.disconnected {
       color: ${aqua};
       border-bottom-color: ${aqua};
@@ -142,7 +142,7 @@ in {
       color: ${green};
       border-bottom-color: ${green};
     }
-    
+
     #wireplumber.muted {
       color: ${red};
       border-bottom-color: ${red};
@@ -151,7 +151,7 @@ in {
     /* ---------- */
     /* cpu */
     /* ---------- */
-    
+
     #cpu {
       color: ${yellow};
       border-bottom-color: ${yellow};
@@ -165,11 +165,11 @@ in {
       color: ${brown};
       border-bottom-color: ${brown};
     }
-    
+
     /* ---------- */
     /* backlight */
     /* ---------- */
-    
+
     #backlight {
       color: ${orange};
       border-bottom-color: ${orange};
@@ -183,12 +183,12 @@ in {
       color: ${yellow};
       border-bottom-color: ${yellow};
     }
-    
+
     #battery.charging, #battery.plugged {
       color: ${yellow};
       border-bottom-color: ${yellow};
     }
-    
+
     #battery.critical:not(.charging) {
       color: ${red};
       border-bottom-color: ${red};
@@ -243,16 +243,16 @@ in {
       color: ${green};
       border-bottom-color: ${green};
     }
-    
+
     #mpris:hover {
       color: ${yellow};
       border-bottom-color: ${yellow};
     }
-    
+
     /* ---------------- */
     /* taskbar */
     /* ---------------- */
-    
+
     #taskbar {
       background: transparent;
       padding: 0;
@@ -260,7 +260,7 @@ in {
       margin-right: 6px;
       border-bottom: none;
     }
-    
+
     #taskbar button {
       background: transparent;
       border: none;
@@ -271,15 +271,15 @@ in {
       border-bottom: 2px solid ${brown};
       min-width: 14px;
     }
-    
+
     #taskbar button.active {
       border-bottom-color: ${yellow};
     }
-    
+
     #taskbar button:hover {
       border-bottom-color: ${orange};
     }
-    
+
     #taskbar button.urgent {
       border-bottom-color: ${red};
     }
