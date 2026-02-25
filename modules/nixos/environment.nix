@@ -1,14 +1,17 @@
 {
   pkgs,
-  configVars,
+  inputs,
+  vars,
   ...
 }: {
   environment = {
     variables = {
-      XDG_DATA_HOME = "/home/${configVars.username}/.local/share";
-      EDITOR = "${configVars.editor}";
+      XDG_DATA_HOME = "/home/${vars.username}/.local/share";
+      EDITOR = "${vars.editor}";
     };
     systemPackages = with pkgs; [
+      inputs.home-manager.packages.${pkgs.system}.default
+
       bluetui
       curl
       git

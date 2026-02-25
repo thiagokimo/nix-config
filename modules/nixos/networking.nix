@@ -1,6 +1,6 @@
-{configVars, ...}: {
+{hostname, ...}: {
   networking = {
-    hostName = configVars.hostName;
+    hostName = hostname;
     networkmanager.enable = true;
   };
 }
