@@ -41,8 +41,8 @@
 
     hosts = {
       framework = "x86_64-linux";
-      # t14 = "x86_64-linux";
-      # x13s = "aarch64-linux";
+      t14 = "x86_64-linux";
+      x13s = "aarch64-linux";
     };
   in {
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
