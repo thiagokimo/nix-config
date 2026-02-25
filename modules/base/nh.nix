@@ -1,6 +1,6 @@
 {
   config,
-  configVars,
+  vars,
   ...
 }: {
   programs.nh = {
@@ -11,6 +11,6 @@
       dates = "weekly";
     };
 
-    flake = "${configVars.path}";
+    flake = "${vars.path}";
   };
 }

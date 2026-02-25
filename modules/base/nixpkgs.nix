@@ -1,10 +1,10 @@
-{outputs, ...}: {
+{inputs, ...}: {
   nixpkgs = {
     config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
     };
-    overlays = with outputs.overlays; [
+    overlays = with inputs.self.overlays; [
       additions
       modifications
       stable-packages

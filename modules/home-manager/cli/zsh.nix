@@ -1,6 +1,6 @@
 {
   pkgs,
-  configVars,
+  vars,
   ...
 }: {
   programs.zsh = {
@@ -17,7 +17,9 @@
 
     shellAliases = {
       # Navigate to nix config dir
-      nkcd = "cd ${configVars.path}";
+      nkcd = "cd ${vars.path}";
+      
+      # TODO Verify if nh,bat,eza and any other software is installed before adding these aliases
 
       # Eza overrides
       ls = "eza --icons=always --no-quotes";
@@ -25,6 +27,10 @@
 
       # Bat overrides
       cat = "bat";
+
+      # nix-kimo legacy shortcuts
+      hms = "nh home switch";
+      nrs = "nh os switch";
     };
   };
 }

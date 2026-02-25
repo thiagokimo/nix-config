@@ -1,4 +1,4 @@
-{configVars, ...}: {
+{vars, ...}: {
   nix = {
     gc = {
       automatic = true;
@@ -15,8 +15,8 @@
 
     settings = {
       auto-optimise-store = true;
-      allowed-users = ["${configVars.username}"];
-      trusted-users = ["${configVars.username}"];
+      allowed-users = ["${vars.username}"];
+      trusted-users = ["${vars.username}"];
       experimental-features = "nix-command flakes";
     };
   };
