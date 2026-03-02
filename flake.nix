@@ -42,7 +42,12 @@
     hosts = {
       framework = "x86_64-linux";
       t14 = "x86_64-linux";
+
+      # TODO use standalone home manager??
       x13s = "aarch64-linux";
+
+      # TODO fix penguin host
+      # penguin = x86_64-linux
     };
   in {
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
@@ -50,14 +55,12 @@
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
     devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
 
-    # OS entry point
     nixosConfigurations = builtins.mapAttrs (hostname: system:
       myLib.buildSystem {
         inherit hostname system;
       })
     hosts;
 
-    # Home entry point
     homeConfigurations =
       nixpkgs.lib.mapAttrs' (hostname: system: {
         name = "${vars.username}@${hostname}";
