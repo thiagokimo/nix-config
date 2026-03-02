@@ -18,7 +18,7 @@
     shellAliases = {
       # Navigate to nix config dir
       nkcd = "cd ${vars.path}";
-      
+
       # TODO Verify if nh,bat,eza and any other software is installed before adding these aliases
 
       # Eza overrides
