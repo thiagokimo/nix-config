@@ -30,6 +30,7 @@ in {
         # laptop monitor
         "eDP-1,highres,auto,1"
         # home external monitor
+        # "DP-4,highres,auto,1"
         "desc:Samsung Electric Company LC34G55T H4ZT700047,preferred,auto,1"
       ];
       bind =
@@ -85,6 +86,8 @@ in {
       ];
 
       env = [
+        "AQ_NO_MODIFIERS,1"
+        "XDG_SESSION_DESKTOP,Hyprland"
         "XDG_SESSION_TYPE,wayland"
         "XDG_CURRENT_DESKTOP,Hyprland"
         "MOZ_ENABLE_WAYLAND,1"
