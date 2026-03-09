@@ -10,7 +10,7 @@
 
   home.packages = with pkgs; [
     less
-    neofetch
+    fastfetch
     unzip
     zip
     bat
