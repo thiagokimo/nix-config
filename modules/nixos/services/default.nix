@@ -1,6 +1,7 @@
 {
   imports = [
     ./tuigreet.nix
+    ./kanata.nix
   ];
 
   programs.dconf.enable = true;
