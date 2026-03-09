@@ -30,8 +30,8 @@ in {
         # laptop monitor
         "eDP-1,highres,auto,1"
         # home external monitor
-        # "DP-4,highres,auto,1"
-        "desc:Samsung Electric Company LC34G55T H4ZT700047,preferred,auto,1"
+        "DP-4,highres,auto,1"
+        # "desc:Samsung Electric Company LC34G55T H4ZT700047,preferred,auto,1"
       ];
       bind =
         [
