@@ -1,5 +1,9 @@
-{ config, pkgs, ...}:{
-  boot.kernelModules = [ "uinput" ];
+{
+  config,
+  pkgs,
+  ...
+}: {
+  boot.kernelModules = ["uinput"];
 
   hardware.uinput.enable = true;
 
@@ -7,7 +11,7 @@
     KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
   '';
 
-  users.groups.uinput = { };
+  users.groups.uinput = {};
 
   systemd.services.kanata-internalKeyboard.serviceConfig = {
     SupplementaryGroups = [
@@ -21,7 +25,7 @@
     keyboards = {
       default = {
         extraDefCfg = "process-unmapped-keys yes";
-        
+
         config = ''
           (defsrc
             caps
@@ -37,5 +41,5 @@
         '';
       };
     };
-  }; 
+  };
 }
