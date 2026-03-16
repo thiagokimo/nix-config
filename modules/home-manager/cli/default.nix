@@ -22,5 +22,6 @@
     cbonsai
     pipes
     cmatrix
+    ani-cli
   ];
 }
