@@ -28,7 +28,7 @@
 
         config = ''
           (defsrc
-            caps
+            caps lctrl
           )
 
           (defalias
@@ -36,7 +36,7 @@
           )
 
           (deflayer base
-            @escctrl
+            @escctrl @escctrl
           )
         '';
       };
