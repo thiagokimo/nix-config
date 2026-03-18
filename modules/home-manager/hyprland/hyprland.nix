@@ -30,7 +30,7 @@ in {
         # laptop monitor
         "eDP-1,highres,auto,1"
         # home external monitor
-        # "DP-4,highres,auto,1"
+        "desc:Samsung Electric Company LU28R55 HX5W901392,preferred,auto,1"
         "desc:Samsung Electric Company LC34G55T H4ZT700047,preferred,auto,1"
       ];
       bind =
@@ -87,15 +87,15 @@ in {
 
       env = [
         "AQ_NO_MODIFIERS,1"
-        "XDG_SESSION_DESKTOP,Hyprland"
-        "XDG_SESSION_TYPE,wayland"
-        "XDG_CURRENT_DESKTOP,Hyprland"
+        "ELECTRON_OZONE_PLATFORM_HINT,auto"
         "MOZ_ENABLE_WAYLAND,1"
         "NIXOS_OZONE_WL,1"
-        "ELECTRON_OZONE_PLATFORM_HINT,auto"
         "QT_AUTO_SCREEN_SCALE_FACTOR,1"
         "QT_QPA_PLATFORM=wayland,xcb"
         "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+        "XDG_CURRENT_DESKTOP,Hyprland"
+        "XDG_SESSION_DESKTOP,Hyprland"
+        "XDG_SESSION_TYPE,wayland"
       ];
 
       general = {
