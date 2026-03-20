@@ -28,10 +28,11 @@ in {
       # TODO Figure out how a smarter way to isolate monitor setups for multiple hosts
       monitor = [
         # laptop monitor
-        "eDP-1,highres,auto,1"
+        "eDP-1,preferred,auto,1"
         # home external monitor
-        "desc:Samsung Electric Company LU28R55 HX5W901392,preferred,auto,1"
-        "desc:Samsung Electric Company LC34G55T H4ZT700047,preferred,auto,1"
+        "DP-4,preferred,auto,1"
+        # "desc:Samsung Electric Company LU28R55 HX5W901392,preferred,auto,1"
+        # "desc:Samsung Electric Company LC34G55T H4ZT700047,preferred,auto,1"
       ];
       bind =
         [
