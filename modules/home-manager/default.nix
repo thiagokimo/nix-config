@@ -13,6 +13,7 @@
     ./programs/kitty.nix
     ./programs/waybar
     ./programs/wofi.nix
+    ./programs/quickshell
     ./scripts
     ./stylix.nix
 
