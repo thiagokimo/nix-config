@@ -4,11 +4,12 @@
   ...
 }: let
   border-size = 3;
-  gaps-in = 10;
-  gaps-out = 10 * 2;
+  gaps-in = 5;
+  gaps-out = 10;
   active-opacity = 1;
   inactive-opacity = 0.89;
-  rounding = 15;
+  rounding = 20;
+  rounding-power = 2;
   blur = true;
   layout = "dwindle";
 in {
@@ -22,7 +23,8 @@ in {
       exec-once = [
         "dunst"
         "hyprpaper"
-        "waybar"
+        # "waybar"
+        "qs -c noctalia-shell"
       ];
 
       # TODO Figure out how a smarter way to isolate monitor setups for multiple hosts
@@ -109,9 +111,22 @@ in {
 
       decoration = {
         rounding = rounding;
+        rounding_power = rounding-power;
         active_opacity = active-opacity;
         inactive_opacity = inactive-opacity;
-        blur = {enabled = blur;};
+        blur = {
+          enabled = blur;
+          size = 3;
+          passes = 2;
+          vibrancy = 0.1696;
+        };
+
+        shadow = {
+          enabled = true;
+          range = 4;
+          render_power = 3;
+          color = "rgba(1a1a1aee)";
+        };
       };
 
       animations = {
