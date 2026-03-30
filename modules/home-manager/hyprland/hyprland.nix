@@ -51,7 +51,7 @@ in {
           "$mod, Q, killactive"
           "$mod, T, togglefloating"
           "$mod, F, fullscreen"
-          "$mod, J, togglesplit"
+          "$mod, J, layoutmsg, togglesplit"
           "$mod, N, movetoworkspace, special:minimized"
           "$mod, M, movetoworkspace, +0"
           "$mod, M, togglespecialworkspace, minimized"
