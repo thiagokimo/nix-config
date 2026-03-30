@@ -12,6 +12,9 @@
   rounding-power = 2;
   blur = true;
   layout = "dwindle";
+
+  # Noctalia's interface
+  ipc = "${pkgs.noctalia-shell}/bin/noctalia-shell ipc call";
 in {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -21,10 +24,8 @@ in {
       "$modShift" = "SUPER_SHIFT";
 
       exec-once = [
-        "dunst"
         "hyprpaper"
-        # "waybar"
-        "noctalia-shell"
+        "${pkgs.noctalia-shell}/bin/noctalia-shell"
       ];
 
       # TODO Figure out how a smarter way to isolate monitor setups for multiple hosts
@@ -41,11 +42,11 @@ in {
           "$mod, RETURN, exec, ${pkgs.kitty}/bin/kitty"
           "$mod, B, exec, ${pkgs.google-chrome}/bin/google-chrome-stable"
           "$mod, E, exec, ${pkgs.kitty}/bin/kitty -e ${pkgs.yazi}/bin/yazi"
-          "$modShift, L, exec, lock-hypr"
+          "$modShift, L, exec, ${ipc} lockScreen lock"
           "$mod, PRINT, exec, screenshot"
           "$modShift, PRINT, exec, screenshot-region"
 
-          "$mod, SPACE, exec, app-launcher"
+          "$mod, SPACE, exec, ${ipc} launcher toggle"
 
           "$mod, Q, killactive"
           "$mod, T, togglefloating"
@@ -77,15 +78,15 @@ in {
       ];
 
       bindl = [
-        ",XF86AudioMute, exec, sound-toggle"
-        ",switch:Lid Switch, exec, lock"
+        ",XF86AudioMute, exec, ${ipc} volute muteOutput"
+        ",switch:Lid Switch, exec, ${ipc} lockScreen lock"
       ];
 
       bindle = [
-        ", XF86AudioRaiseVolume, exec, sound-up"
-        ", XF86AudioLowerVolume, exec, sound-down"
-        ", XF86MonBrightnessUp, exec, brightness-up"
-        ", XF86MonBrightnessDown, exec, brightness-down"
+        ", XF86AudioRaiseVolume, exec, ${ipc} volume increase"
+        ", XF86AudioLowerVolume, exec, ${ipc} volume decrease"
+        ", XF86MonBrightnessUp, exec, ${ipc} brightness increase"
+        ", XF86MonBrightnessDown, exec, ${ipc} brightness decrease"
       ];
 
       env = [

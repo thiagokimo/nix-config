@@ -9,10 +9,8 @@
     ./mime.nix
     ./programs/audio-and-video.nix
     ./programs/browsers.nix
-    ./programs/dunst.nix
     ./programs/kitty.nix
     ./programs/noctalia
-    #     ./programs/waybar
     ./programs/wofi.nix
     ./scripts
     ./stylix.nix
