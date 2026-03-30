@@ -11,9 +11,9 @@
     ./programs/browsers.nix
     ./programs/dunst.nix
     ./programs/kitty.nix
-    ./programs/waybar
+    ./programs/noctalia
+#     ./programs/waybar
     ./programs/wofi.nix
-    ./programs/quickshell
     ./scripts
     ./stylix.nix
 
