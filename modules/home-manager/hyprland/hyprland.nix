@@ -24,7 +24,7 @@ in {
         "dunst"
         "hyprpaper"
         # "waybar"
-        "qs -c noctalia-shell"
+        "noctalia-shell"
       ];
 
       # TODO Figure out how a smarter way to isolate monitor setups for multiple hosts
