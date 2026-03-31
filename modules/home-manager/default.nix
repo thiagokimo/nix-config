@@ -11,7 +11,6 @@
     ./programs/browsers.nix
     ./programs/kitty.nix
     ./programs/noctalia
-    ./programs/wofi.nix
     ./scripts
     ./stylix.nix
 
