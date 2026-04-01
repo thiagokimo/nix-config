@@ -23,6 +23,12 @@
       jmtpfs
       libmtp
       simple-mtpfs
+
+      # Wine/Bottles
+      wineWow64Packages.stable
+      winetricks
+      zenity
+      bottles
     ];
   };
 }
