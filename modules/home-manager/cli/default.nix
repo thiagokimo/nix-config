@@ -13,6 +13,8 @@
     fastfetch
     unzip
     zip
+    p7zip
+    unrar
     bat
     btop
     wl-clipboard
