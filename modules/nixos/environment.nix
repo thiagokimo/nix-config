@@ -19,16 +19,16 @@
       xdg-utils
       wget
 
-      # MTP stuff
       jmtpfs
       libmtp
       simple-mtpfs
 
-      # Wine/Bottles
       wineWow64Packages.stable
       winetricks
       zenity
       bottles
+
+      cacert
     ];
   };
 }
