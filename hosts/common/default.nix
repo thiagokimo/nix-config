@@ -12,6 +12,7 @@
     ../../modules/nixos/environment.nix
     ../../modules/nixos/fonts.nix
     ../../modules/nixos/networking.nix
+    ../../modules/nixos/security.nix
     ../../modules/nixos/services
     ../../modules/nixos/steam.nix
   ];
