@@ -2,7 +2,7 @@ let
   username = "thiago";
 in {
   username = username;
-  stateVersion = "25.11";
+  stateVersion = "26.05";
   email = "kimo@kimo.io";
   path = "/home/${username}/.config/nix-config";
   editor = "nvim";
