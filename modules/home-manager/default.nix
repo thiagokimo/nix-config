@@ -15,7 +15,7 @@
     ./stylix.nix
 
     # TODO Fix this
-    # ./programs/design.nix
+    ./programs/design.nix
   ];
 
   nixpkgs = {
