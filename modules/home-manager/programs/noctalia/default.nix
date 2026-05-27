@@ -8,6 +8,11 @@
   programs.noctalia-shell = {
     enable = true;
     settings = {
+      theme = {
+        colorScheme = "gruvbox";
+        variant = "dark";
+      };
+      
       location = {
         name = "Belo Horizonte";
         weatherEnabled = true;
