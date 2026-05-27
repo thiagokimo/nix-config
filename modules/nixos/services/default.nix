@@ -7,9 +7,12 @@
   programs.dconf.enable = true;
 
   services = {
-    xserver.xkb = {
-      layout = "us";
-      variant = "intl";
+    xserver = {
+      enable = true;
+      xkb = {
+        layout = "us";
+        variant = "intl";
+      };
     };
     fwupd.enable = true;
     openssh = {

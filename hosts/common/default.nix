@@ -15,6 +15,7 @@
     ../../modules/nixos/security.nix
     ../../modules/nixos/services
     ../../modules/nixos/steam.nix
+    ../../modules/nixos/xdg.nix
   ];
 
   system.stateVersion = "${vars.stateVersion}";
