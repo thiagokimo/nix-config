@@ -342,7 +342,7 @@ in {
     -- auto start processes
     hl.on("hyprland.start", function()
       hl.exec_cmd("${pkgs.noctalia-shell}/bin/noctalia-shell")
-      hl.exec_cmd("dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+      hl.exec_cmd("dbus-update-activation-environment --systemd --all && systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service")
     end)
 
     -- bindings
