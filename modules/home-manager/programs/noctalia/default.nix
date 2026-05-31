@@ -28,7 +28,8 @@
         hideWeatherCityName = false;
       };
       appLauncher = {
-        terminalCommand = "${pkgs.kitty}/bin/kitty -e";
+        # terminalCommand = "${pkgs.kitty}/bin/kitty -e";
+        terminalCommand = "systemd-run --user --scope --collect --";
       };
     };
   };

@@ -4,15 +4,16 @@
   ...
 }: {
   imports = [
-    ./hyprland
     ./cli
-    ./mime.nix
+    ./hyprland
     ./programs/audio-and-video.nix
     ./programs/browsers.nix
     ./programs/kitty.nix
     ./programs/noctalia
+    ./programs/torrent.nix
     ./scripts
     ./stylix.nix
+    ./xdg.nix
 
     # TODO Fix this
     ./programs/design.nix

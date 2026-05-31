@@ -8,7 +8,7 @@
 
   services = {
     xserver = {
-      enable = true;
+      # enable = true;
       xkb = {
         layout = "us";
         variant = "intl";
