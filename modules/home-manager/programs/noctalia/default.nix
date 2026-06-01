@@ -12,7 +12,7 @@
         colorScheme = "gruvbox";
         variant = "dark";
       };
-      
+
       location = {
         name = "Belo Horizonte";
         weatherEnabled = true;

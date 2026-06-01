@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    google-chrome 
+    google-chrome
     calibre
     koreader
     hakuneko

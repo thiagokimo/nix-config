@@ -1,4 +1,8 @@
-{inputs, pkgs, vars, ...}: let
+{
+  pkgs,
+  vars,
+  ...
+}: let
   browser = "${vars.browser}";
   editor = "${vars.editor}";
 in {
@@ -6,11 +10,11 @@ in {
     portal = {
       enable = true;
       config = {
-        common = { default = [ "hyprland" "gtk" ]; };
-        hyprland = { default = [ "hyprland" "gtk" ]; };
+        common = {default = ["hyprland" "gtk"];};
+        hyprland = {default = ["hyprland" "gtk"];};
       };
-      extraPortals = [ 
-        pkgs.xdg-desktop-portal-gtk 
+      extraPortals = [
+        pkgs.xdg-desktop-portal-gtk
       ];
     };
     mimeApps = {

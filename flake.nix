@@ -2,8 +2,8 @@
   description = "My things :)";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,7 +16,7 @@
     };
     nixvim = {
       url = "github:nix-community/nixvim";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
       url = "github:nix-community/stylix";
@@ -34,12 +34,20 @@
     home-manager,
     ...
   } @ inputs: let
-    inherit (self) outputs;
-    forAllSystems = nixpkgs.lib.genAttrs [
+    systems = [
       "x86_64-linux"
       "aarch64-linux"
     ];
-
+    forAllSystems = f:
+      nixpkgs.lib.genAttrs systems (
+        system: let
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+        in
+          f pkgs
+      );
     vars = import ./vars.nix;
     myLib = import ./lib {inherit inputs;};
 
@@ -54,10 +62,18 @@
       # penguin = x86_64-linux
     };
   in {
-    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    packages = forAllSystems (pkgs: import ./pkgs pkgs);
     overlays = import ./overlays {inherit inputs;};
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-    devShells = forAllSystems (system: import ./shell.nix nixpkgs.legacyPackages.${system});
+    formatter = forAllSystems (pkgs: pkgs.alejandra);
+    devShells = forAllSystems (pkgs: {
+      default = pkgs.mkShell {
+        name = "nix-config-dev-env";
+        buildInputs = with pkgs; [
+          antigravity
+          nixd
+        ];
+      };
+    });
 
     nixosConfigurations = builtins.mapAttrs (hostname: system:
       myLib.buildSystem {

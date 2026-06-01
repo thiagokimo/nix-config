@@ -17,6 +17,8 @@
     vimdiffAlias = true;
     defaultEditor = true;
 
+    nixpkgs.source = inputs.nixpkgs;
+
     extraPackages = with pkgs; [
       nerd-fonts.jetbrains-mono
       stylua

@@ -343,7 +343,7 @@ in {
       hl.exec_cmd("dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
       hl.exec_cmd("systemctl --user stop pipewire pipewire-pulse wireplumber && systemctl --user start pipewire pipewire-pulse wireplumber")
     end)
-    
+
     -- bindings
     ${luaBinds}
     ${luaMouseBinds}
