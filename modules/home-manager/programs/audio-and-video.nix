@@ -2,5 +2,6 @@
   home.packages = with pkgs; [
     vlc # video player
     wiremix # audio management
+    yt-dlp # yt downloader
   ];
 }
