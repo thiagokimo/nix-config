@@ -19,9 +19,7 @@ in {
         "text/markdown" = "${editor}.desktop";
         "text/plain" = "${editor}.desktop";
         "text/html" = "${browser}.desktop";
-        "image/png" = "${browser}.desktop";
-        "image/jpeg" = "${browser}.desktop";
-        "image/gif" = "${browser}.desktop";
+        "image/*" = "${browser}.desktop";
         "x-scheme-handler/http" = "${browser}.desktop";
         "x-scheme-handler/https" = "${browser}.desktop";
         "x-scheme-handler/about" = "${browser}.desktop";
