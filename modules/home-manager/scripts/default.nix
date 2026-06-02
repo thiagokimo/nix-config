@@ -4,7 +4,7 @@
     # ./nix-kimo.nix
     # ./brightness.nix
     # ./lock.nix
-    ./screenshot.nix
+    # ./screenshot.nix
     # ./sound.nix
   ];
 }

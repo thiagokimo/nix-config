@@ -5,6 +5,12 @@
 }: {
   imports = [inputs.noctalia.homeModules.default];
 
+  home.packages = [
+    pkgs.hyprshot
+  ];
+
+  xdg.configFile."noctalia/plugins.json".force = true;
+
   programs.noctalia-shell = {
     enable = true;
     settings = {
@@ -28,9 +34,25 @@
         hideWeatherCityName = false;
       };
       appLauncher = {
-        # terminalCommand = "${pkgs.kitty}/bin/kitty -e";
         terminalCommand = "systemd-run --user --scope --collect --";
       };
+    };
+
+    plugins = {
+      sources = [
+        {
+          enabled = true;
+          name = "Noctalia Plugins";
+          url = "https://github.com/noctalia-dev/noctalia-plugins";
+        }
+      ];
+      states = {
+        screenshot = {
+          enabled = true;
+          sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
+        };
+      };
+      version = 2;
     };
   };
 }

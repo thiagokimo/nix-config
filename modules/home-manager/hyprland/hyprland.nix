@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   lib,
   ...
 }: let
@@ -89,12 +88,12 @@
     {
       mod = "SUPER";
       key = "PRINT";
-      dsp = "hl.dsp.exec_cmd('screenshot')";
+      dsp = "hl.dsp.exec_cmd('${ipc} plugin:screenshot takeScreenshot output')";
     }
     {
       mod = "SUPER + SHIFT";
       key = "PRINT";
-      dsp = "hl.dsp.exec_cmd('screenshot-region')";
+      dsp = "hl.dsp.exec_cmd('${ipc} plugin:screenshot takeScreenshot region')";
     }
     {
       mod = "SUPER";
