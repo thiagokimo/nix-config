@@ -30,9 +30,6 @@
 
 ## 📸 Screenshots
 
-> [!TIP]
-> Place your custom screenshots as `desktop.png`, `terminal.png`, and `launcher.png` inside the `assets/` directory to automatically showcase your custom Gruvbox setup!
-
 <div align="center">
 
 ### 🌌 Desktop Workspace
