@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }: let
   # decoration vars
@@ -15,7 +16,7 @@
   layout = "dwindle";
 
   # noctalia's interface
-  ipc = "${pkgs.noctalia-shell}/bin/noctalia-shell ipc call";
+  ipc = "${config.programs.noctalia.package}/bin/noctalia ipc call";
 
   envs = [
     {
@@ -88,12 +89,12 @@
     {
       mod = "SUPER";
       key = "PRINT";
-      dsp = "hl.dsp.exec_cmd('${ipc} plugin:screenshot takeScreenshot output')";
+      dsp = "hl.dsp.exec_cmd('${ipc} screenshot-fullscreen')";
     }
     {
       mod = "SUPER + SHIFT";
       key = "PRINT";
-      dsp = "hl.dsp.exec_cmd('${ipc} plugin:screenshot takeScreenshot region')";
+      dsp = "hl.dsp.exec_cmd('${ipc} screenshot-region')";
     }
     {
       mod = "SUPER";
@@ -338,7 +339,7 @@ in {
 
     -- auto start processes
     hl.on("hyprland.start", function()
-      hl.exec_cmd("${pkgs.noctalia-shell}/bin/noctalia-shell")
+      hl.exec_cmd("${config.programs.noctalia.package}/bin/noctalia")
       hl.exec_cmd("dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
       hl.exec_cmd("systemctl --user stop pipewire pipewire-pulse wireplumber && systemctl --user start pipewire pipewire-pulse wireplumber")
     end)

@@ -9,50 +9,29 @@
     pkgs.hyprshot
   ];
 
-  xdg.configFile."noctalia/plugins.json".force = true;
-
-  programs.noctalia-shell = {
+  programs.noctalia = {
     enable = true;
     settings = {
       theme = {
-        colorScheme = "gruvbox";
-        variant = "dark";
+        mode = "dark";
+        source = "builtin";
+        builtin = "Gruvbox";
       };
 
       location = {
-        name = "Belo Horizonte";
-        weatherEnabled = true;
-        weatherShowEffects = true;
-        useFahrenheit = false;
-        use12hourFormat = false;
-        showWeekNumberInCalendar = true;
-        showCalendarEvents = true;
-        showCalendarWeather = true;
-        analogClockInCalendar = false;
-        firstDayOfWeek = -1;
-        hideWeatherTimezone = false;
-        hideWeatherCityName = false;
+        auto_locate = false;
+        address = "Belo Horizonte";
       };
-      appLauncher = {
-        terminalCommand = "systemd-run --user --scope --collect --";
-      };
-    };
 
-    plugins = {
-      sources = [
-        {
-          enabled = true;
-          name = "Noctalia Plugins";
-          url = "https://github.com/noctalia-dev/noctalia-plugins";
-        }
-      ];
-      states = {
-        screenshot = {
-          enabled = true;
-          sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-        };
+      weather = {
+        enabled = true;
+        unit = "celsius";
+        effects = true;
       };
-      version = 2;
+
+      launcher = {
+        terminal_command = "systemd-run --user --scope --collect --";
+      };
     };
   };
 }
