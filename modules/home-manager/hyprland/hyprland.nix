@@ -16,7 +16,7 @@
   layout = "dwindle";
 
   # noctalia's interface
-  ipc = "${config.programs.noctalia.package}/bin/noctalia ipc call";
+  ipc = "${config.programs.noctalia.package}/bin/noctalia msg";
 
   envs = [
     {
