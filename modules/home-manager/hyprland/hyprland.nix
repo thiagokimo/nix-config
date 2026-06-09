@@ -84,7 +84,7 @@
     {
       mod = "SUPER + SHIFT";
       key = "L";
-      dsp = "hl.dsp.exec_cmd('${ipc} lockScreen lock')";
+      dsp = "hl.dsp.exec_cmd('${ipc} session lock')";
     }
     {
       mod = "SUPER";
@@ -99,7 +99,7 @@
     {
       mod = "SUPER";
       key = "SPACE";
-      dsp = "hl.dsp.exec_cmd('${ipc} launcher toggle')";
+      dsp = "hl.dsp.exec_cmd('${ipc} panel-toggle launcher')";
     }
 
     # windows and workspaces
@@ -189,32 +189,32 @@
   hardwareBindings = [
     {
       key = "\"XF86AudioMute\"";
-      dsp = "hl.dsp.exec_cmd('${ipc} volume muteOutput')";
+      dsp = "hl.dsp.exec_cmd('${ipc} volume-mute')";
       opts = "{locked = true}";
     }
     {
       key = "\"switch:Lid Switch\"";
-      dsp = "hl.dsp.exec_cmd('${ipc} lockScreen lock')";
+      dsp = "hl.dsp.exec_cmd('${ipc} session lock')";
       opts = "{locked = true}";
     }
     {
       key = "\"XF86AudioRaiseVolume\"";
-      dsp = "hl.dsp.exec_cmd('${ipc} volume increase')";
+      dsp = "hl.dsp.exec_cmd('${ipc} volume-up')";
       opts = "{locked = true; repeating = true}";
     }
     {
       key = "\"XF86AudioLowerVolume\"";
-      dsp = "hl.dsp.exec_cmd('${ipc} volume decrease')";
+      dsp = "hl.dsp.exec_cmd('${ipc} volume-down')";
       opts = "{locked = true; repeating = true}";
     }
     {
       key = "\"XF86MonBrightnessUp\"";
-      dsp = "hl.dsp.exec_cmd('${ipc} brightness increase')";
+      dsp = "hl.dsp.exec_cmd('${ipc} brightness-up')";
       opts = "{locked = true; repeating = true}";
     }
     {
       key = "\"XF86MonBrightnessDown\"";
-      dsp = "hl.dsp.exec_cmd('${ipc} brightness decrease')";
+      dsp = "hl.dsp.exec_cmd('${ipc} brightness-down')";
       opts = "{locked = true; repeating = true}";
     }
   ];
