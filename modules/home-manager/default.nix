@@ -38,7 +38,7 @@
     homeDirectory = "/home/${vars.username}";
     stateVersion = "${vars.stateVersion}";
 
-    file."Pictures/my-avatar.jpeg".source = ./assets/my-avatar.jpeg;
+    file."Pictures/my-avatar.jpeg".source = ../../assets/my-avatar.jpeg;
 
     sessionVariables = {
       EDITOR = vars.editor;
