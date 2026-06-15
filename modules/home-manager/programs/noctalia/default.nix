@@ -2,6 +2,7 @@
   pkgs,
   inputs,
   config,
+  vars,
   ...
 }: {
   imports = [inputs.noctalia.homeModules.default];
@@ -119,12 +120,12 @@
       };
 
       shell = {
-        avatar_path = "${config.vars.path}/Pictures/my-avatar.jpeg";
+        avatar_path = "${vars.path}/Pictures/my-avatar.jpeg";
         font_family = config.stylix.fonts.monospace.name;
         launch_apps_as_systemd_services = true;
         ui_scale = 1.5;
         screenshot = {
-          directory = "${config.vars.path}/Pictures/Screenshots";
+          directory = "${vars.path}/Pictures/Screenshots";
         };
       };
 
