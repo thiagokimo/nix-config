@@ -36,7 +36,7 @@
           margin_ends = 0;
           radius = 0;
           scale = 1.5;
-          start = ["workspaces" "spacer_14"];
+          start = ["workspaces" "spacer_14" "taskbar"];
         };
       };
 
