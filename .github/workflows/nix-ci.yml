@@ -1,0 +1,26 @@
+name: Nix Flake CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: Evaluate & Check Flake
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: determinate-systems/nix-installer-action@v14
+
+      - name: Nix Cache
+        uses: determinate-systems/magic-nix-cache-action@v8
+
+      - name: Run Nix flake checks
+        run: nix flake check --extra-experimental-features "nix-command flakes"

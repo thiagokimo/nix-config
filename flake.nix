@@ -94,5 +94,7 @@
         value = myLib.buildHome {inherit system;};
       })
       hosts;
+
+    checks = forAllSystems (pkgs: myLib.buildChecks {inherit pkgs self hosts;});
   };
 }

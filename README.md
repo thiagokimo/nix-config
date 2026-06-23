@@ -63,9 +63,16 @@ graph TD
     Flake[flake.nix] -->|Imports| Vars[vars.nix]
     Flake -->|Uses| Lib[lib/default.nix]
     
-    subgraph Build Engine
+    subgraph Build & Test Engine
         Lib -->|buildSystem| NixOS[NixOS Configuration]
         Lib -->|buildHome| HomeM[Home Manager Configuration]
+        Lib -->|buildChecks| Checks[Flake Checks & CI]
+    end
+
+    subgraph Flake Checks & CI Tests
+        Checks --> Formatting[Formatting Check - alejandra]
+        Checks --> NixOSChecks[NixOS Config Builds]
+        Checks --> HomeChecks[Home Manager Config Builds]
     end
 
     subgraph Host Profiles
@@ -86,7 +93,19 @@ graph TD
     style Lib fill:#a9b665,stroke:#3c3836,stroke-width:2px,color:#282828
     style NixOS fill:#d3869b,stroke:#3c3836,stroke-width:2px,color:#282828
     style HomeM fill:#e78a4e,stroke:#3c3836,stroke-width:2px,color:#282828
+    style Checks fill:#d8a657,stroke:#3c3836,stroke-width:2px,color:#282828
 ```
+
+### Library Helpers (`lib/default.nix`)
+
+To keep `flake.nix` clean and maintainable, system building, user space activation, and testing logic are encapsulated within `lib/default.nix`:
+
+- **`buildSystem`**: Generates a standard NixOS system configuration mapping to the corresponding host profile under `hosts/<hostname>`.
+- **`buildHome`**: Generates a declarative Home-Manager configuration mapping to `modules/home-manager`.
+- **`buildChecks`**: Dynamically generates flake checks and continuous integration (CI) tests for the active architecture. It includes:
+  - **Formatting Tests**: Verifies that all Nix files in the repository adhere to the `alejandra` styling rules.
+  - **NixOS Build Tests**: Ensures that NixOS host configurations (`nixos-framework`, `nixos-t14`, etc.) evaluate and compile successfully.
+  - **Home-Manager Build Tests**: Verifies that user-space home profiles (`home-framework`, `home-t14`, etc.) compile successfully.
 
 ### Directory Structure
 
