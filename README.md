@@ -33,19 +33,19 @@
 <div align="center">
 
 ### 🌌 Desktop Workspace
-![Desktop Setup](assets/desktop.png)
+![Desktop Setup](https://i.imgur.com/o6YzvQq.jpeg)
 *Hyprland active workspace showing the custom Waybar, Gruvbox theme, and high-performance blur aesthetics.*
 
 ---
 
 ### 💻 Developer Environment
-![Terminal and Editor Setup](assets/terminal.png)
+![Terminal and Editor Setup](https://i.imgur.com/PBpm9Rl.png)
 *Kitty terminal executing Zsh and Yazi file manager alongside the declarative Nixvim editor.*
 
 ---
 
 ### 🔍 App Launcher & Interface
-![Noctalia Launcher](assets/launcher.png)
+![Noctalia Launcher](https://i.imgur.com/HuBeNMh.jpeg)
 *The elegant Noctalia App Launcher toggled in action.*
 
 </div>
