@@ -9,7 +9,6 @@ in {
     modules ? [],
   }:
     nixosSystem {
-      inherit system;
       specialArgs = {inherit inputs user hostname vars;};
       modules =
         [
@@ -39,7 +38,7 @@ in {
     self,
     hosts,
   }: let
-    system = pkgs.system;
+    system = pkgs.stdenv.hostPlatform.system;
     systemHosts = inputs.nixpkgs.lib.filterAttrs (hostname: hostSystem: hostSystem == system) hosts;
   in
     {
