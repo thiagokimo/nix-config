@@ -43,12 +43,13 @@ in {
     systemHosts = inputs.nixpkgs.lib.filterAttrs (hostname: hostSystem: hostSystem == system) hosts;
   in
     {
-      formatting = pkgs.runCommand "check-formatting" {
-        buildInputs = [pkgs.alejandra];
-      } ''
-        alejandra --check ${self}
-        touch $out
-      '';
+      formatting =
+        pkgs.runCommand "check-formatting" {
+          buildInputs = [pkgs.alejandra];
+        } ''
+          alejandra --check ${self}
+          touch $out
+        '';
     }
     // (inputs.nixpkgs.lib.mapAttrs' (hostname: hostSystem: {
         name = "nixos-${hostname}";
