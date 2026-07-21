@@ -9,6 +9,7 @@ in {
     modules ? [],
   }:
     nixosSystem {
+      inherit system;
       specialArgs = {inherit inputs user hostname vars;};
       modules =
         [
@@ -38,18 +39,16 @@ in {
     self,
     hosts,
   }: let
-    system = pkgs.stdenv.hostPlatform.system;
+    system = pkgs.system;
     systemHosts = inputs.nixpkgs.lib.filterAttrs (hostname: hostSystem: hostSystem == system) hosts;
   in
     {
-      # Verify formatting of all Nix files in the flake
-      formatting =
-        pkgs.runCommand "check-formatting" {
-          buildInputs = [pkgs.alejandra];
-        } ''
-          alejandra --check ${self}
-          touch $out
-        '';
+      formatting = pkgs.runCommand "check-formatting" {
+        buildInputs = [pkgs.alejandra];
+      } ''
+        alejandra --check ${self}
+        touch $out
+      '';
     }
     // (inputs.nixpkgs.lib.mapAttrs' (hostname: hostSystem: {
         name = "nixos-${hostname}";

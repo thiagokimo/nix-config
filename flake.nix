@@ -61,12 +61,6 @@
     hosts = {
       framework = "x86_64-linux";
       t14 = "x86_64-linux";
-
-      # TODO use standalone home manager??
-      # x13s = "aarch64-linux";
-
-      # TODO fix penguin host
-      # penguin = x86_64-linux
     };
   in {
     packages = forAllSystems (pkgs: import ./pkgs pkgs);

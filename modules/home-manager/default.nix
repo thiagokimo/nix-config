@@ -37,6 +37,7 @@
     username = "${vars.username}";
     homeDirectory = "/home/${vars.username}";
     stateVersion = "${vars.stateVersion}";
+    pointerCursor.enable = true;
 
     file."Pictures/my-avatar.jpeg".source = ../../assets/my-avatar.jpeg;
 
