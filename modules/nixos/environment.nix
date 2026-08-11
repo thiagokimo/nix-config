@@ -19,14 +19,12 @@
       xdg-utils
       wget
 
-      jmtpfs
       libmtp
       simple-mtpfs
 
       wineWow64Packages.stable
       winetricks
       zenity
-      bottles
 
       cacert
     ];

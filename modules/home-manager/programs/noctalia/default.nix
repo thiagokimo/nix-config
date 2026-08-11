@@ -131,7 +131,6 @@
 
       theme = {
         mode = "dark";
-        # source = "builtin";
         builtin = "Gruvbox";
         community_palette = "Oxocarbon";
         wallpaper_scheme = "m3-content";

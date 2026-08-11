@@ -9,6 +9,7 @@
     ../../modules/nixos/audio.nix
     ../../modules/nixos/bluetooth.nix
     ../../modules/nixos/boot.nix
+    ../../modules/nixos/docker.nix
     ../../modules/nixos/environment.nix
     ../../modules/nixos/fonts.nix
     ../../modules/nixos/networking.nix

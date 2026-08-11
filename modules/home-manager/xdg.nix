@@ -23,12 +23,12 @@ in {
         "text/markdown" = "${editor}.desktop";
         "text/plain" = "${editor}.desktop";
         "text/html" = "${browser}.desktop";
-        "image/*" = "${browser}.desktop";
+        "image/*" = [ "org.gnome.Loupe.desktop" ];
         "x-scheme-handler/http" = "${browser}.desktop";
         "x-scheme-handler/https" = "${browser}.desktop";
         "x-scheme-handler/about" = "${browser}.desktop";
         "x-scheme-handler/unknown" = "${browser}.desktop";
-        "application/pdf" = "${browser}.desktop";
+        "application/pdf" = [ "org.gnome.Papers.desktop" ];
       };
     };
   };

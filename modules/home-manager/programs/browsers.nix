@@ -5,5 +5,7 @@
     koreader
     hakuneko
     nautilus
+    loupe
+    papers
   ];
 }
