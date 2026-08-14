@@ -67,10 +67,12 @@
     ];
   };
 
-  defaultApplications = lib.concatMapAttrs (
-    desktopApp: mimeList:
-      lib.genAttrs mimeList (_mime: [desktopApp])
-  ) mimeGroups;
+  defaultApplications =
+    lib.concatMapAttrs (
+      desktopApp: mimeList:
+        lib.genAttrs mimeList (_mime: [desktopApp])
+    )
+    mimeGroups;
 in {
   xdg = {
     portal = {
@@ -89,4 +91,3 @@ in {
     };
   };
 }
-
