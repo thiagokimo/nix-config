@@ -70,7 +70,8 @@
       default = pkgs.mkShell {
         name = "nix-config-dev-env";
         buildInputs = with pkgs; [
-          antigravity
+          alejandra
+          antigravity-ide
           nixd
         ];
       };
