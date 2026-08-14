@@ -6,8 +6,8 @@
 }: {
   environment = {
     variables = {
-      XDG_DATA_HOME = "/home/${vars.username}/.local/share";
-      EDITOR = "${vars.editor}";
+      XDG_DATA_HOME = "${vars.user.home}/.local/share";
+      EDITOR = vars.defaults.editor.bin;
     };
     systemPackages = with pkgs; [
       inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default

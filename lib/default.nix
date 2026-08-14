@@ -1,11 +1,13 @@
-{inputs}: let
-  vars = import ../vars.nix;
+{
+  inputs,
+  vars,
+}: let
   inherit (inputs.nixpkgs.lib) nixosSystem;
 in {
   buildSystem = {
     system,
     hostname,
-    user ? vars.username,
+    user ? vars.user.name,
     modules ? [],
   }:
     nixosSystem {
@@ -21,7 +23,7 @@ in {
 
   buildHome = {
     system,
-    user ? vars.username,
+    user ? vars.user.name,
     modules ? [],
   }:
     inputs.home-manager.lib.homeManagerConfiguration {
@@ -58,7 +60,7 @@ in {
       systemHosts)
     // (inputs.nixpkgs.lib.mapAttrs' (hostname: hostSystem: {
         name = "home-${hostname}";
-        value = self.homeConfigurations."${vars.username}@${hostname}".activationPackage;
+        value = self.homeConfigurations."${vars.user.name}@${hostname}".activationPackage;
       })
       systemHosts);
 }

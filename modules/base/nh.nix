@@ -11,6 +11,6 @@
       dates = "weekly";
     };
 
-    flake = "${vars.path}";
+    flake = vars.user.configDir;
   };
 }

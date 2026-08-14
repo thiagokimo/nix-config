@@ -56,7 +56,7 @@
           f pkgs
       );
     vars = import ./vars.nix;
-    myLib = import ./lib {inherit inputs;};
+    myLib = import ./lib {inherit inputs vars;};
 
     hosts = {
       framework = "x86_64-linux";
@@ -84,7 +84,7 @@
 
     homeConfigurations =
       nixpkgs.lib.mapAttrs' (hostname: system: {
-        name = "${vars.username}@${hostname}";
+        name = "${vars.user.name}@${hostname}";
         value = myLib.buildHome {inherit system;};
       })
       hosts;

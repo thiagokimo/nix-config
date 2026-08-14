@@ -15,8 +15,8 @@
 
     settings = {
       auto-optimise-store = true;
-      allowed-users = ["${vars.username}"];
-      trusted-users = ["${vars.username}"];
+      allowed-users = [vars.user.name];
+      trusted-users = [vars.user.name];
       experimental-features = "nix-command flakes";
     };
   };

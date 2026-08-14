@@ -17,7 +17,7 @@
 
     shellAliases = {
       # Navigate to nix config dir
-      nkcd = "cd ${vars.path}";
+      nkcd = "cd ${vars.user.configDir}";
 
       # TODO Verify if nh,bat,eza and any other software is installed before adding these aliases
 
