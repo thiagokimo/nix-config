@@ -2,65 +2,20 @@
   inputs,
   vars,
 }: let
-  inherit (inputs.nixpkgs.lib) nixosSystem;
-in {
-  buildSystem = {
-    system,
-    hostname,
-    user ? vars.user.name,
-    modules ? [],
-  }:
-    nixosSystem {
-      inherit system;
-      specialArgs = {inherit inputs user hostname vars;};
-      modules =
-        [
-          {nixpkgs.hostPlatform = system;}
-          ../hosts/${hostname}
-        ]
-        ++ modules;
-    };
+  colors = import ./colors.nix;
 
-  buildHome = {
-    system,
-    user ? vars.user.name,
-    modules ? [],
-  }:
-    inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = inputs.nixpkgs.legacyPackages.${system};
-      extraSpecialArgs = {inherit inputs user vars;};
-      modules =
-        [
-          ../modules/home-manager
-        ]
-        ++ modules;
-    };
-
-  buildChecks = {
-    pkgs,
-    self,
-    hosts,
-  }: let
-    system = pkgs.system;
-    systemHosts = inputs.nixpkgs.lib.filterAttrs (hostname: hostSystem: hostSystem == system) hosts;
-  in
-    {
-      formatting =
-        pkgs.runCommand "check-formatting" {
-          buildInputs = [pkgs.alejandra];
-        } ''
-          alejandra --check ${self}
-          touch $out
-        '';
-    }
-    // (inputs.nixpkgs.lib.mapAttrs' (hostname: hostSystem: {
-        name = "nixos-${hostname}";
-        value = self.nixosConfigurations.${hostname}.config.system.build.toplevel;
-      })
-      systemHosts)
-    // (inputs.nixpkgs.lib.mapAttrs' (hostname: hostSystem: {
-        name = "home-${hostname}";
-        value = self.homeConfigurations."${vars.user.name}@${hostname}".activationPackage;
-      })
-      systemHosts);
-}
+  builders = import ./builders.nix {
+    inherit inputs vars;
+    myLib =
+      {
+        inherit colors;
+        inherit (colors) hexToDec hexToRgb ansi reset;
+      }
+      // builders;
+  };
+in
+  builders
+  // {
+    inherit colors;
+    inherit (colors) hexToDec hexToRgb ansi reset;
+  }

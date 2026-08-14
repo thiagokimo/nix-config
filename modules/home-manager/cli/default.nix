@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./eza.nix
+    ./fastfetch.nix
     ./fzf.nix
     ./git.nix
     ./nvim
@@ -10,7 +11,6 @@
 
   home.packages = with pkgs; [
     less
-    fastfetch
     unzip
     zip
     p7zip
