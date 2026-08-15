@@ -34,7 +34,4 @@ rec {
     g = hexToDec (builtins.substring 2 2 hex);
     b = hexToDec (builtins.substring 4 2 hex);
   in "${toString r};${toString g};${toString b}";
-
-  ansi = rgb: "\\u001b[38;2;${rgb}m";
-  reset = "\\u001b[0m";
 }

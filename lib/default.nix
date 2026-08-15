@@ -9,7 +9,7 @@
     myLib =
       {
         inherit colors;
-        inherit (colors) hexToDec hexToRgb ansi reset;
+        inherit (colors) hexToDec hexToRgb;
       }
       // builders;
   };
@@ -17,5 +17,5 @@ in
   builders
   // {
     inherit colors;
-    inherit (colors) hexToDec hexToRgb ansi reset;
+    inherit (colors) hexToDec hexToRgb;
   }
