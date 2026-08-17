@@ -8,15 +8,16 @@
     ./hyprland
     ./programs/audio-and-video.nix
     ./programs/browsers.nix
+    ./programs/design.nix
+    ./programs/dunst.nix
     ./programs/kitty.nix
     ./programs/noctalia
     ./programs/torrent.nix
+    ./programs/waybar
+    ./programs/wofi.nix
     ./scripts
     ./stylix.nix
     ./xdg.nix
-
-    # TODO Fix this
-    ./programs/design.nix
   ];
 
   nixpkgs = {

@@ -1,4 +1,10 @@
-{pkgs, ...}: let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.custom.scripts.brightness;
   increments = "5";
 
   brightness-change = pkgs.writeShellScriptBin "brightness-change" ''
@@ -18,11 +24,17 @@
     brightness-change down ${increments}
   '';
 in {
-  home.packages = [
-    pkgs.brightnessctl
-    brightness-change
-    brightness-up
-    brightness-down
-    brightness-set
-  ];
+  options.custom.scripts.brightness = {
+    enable = lib.mkEnableOption "Brightness control scripts";
+  };
+
+  config = lib.mkIf cfg.enable {
+    home.packages = [
+      pkgs.brightnessctl
+      brightness-change
+      brightness-up
+      brightness-down
+      brightness-set
+    ];
+  };
 }

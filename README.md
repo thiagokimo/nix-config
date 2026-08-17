@@ -61,12 +61,21 @@ This repository uses a sophisticated, custom Nix Flake layout to build NixOS con
 ```mermaid
 graph TD
     Flake[flake.nix] -->|Imports| Vars[vars.nix]
-    Flake -->|Uses| Lib[lib/default.nix]
+    Flake -->|Imports| Lib[lib/default.nix]
+    Flake -->|Packages| Pkgs[pkgs/*]
+    Flake -->|Overlays| Overlays[overlays/*]
+
+    subgraph Custom Library ["Shared Library (lib/)"]
+        Lib --> Builders[lib/builders.nix]
+        Lib --> Colors["lib/colors.nix (hexToRgb / hexToDec)"]
+    end
     
     subgraph Build & Test Engine
-        Lib -->|buildSystem| NixOS[NixOS Configuration]
-        Lib -->|buildHome| HomeM[Home Manager Configuration]
-        Lib -->|buildChecks| Checks[Flake Checks & CI]
+        Builders -->|buildSystem| NixOS[NixOS Configurations]
+        Builders -->|buildHome| HomeM[Home Manager Configurations]
+        Builders -->|buildChecks| Checks[Flake Checks & CI]
+        Builders -->|Injects myLib| NixOS
+        Builders -->|Injects myLib| HomeM
     end
 
     subgraph Flake Checks & CI Tests
@@ -77,7 +86,7 @@ graph TD
 
     subgraph Host Profiles
         NixOS --> HostsCommon[hosts/common]
-        NixOS --> HostSpecific[hosts/&lthostname&gt]
+        NixOS --> HostSpecific["hosts/&lt;hostname&gt;"]
         HostsCommon --> BaseModule[modules/base]
         HostsCommon --> NixosModules[modules/nixos/*]
     end
@@ -87,10 +96,14 @@ graph TD
         HomeManagerBase --> CLI[modules/home-manager/cli/*]
         HomeManagerBase --> Programs[modules/home-manager/programs/*]
         HomeManagerBase --> Hyprland[modules/home-manager/hyprland/*]
+        HomeManagerBase --> Scripts[modules/home-manager/scripts/*]
+        CLI -.->|Uses myLib.colors| Colors
     end
 
     style Flake fill:#7daea3,stroke:#3c3836,stroke-width:2px,color:#282828
     style Lib fill:#a9b665,stroke:#3c3836,stroke-width:2px,color:#282828
+    style Builders fill:#a9b665,stroke:#3c3836,stroke-width:1px,color:#282828
+    style Colors fill:#d8a657,stroke:#3c3836,stroke-width:1px,color:#282828
     style NixOS fill:#d3869b,stroke:#3c3836,stroke-width:2px,color:#282828
     style HomeM fill:#e78a4e,stroke:#3c3836,stroke-width:2px,color:#282828
     style Checks fill:#d8a657,stroke:#3c3836,stroke-width:2px,color:#282828
@@ -98,7 +111,7 @@ graph TD
 
 ### Library Helpers (`lib/default.nix`)
 
-To keep `flake.nix` clean and maintainable, system building, user space activation, and testing logic are encapsulated within `lib/default.nix`:
+To keep `flake.nix` clean and maintainable, system building, user space activation, CI testing logic, and color utilities are encapsulated within `lib/`:
 
 - **`buildSystem`**: Generates a standard NixOS system configuration mapping to the corresponding host profile under `hosts/<hostname>`.
 - **`buildHome`**: Generates a declarative Home-Manager configuration mapping to `modules/home-manager`.
@@ -106,6 +119,23 @@ To keep `flake.nix` clean and maintainable, system building, user space activati
   - **Formatting Tests**: Verifies that all Nix files in the repository adhere to the `alejandra` styling rules.
   - **NixOS Build Tests**: Ensures that NixOS host configurations (`nixos-framework`, `nixos-t14`, etc.) evaluate and compile successfully.
   - **Home-Manager Build Tests**: Verifies that user-space home profiles (`home-framework`, `home-t14`, etc.) compile successfully.
+- **Color Utilities (`lib/colors.nix`)**: Exposes color manipulation functions (`hexToDec`, `hexToRgb`) injected as `myLib.colors` via special module arguments, allowing shell utilities (e.g. Fastfetch) to dynamically compute RGB ANSI formatting from Stylix hex themes.
+
+### 🧩 Modular Options System (`custom.*`)
+
+Reusable GUI applications and utility scripts are wrapped in declarative `mkEnableOption` switches under the `custom.*` namespace. All modules are imported into entry points and evaluated during CI/checks, while remaining dormant until explicitly enabled:
+
+- **GUI Programs (`modules/home-manager/programs`)**:
+  - `custom.programs.dunst.enable`: Dunst notification daemon
+  - `custom.programs.waybar.enable`: Unified Waybar status bar (settings and styles)
+  - `custom.programs.wofi.enable`: Wofi application launcher and emoji picker
+- **Helper Scripts (`modules/home-manager/scripts`)**:
+  - `custom.scripts.app-launcher.enable`: Wofi application launcher script
+  - `custom.scripts.brightness.enable`: Screen brightness control utilities
+  - `custom.scripts.lock.enable`: Hyprlock screen locking script
+  - `custom.scripts.nix-kimo.enable`: `nk` command shortcut tool
+  - `custom.scripts.screenshot.enable`: Hyprshot screenshot scripts
+  - `custom.scripts.sound.enable`: Wireplumber audio control utilities
 
 ### Directory Structure
 
@@ -125,10 +155,12 @@ To keep `flake.nix` clean and maintainable, system building, user space activati
 ├── modules/                   # Reusable configuration modules
 │   ├── base/                  # Core system optimizations, GC, user configurations
 │   ├── nixos/                 # Global NixOS components (Audio, Boot, Fonts, Steam)
+│   │   └── services/          # System services (Tuigreet, Kanata, OpenSSH)
 │   └── home-manager/          # User-space configurations (Stylix, XDG, Cli, Programs)
 │       ├── cli/               # Shell config (Zsh, Fzf, Eza, Yazi, Nixvim)
 │       ├── hyprland/          # Custom Lua Hyprland & Hyprpaper setup
-│       └── programs/          # GUI apps (Kitty, Dunst, Waybar, Wofi, Noctalia)
+│       ├── programs/          # GUI apps (Kitty, Dunst, Waybar, Wofi, Noctalia)
+│       └── scripts/           # User utilities (Lock, Sound, Brightness, Screenshots)
 ├── overlays/                  # Nixpkgs overlays (stable packages, custom changes)
 └── pkgs/                      # Custom local packages definitions
 ```

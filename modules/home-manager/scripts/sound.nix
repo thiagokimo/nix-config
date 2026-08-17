@@ -1,4 +1,10 @@
-{pkgs, ...}: let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.custom.scripts.sound;
   increments = "10";
 
   sound-change = pkgs.writeShellScriptBin "sound-change" ''
@@ -24,11 +30,17 @@
     sound-change mute
   '';
 in {
-  home.packages = [
-    sound-change
-    sound-up
-    sound-down
-    sound-toggle
-    sound-set
-  ];
+  options.custom.scripts.sound = {
+    enable = lib.mkEnableOption "Wireplumber sound control scripts";
+  };
+
+  config = lib.mkIf cfg.enable {
+    home.packages = [
+      sound-change
+      sound-up
+      sound-down
+      sound-toggle
+      sound-set
+    ];
+  };
 }

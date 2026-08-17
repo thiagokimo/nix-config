@@ -1,10 +1,12 @@
 {
+  config,
+  lib,
   pkgs,
-  configVars,
+  vars,
   ...
 }: let
-  configDirectory = "${configVars.path}";
-  hostName = configVars.hostName;
+  cfg = config.custom.scripts.nix-kimo;
+  configDirectory = vars.user.configDir;
   nix-kimo = pkgs.writeShellScriptBin "nk" ''
     function help() {
       echo "NixKimo (nk) - My nix command shortcuts :)"
@@ -31,7 +33,7 @@
 
     if [[ $1 == "rebuild" ]];then
       echo "Initiating system rebuild..."
-      nixos-rebuild switch --flake ${configDirectory}#${hostName}
+      nixos-rebuild switch --flake ${configDirectory}
       exit 0
     elif [[ $1 == "rebuild-hm" ]];then
       if [ -z $2 ];then
@@ -83,4 +85,12 @@
       exit 0
     fi
   '';
-in {home.packages = [nix-kimo];}
+in {
+  options.custom.scripts.nix-kimo = {
+    enable = lib.mkEnableOption "NixKimo helper script";
+  };
+
+  config = lib.mkIf cfg.enable {
+    home.packages = [nix-kimo];
+  };
+}
