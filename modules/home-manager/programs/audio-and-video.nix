@@ -5,5 +5,6 @@
     yt-dlp # yt downloader
     nicotine-plus # soulseek client
     kew # audio player
+    pavucontrol
   ];
 }
