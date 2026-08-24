@@ -6,5 +6,6 @@
     nicotine-plus # soulseek client
     kew # audio player
     pavucontrol
+    puddletag # edit audio metadata
   ];
 }

@@ -5,8 +5,6 @@
   vars,
   ...
 }: {
-  imports = [inputs.noctalia.homeModules.default];
-
   home.packages = [
     pkgs.hyprshot
   ];
