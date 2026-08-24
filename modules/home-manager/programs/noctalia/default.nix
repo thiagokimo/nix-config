@@ -11,6 +11,7 @@
 
   programs.noctalia = {
     enable = true;
+    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
     settings = {
       bar = {
         order = ["top" "bottom"];
