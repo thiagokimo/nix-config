@@ -5,7 +5,8 @@
     yt-dlp # yt downloader
     nicotine-plus # soulseek client
     kew # audio player
-    pavucontrol
+    cliamp # audio player
+    pavucontrol # audio controller
     puddletag # edit audio metadata
   ];
 }

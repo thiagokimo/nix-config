@@ -160,16 +160,21 @@
       dsp = "hl.dsp.focus({direction = 'down'})";
     }
 
-    # layout
+    # workspace app launchers
     {
-      mod = "SUPER + SHIFT";
-      key = "left";
-      dsp = "hl.dsp.layout('addmaster')";
+      mod = "SUPER + CTRL";
+      key = "6";
+      dsp = "hl.dsp.exec_cmd('[workspace 6] ${pkgs.google-chrome}/bin/google-chrome-stable')";
     }
     {
-      mod = "SUPER + SHIFT";
-      key = "right";
-      dsp = "hl.dsp.layout('removemaster')";
+      mod = "SUPER + CTRL";
+      key = "8";
+      dsp = "function() hl.exec_cmd('[workspace 8] ${pkgs.kitty}/bin/kitty -e ${pkgs.btop}/bin/btop'); hl.exec_cmd('[workspace 8] ${pkgs.kitty}/bin/kitty --dir ${config.home.homeDirectory}/.config/nix-config -e nvim .'); end";
+    }
+    {
+      mod = "SUPER + CTRL";
+      key = "9";
+      dsp = "function() hl.exec_cmd('[workspace 9] ${pkgs.kitty}/bin/kitty --class kew -e ${pkgs.kew}/bin/kew'); hl.exec_cmd('[workspace 9] ${pkgs.pavucontrol}/bin/pavucontrol'); end";
     }
   ];
 
@@ -341,13 +346,20 @@ in {
     hl.on("hyprland.start", function()
       hl.exec_cmd("${config.programs.noctalia.package}/bin/noctalia")
       hl.exec_cmd("dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
-      hl.exec_cmd("systemctl --user stop pipewire pipewire-pulse wireplumber && systemctl --user start pipewire pipewire-pulse wireplumber")
+
+      -- window rules
+      hl.exec_cmd("hyprctl keyword windowrulev2 'workspace 7, class:^(steam)$'")
+      hl.exec_cmd("hyprctl keyword windowrulev2 'workspace 7, class:^(Steam)$'")
+      hl.exec_cmd("hyprctl keyword windowrulev2 'workspace 9, class:^(kew)$'")
+      hl.exec_cmd("hyprctl keyword windowrulev2 'workspace 9, class:^(pavucontrol)$'")
+      hl.exec_cmd("hyprctl keyword windowrulev2 'workspace 9, class:^(org.pulseaudio.pavucontrol)$'")
     end)
 
     -- bindings
     ${luaBinds}
     ${luaMouseBinds}
     ${luaHardwareBinds}
+
 
     -- workspaces
     for i = 1, 9 do
