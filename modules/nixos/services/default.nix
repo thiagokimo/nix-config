@@ -2,6 +2,7 @@
   imports = [
     ./tuigreet.nix
     ./kanata.nix
+    ./tailscale.nix
   ];
 
   programs.dconf.enable = true;
