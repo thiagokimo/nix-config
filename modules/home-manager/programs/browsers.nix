@@ -3,7 +3,6 @@
     google-chrome
     calibre
     koreader
-    hakuneko
     nautilus
     loupe
     papers
