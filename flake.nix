@@ -61,6 +61,7 @@
     hosts = {
       framework = "x86_64-linux";
       t14 = "x86_64-linux";
+      t14s = "x86_64-linux";
     };
   in {
     packages = forAllSystems (pkgs: import ./pkgs pkgs);
