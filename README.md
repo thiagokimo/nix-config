@@ -280,92 +280,24 @@ Reusable GUI tools and utility scripts are isolated behind declarative `mkEnable
 
 ```text
 .
-├── flake.lock
-├── flake.nix                         # Flake entry point & target host declarations
-├── vars.nix                          # Global variables (user, hosts, displays, defaults)
-├── assets/                           # Media assets (avatars, screenshots)
-│   └── my-avatar.jpeg
-├── hosts/                            # Machine-specific configurations
-│   ├── common/                       # Shared base configurations across machines
-│   │   └── default.nix               # Graphics, locale, time zone, console keymap
-│   ├── framework/                    # AMD Framework 13 Laptop configuration
-│   │   ├── default.nix
-│   │   └── hardware-configuration.nix
-│   ├── t14/                          # Lenovo ThinkPad T14 Gen 2 (Intel) configuration
-│   │   ├── default.nix
-│   │   └── hardware-configuration.nix
-│   └── t14s/                         # Lenovo ThinkPad T14s (Intel) configuration
-│       ├── default.nix
-│       └── hardware-configuration.nix
-├── lib/                              # Shared library helper functions
-│   ├── builders.nix                  # buildSystem, buildHome, buildChecks builders
-│   ├── colors.nix                    # hexToDec & hexToRgb ANSI color conversion
-│   └── default.nix                   # Library aggregator and specialArgs injector
-├── modules/                          # Reusable configuration modules
-│   ├── base/                         # Core system base modules
-│   │   ├── default.nix
-│   │   ├── nh.nix                    # nh CLI configuration & clean timers
-│   │   ├── nix.nix                   # Nix daemon GC, store optimization, flakes
-│   │   ├── nixpkgs.nix               # Unfree license configuration & overlays
-│   │   └── user.nix                  # User account, groups, default shell
-│   ├── nixos/                        # Global NixOS components
-│   │   ├── audio.nix                 # PipeWire, ALSA, PulseAudio, WirePlumber
-│   │   ├── bluetooth.nix             # Bluetooth daemon, Blueman, bluetui
-│   │   ├── boot.nix                  # systemd-boot loader configuration
-│   │   ├── docker.nix                # Docker virtualization & docker-compose
-│   │   ├── environment.nix           # Environment variables, Wine, system packages
-│   │   ├── fonts.nix                 # JetBrainsMono Nerd Font, Noto fonts
-│   │   ├── networking.nix            # NetworkManager, Soulseek port openings
-│   │   ├── security.nix              # PKI certificate bundle configuration
-│   │   ├── steam.nix                 # Steam client & firewall rules
-│   │   └── services/                 # System services
-│   │       ├── default.nix           # UPower, fwupd, OpenSSH, GVfs, power-profiles
-│   │       ├── kanata.nix            # Kanata dual-role tap-hold Caps/Ctrl remap
-│   │       ├── tailscale.nix         # Tailscale mesh VPN daemon
-│   │       └── tuigreet.nix          # Greetd / tuigreet display manager
-│   └── home-manager/                 # User-space configurations
-│       ├── default.nix               # Home Manager entry point & session variables
-│       ├── stylix.nix                # Stylix Gruvbox Dark Hard theming
-│       ├── xdg.nix                   # XDG user directories & MIME associations
-│       ├── cli/                      # Shell and command-line tools
-│       │   ├── default.nix           # CLI package bundle
-│       │   ├── eza.nix               # Eza ls replacement
-│       │   ├── fastfetch.nix         # Fastfetch with dynamic Stylix ANSI cards
-│       │   ├── fzf.nix               # FZF fuzzy finder
-│       │   ├── git.nix               # Git configuration
-│       │   ├── yazi.nix              # Yazi terminal file manager
-│       │   ├── zsh.nix               # Zsh, Oh-My-Zsh, aliases (nh shortcuts)
-│       │   └── nvim/                 # Declarative Nixvim editor
-│       │       ├── default.nix       # Nixvim entry point & options
-│       │       ├── keymaps.nix       # Custom editor keybindings
-│       │       ├── options.nix       # Editor buffer and display settings
-│       │       └── plugins/          # Lualine, Neo-tree, Bufferline, vim-nix, dart
-│       ├── hyprland/                 # Custom Lua Hyprland & Hyprpaper setup
-│       │   ├── default.nix
-│       │   ├── hyprland.nix          # Dynamic hyprland.lua generator
-│       │   └── hyprpaper.nix         # Hyprpaper wallpaper configuration
-│       ├── programs/                 # GUI applications
-│       │   ├── audio-and-video.nix   # VLC, Wiremix, yt-dlp, Nicotine+, Kew, Pavucontrol
-│       │   ├── browsers.nix          # Google Chrome, Calibre, KOReader, Nautilus
-│       │   ├── design.nix            # GIMP graphics editor
-│       │   ├── dunst.nix             # Dunst notification daemon (custom.*)
-│       │   ├── kitty.nix             # Kitty terminal emulator settings
-│       │   ├── noctalia/             # Noctalia Shell, dual bars, dynamic lockscreen
-│       │   ├── torrent.nix           # qBittorrent client
-│       │   ├── waybar/               # Custom modular Waybar (custom.*)
-│       │   └── wofi.nix              # Wofi launcher (custom.*)
-│       └── scripts/                  # User utilities (custom.scripts.*)
-│           ├── default.nix
-│           ├── app-launcher.nix      # Wofi launcher script
-│           ├── brightness.nix        # brightnessctl control scripts
-│           ├── lock.nix              # hyprlock screen lock script
-│           ├── nix-kimo.nix          # nk shortcut utility
-│           ├── screenshot.nix        # Hyprshot screenshot scripts
-│           └── sound.nix             # WirePlumber audio control scripts
-├── overlays/                         # Nixpkgs overlays (additions, openldap, stable)
-│   └── default.nix
-└── pkgs/                             # Custom local packages definitions
-    └── default.nix
+├── flake.nix                  # Flake entry point & host target declarations
+├── vars.nix                   # Global constants (user, hosts, displays, app defaults)
+├── hosts/                     # Machine-specific host profiles
+│   ├── common/                # Shared base configuration across all machines
+│   ├── framework/             # AMD Framework 13 Laptop profile
+│   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel) profile
+│   └── t14s/                  # Lenovo ThinkPad T14s (Intel) profile
+├── lib/                       # Custom library helpers (builders, colors)
+├── modules/                   # Reusable NixOS and Home Manager modules
+│   ├── base/                  # Core system foundation (nix, nh, nixpkgs, user)
+│   ├── nixos/                 # System-level modules & services (audio, boot, kanata, tailscale)
+│   └── home-manager/          # User-space environment & theming
+│       ├── cli/               # Shell, tools & editor (zsh, nixvim, fastfetch, yazi)
+│       ├── hyprland/          # Lua-compiled Hyprland & hyprpaper setup
+│       ├── programs/          # GUI apps & shell (noctalia, kitty, waybar, wofi)
+│       └── scripts/           # Custom utility scripts (nk, sound, brightness, lock)
+├── overlays/                  # Nixpkgs overlays (stable packages, custom modifications)
+└── pkgs/                      # Custom local package definitions
 ```
 
 ---
