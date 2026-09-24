@@ -119,12 +119,12 @@
       };
 
       shell = {
-        avatar_path = "${vars.user.home}/Pictures/my-avatar.jpeg";
+        avatar_path = "${vars.user.home}/Media/Pictures/my-avatar.jpeg";
         font_family = config.stylix.fonts.monospace.name;
         launch_apps_as_systemd_services = true;
         ui_scale = 1.5;
         screenshot = {
-          directory = "${vars.user.home}/Pictures/Screenshots";
+          directory = "${vars.user.home}/Media/Pictures/Screenshots";
         };
       };
 

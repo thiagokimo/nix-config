@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   vars,
   lib,
@@ -75,6 +76,23 @@
     mimeGroups;
 in {
   xdg = {
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+      documents = "${config.home.homeDirectory}/Documents";
+      download = "${config.home.homeDirectory}/Downloads";
+      music = "${config.home.homeDirectory}/Media/Music";
+      pictures = "${config.home.homeDirectory}/Media/Pictures";
+      videos = "${config.home.homeDirectory}/Media/Videos";
+      projects = "${config.home.homeDirectory}/Projects";
+      desktop = null;
+      publicShare = null;
+      templates = null;
+      extraConfig = {
+        SCREENSHOTS = "${config.home.homeDirectory}/Media/Pictures/Screenshots";
+      };
+    };
+
     portal = {
       enable = true;
       config = {

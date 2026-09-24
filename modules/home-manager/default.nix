@@ -40,7 +40,7 @@
     stateVersion = vars.system.stateVersion;
     pointerCursor.enable = true;
 
-    file."Pictures/my-avatar.jpeg".source = ../../assets/my-avatar.jpeg;
+    file."Media/Pictures/my-avatar.jpeg".source = ../../assets/my-avatar.jpeg;
 
     sessionVariables = {
       EDITOR = vars.defaults.editor.bin;
