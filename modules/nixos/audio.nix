@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
@@ -15,4 +15,3 @@
     pulseaudio # provides pactl for PulseAudio/PipeWire card & sink management
   ];
 }
-
