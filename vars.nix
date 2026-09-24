@@ -40,4 +40,31 @@ in {
       desktop = "vlc.desktop";
     };
   };
+
+  hosts = {
+    framework = {
+      system = "x86_64-linux";
+      display = {
+        output = "eDP-1";
+        width = 2256;
+        height = 1504;
+      };
+    };
+    t14 = {
+      system = "x86_64-linux";
+      display = {
+        output = "eDP-1";
+        width = 1920;
+        height = 1080;
+      };
+    };
+    t14s = {
+      system = "x86_64-linux";
+      display = {
+        output = "eDP-1";
+        width = 1920;
+        height = 1080;
+      };
+    };
+  };
 }

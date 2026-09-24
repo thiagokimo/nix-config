@@ -24,12 +24,13 @@ in {
 
   buildHome = {
     system,
+    hostname ? null,
     user ? vars.user.name,
     modules ? [],
   }:
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages.${system};
-      extraSpecialArgs = {inherit inputs user vars myLib;};
+      extraSpecialArgs = {inherit inputs user hostname vars myLib;};
       modules =
         [
           ../modules/home-manager
@@ -40,10 +41,20 @@ in {
   buildChecks = {
     pkgs,
     self,
-    hosts,
+    hosts ? vars.hosts,
   }: let
     system = pkgs.stdenv.hostPlatform.system;
-    systemHosts = inputs.nixpkgs.lib.filterAttrs (hostname: hostSystem: hostSystem == system) hosts;
+    systemHosts =
+      inputs.nixpkgs.lib.filterAttrs (
+        hostname: hostCfg:
+          (
+            if builtins.isAttrs hostCfg
+            then hostCfg.system
+            else hostCfg
+          )
+          == system
+      )
+      hosts;
   in
     {
       formatting =
@@ -54,12 +65,12 @@ in {
           touch $out
         '';
     }
-    // (inputs.nixpkgs.lib.mapAttrs' (hostname: hostSystem: {
+    // (inputs.nixpkgs.lib.mapAttrs' (hostname: hostCfg: {
         name = "nixos-${hostname}";
         value = self.nixosConfigurations.${hostname}.config.system.build.toplevel;
       })
       systemHosts)
-    // (inputs.nixpkgs.lib.mapAttrs' (hostname: hostSystem: {
+    // (inputs.nixpkgs.lib.mapAttrs' (hostname: hostCfg: {
         name = "home-${hostname}";
         value = self.homeConfigurations."${vars.user.name}@${hostname}".activationPackage;
       })

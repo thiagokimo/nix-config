@@ -57,12 +57,6 @@
       );
     vars = import ./vars.nix;
     myLib = import ./lib {inherit inputs vars;};
-
-    hosts = {
-      framework = "x86_64-linux";
-      t14 = "x86_64-linux";
-      t14s = "x86_64-linux";
-    };
   in {
     packages = forAllSystems (pkgs: import ./pkgs pkgs);
     overlays = import ./overlays {inherit inputs;};
@@ -78,19 +72,23 @@
       };
     });
 
-    nixosConfigurations = builtins.mapAttrs (hostname: system:
+    nixosConfigurations = builtins.mapAttrs (hostname: hostCfg:
       myLib.buildSystem {
-        inherit hostname system;
+        inherit hostname;
+        system = hostCfg.system;
       })
-    hosts;
+    vars.hosts;
 
     homeConfigurations =
-      nixpkgs.lib.mapAttrs' (hostname: system: {
+      nixpkgs.lib.mapAttrs' (hostname: hostCfg: {
         name = "${vars.user.name}@${hostname}";
-        value = myLib.buildHome {inherit system;};
+        value = myLib.buildHome {
+          inherit hostname;
+          system = hostCfg.system;
+        };
       })
-      hosts;
+      vars.hosts;
 
-    checks = forAllSystems (pkgs: myLib.buildChecks {inherit pkgs self hosts;});
+    checks = forAllSystems (pkgs: myLib.buildChecks {inherit pkgs self;});
   };
 }

@@ -3,8 +3,25 @@
   inputs,
   config,
   vars,
+  hostname ? null,
   ...
-}: {
+}: let
+  display =
+    if hostname != null && builtins.hasAttr hostname (vars.hosts or {})
+    then vars.hosts.${hostname}.display
+    else {
+      output = "eDP-1";
+      width = 1920;
+      height = 1080;
+    };
+
+  width = display.width * 1.0;
+  height = display.height * 1.0;
+  output = display.output;
+
+  centerX = width / 2.0;
+  centerY = height / 2.0;
+in {
   home.packages = [
     pkgs.hyprshot
   ];
@@ -52,7 +69,7 @@
         enabled = true;
         schema_version = 2;
         widget_order = [
-          "lockscreen-login-box@eDP-1"
+          "lockscreen-login-box@${output}"
           "lockscreen-widget-0000000000000001"
           "lockscreen-widget-0000000000000002"
           "lockscreen-widget-0000000000000003"
@@ -64,12 +81,12 @@
           visible = true;
         };
         widget = {
-          "lockscreen-login-box@eDP-1" = {
+          "lockscreen-login-box@${output}" = {
             box_height = 0.0;
             box_width = 0.0;
-            cx = 1144.0;
-            cy = 1376.0;
-            output = "eDP-1";
+            cx = centerX;
+            cy = height - 128.0;
+            inherit output;
             rotation = 0.0;
             type = "login_box";
             settings = {
@@ -79,27 +96,27 @@
           lockscreen-widget-0000000000000001 = {
             box_height = 240.0;
             box_width = 512.0;
-            cx = 1112.0;
-            cy = 376.0;
-            output = "eDP-1";
+            cx = centerX;
+            cy = height * 0.25;
+            inherit output;
             rotation = 0.0;
             type = "clock";
           };
           lockscreen-widget-0000000000000002 = {
             box_height = 256.0;
             box_width = 400.0;
-            cx = 1664.0;
-            cy = 752.0;
-            output = "eDP-1";
+            cx = width * 0.75;
+            cy = centerY;
+            inherit output;
             rotation = 0.0;
             type = "sysmon";
           };
           lockscreen-widget-0000000000000003 = {
             box_height = 0.0;
             box_width = 0.0;
-            cx = 1128.0;
-            cy = 752.0;
-            output = "eDP-1";
+            cx = centerX;
+            cy = centerY;
+            inherit output;
             rotation = 0.0;
             type = "fancy_audio_visualizer";
             settings = {
@@ -109,9 +126,9 @@
           lockscreen-widget-0000000000000004 = {
             box_height = 0.0;
             box_width = 0.0;
-            cx = 558.0;
-            cy = 752.0;
-            output = "eDP-1";
+            cx = width * 0.25;
+            cy = centerY;
+            inherit output;
             rotation = 0.0;
             type = "weather";
           };
