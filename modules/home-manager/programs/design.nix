@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    aseprite
+    # aseprite
     gimp
     # inkscape
     # krita
