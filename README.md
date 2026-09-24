@@ -69,57 +69,57 @@ The repository centers around a declarative, modular Nix Flake layout that dynam
 
 ```mermaid
 graph TD
-    Flake[flake.nix] -->|Imports| Vars[vars.nix]
-    Flake -->|Imports| Lib[lib/default.nix]
-    Flake -->|Inputs| DetSys[Determinate Systems Cooled Channels]
-    Flake -->|Packages| Pkgs[pkgs/default.nix]
-    Flake -->|Overlays| Overlays[overlays/default.nix]
+    Flake["flake.nix"] -->|Imports| Vars["vars.nix"]
+    Flake -->|Imports| Lib["lib/default.nix"]
+    Flake -->|Inputs| DetSys["Determinate Systems Cooled Channels"]
+    Flake -->|Packages| Pkgs["pkgs/default.nix"]
+    Flake -->|Overlays| Overlays["overlays/default.nix"]
 
     subgraph Custom Library ["Shared Library (lib/)"]
-        Lib --> Builders[lib/builders.nix]
+        Lib --> Builders["lib/builders.nix"]
         Lib --> Colors["lib/colors.nix (hexToDec / hexToRgb)"]
     end
 
     subgraph Flake Outputs & Generators
-        Builders -->|buildSystem| NixOSConfigs[nixosConfigurations.*]
-        Builders -->|buildHome| HomeConfigs[homeConfigurations.*]
-        Builders -->|buildChecks| FlakeChecks[checks.*]
-        Builders -->|Injects myLib & vars| NixOSConfigs
-        Builders -->|Injects myLib & vars| HomeConfigs
+        Builders -->|buildSystem| NixOSConfigs["nixosConfigurations.*"]
+        Builders -->|buildHome| HomeConfigs["homeConfigurations.*"]
+        Builders -->|buildChecks| FlakeChecks["checks.*"]
+        Builders -->|Injects myLib and vars| NixOSConfigs
+        Builders -->|Injects myLib and vars| HomeConfigs
     end
 
     subgraph Target Host Machines ["hosts/"]
-        NixOSConfigs --> HostFramework[hosts/framework (AMD Framework 13)]
-        NixOSConfigs --> HostT14[hosts/t14 (Intel T14)]
-        NixOSConfigs --> HostT14s[hosts/t14s (Intel T14s)]
-        HostFramework --> HostsCommon[hosts/common]
+        NixOSConfigs --> HostFramework["hosts/framework (AMD Framework 13)"]
+        NixOSConfigs --> HostT14["hosts/t14 (Intel T14)"]
+        NixOSConfigs --> HostT14s["hosts/t14s (Intel T14s)"]
+        HostFramework --> HostsCommon["hosts/common"]
         HostT14 --> HostsCommon
         HostT14s --> HostsCommon
     end
 
     subgraph NixOS System Modules ["modules/"]
-        HostsCommon --> BaseModules[modules/base/* (nh, nix, nixpkgs, user)]
-        HostsCommon --> NixosModules[modules/nixos/* (audio, bluetooth, boot, docker, fonts, steam)]
-        NixosModules --> NixosServices[modules/nixos/services/* (tuigreet, kanata, tailscale)]
+        HostsCommon --> BaseModules["modules/base/* (nh, nix, nixpkgs, user)"]
+        HostsCommon --> NixosModules["modules/nixos/* (audio, bluetooth, boot, docker, fonts, steam)"]
+        NixosModules --> NixosServices["modules/nixos/services/* (tuigreet, kanata, tailscale)"]
     end
 
     subgraph Home Manager Modules ["modules/home-manager/"]
-        HomeConfigs --> HMBase[modules/home-manager/default.nix]
-        HMBase --> Stylix[modules/home-manager/stylix.nix]
-        HMBase --> XDG[modules/home-manager/xdg.nix (MIME & UserDirs)]
-        HMBase --> CLI[modules/home-manager/cli/* (zsh, nixvim, fastfetch, eza, yazi)]
-        HMBase --> Noctalia[modules/home-manager/programs/noctalia]
-        HMBase --> HyprlandLua[modules/home-manager/hyprland (hyprland.lua)]
-        HMBase --> Programs[modules/home-manager/programs/*]
-        HMBase --> Scripts[modules/home-manager/scripts/*]
+        HomeConfigs --> HMBase["modules/home-manager/default.nix"]
+        HMBase --> Stylix["modules/home-manager/stylix.nix"]
+        HMBase --> XDG["modules/home-manager/xdg.nix (MIME and UserDirs)"]
+        HMBase --> CLI["modules/home-manager/cli/* (zsh, nixvim, fastfetch, eza, yazi)"]
+        HMBase --> Noctalia["modules/home-manager/programs/noctalia"]
+        HMBase --> HyprlandLua["modules/home-manager/hyprland (hyprland.lua)"]
+        HMBase --> Programs["modules/home-manager/programs/*"]
+        HMBase --> Scripts["modules/home-manager/scripts/*"]
         CLI -.->|Calculates ANSI truecolor| Colors
         Noctalia -.->|Calculates lockscreen geometry| Vars
     end
 
     subgraph Flake Checks & Dev Shell
-        FlakeChecks --> AlejandraCheck[Alejandra Formatting Check]
-        FlakeChecks --> NixOSBuildChecks[System Toplevel Builds]
-        FlakeChecks --> HomeBuildChecks[Home Manager Activation Builds]
+        FlakeChecks --> AlejandraCheck["Alejandra Formatting Check"]
+        FlakeChecks --> NixOSBuildChecks["System Toplevel Builds"]
+        FlakeChecks --> HomeBuildChecks["Home Manager Activation Builds"]
         Flake --> DevShell["devShells.default (alejandra, antigravity-ide, nixd)"]
     end
 
