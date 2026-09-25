@@ -16,7 +16,7 @@
     ./programs/waybar
     ./programs/wofi.nix
     ./scripts
-    ./stylix.nix
+    ./stylix
     ./xdg.nix
   ];
 
