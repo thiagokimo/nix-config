@@ -232,6 +232,7 @@ Reusable GUI tools and utility scripts are isolated behind declarative `mkEnable
 
 | Option | Default Module Location | Description |
 | :--- | :--- | :--- |
+| **`custom.programs.ai.enable`** | `programs/ai.nix` | AI developer tools and assistants (`claude-code`, extra packages). |
 | **`custom.programs.dunst.enable`** | `programs/dunst.nix` | Dunst notification daemon with custom padding and Gruvbox framing. |
 | **`custom.programs.waybar.enable`** | `programs/waybar/default.nix` | Standalone Waybar status bar with modular JSON config and CSS styling. |
 | **`custom.programs.wofi.enable`** | `programs/wofi.nix` | Wofi application launcher and emoji picker with rounded Gruvbox styling. |
