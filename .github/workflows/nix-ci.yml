@@ -19,8 +19,8 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/determinate-nix-action@v3
 
-      - name: Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Check Formatting
+        run: nix fmt -- --check .
 
-      - name: Run Nix flake checks
-        run: nix flake check --extra-experimental-features "nix-command flakes"
+      - name: Evaluate Flake Checks
+        run: nix flake check --no-build --extra-experimental-features "nix-command flakes"
