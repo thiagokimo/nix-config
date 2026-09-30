@@ -20,7 +20,6 @@
       wget
 
       libmtp
-      simple-mtpfs
 
       wineWow64Packages.stable
       winetricks
