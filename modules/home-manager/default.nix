@@ -9,6 +9,7 @@
     ./programs/ai.nix
     ./programs/audio-and-video.nix
     ./programs/browsers.nix
+    ./programs/chat.nix
     ./programs/design.nix
     ./programs/dunst.nix
     ./programs/kitty.nix
