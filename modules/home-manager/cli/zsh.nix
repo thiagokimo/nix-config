@@ -31,6 +31,10 @@
       # nix-kimo legacy shortcuts
       hms = "nh home switch";
       nrs = "nh os switch";
+
+      # Firmware update
+      fwup = "firmware-update";
+      fw-update = "firmware-update";
     };
   };
 }

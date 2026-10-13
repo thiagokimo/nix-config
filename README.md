@@ -244,6 +244,7 @@ Reusable GUI tools and utility scripts are isolated behind declarative `mkEnable
 | **`custom.scripts.nix-kimo.enable`** | `nk` | Swiss-army knife CLI helper (`nk rebuild`, `nk rebuild-hm`, `nk update`, `nk gc`, `nk check`, `nk fmt`, `nk search`). |
 | **`custom.scripts.app-launcher.enable`** | `app-launcher` | Wofi toggle script launching `wofi --show drun`. |
 | **`custom.scripts.brightness.enable`** | `brightness-{up,down,set,change}` | Screen brightness adjustments via `brightnessctl` with customizable step increments. |
+| **`custom.scripts.firmware.enable`** | `firmware-update`, `fwupmgr` | Firmware update helper using `fwupdmgr` to check and install updates. |
 | **`custom.scripts.lock.enable`** | `lock-hypr` | Screen locking utility executing `hyprlock`. |
 | **`custom.scripts.screenshot.enable`** | `screenshot`, `screenshot-region` | Output and region screenshot capture saving directly to `~/Media/Pictures/Screenshots`. |
 | **`custom.scripts.sound.enable`** | `sound-{up,down,set,toggle,change}` | Audio volume adjustment and mute toggling via WirePlumber's `wpctl`. |
