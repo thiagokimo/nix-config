@@ -1,23 +1,19 @@
 name: Nix Flake CI
 
+# Push-only: this public repository runs on a self-hosted runner (t14s), and a
+# pull_request trigger would let a fork's code run on that machine.
 on:
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
 jobs:
   check:
     name: Evaluate & Check Flake
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, t14s]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Install Nix
-        uses: DeterminateSystems/determinate-nix-action@v3
 
       - name: Check Formatting
         run: nix fmt -- --check .
