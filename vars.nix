@@ -1,6 +1,7 @@
 let
   user = "thiago";
   home = "/home/${user}";
+  editor = "nvim";
 in {
   user = {
     name = user;
@@ -13,13 +14,19 @@ in {
     stateVersion = "26.11";
   };
 
+  # Applied both system-wide (NixOS) and to the user session (Home Manager)
+  sessionVariables = {
+    EDITOR = editor;
+    XDG_DATA_HOME = "${home}/.local/share";
+  };
+
   defaults = {
     terminal = {
       bin = "kitty";
       desktop = "kitty.desktop";
     };
     editor = {
-      bin = "nvim";
+      bin = editor;
       desktop = "nvim.desktop";
     };
     browser = {
