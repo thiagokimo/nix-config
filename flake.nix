@@ -33,10 +33,6 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pixel-pong = {
-      url = "git+ssh://git@github.com/thiagokimo/pixel-pong?ref=main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {
