@@ -12,10 +12,10 @@ in {
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks."github.com" = {
-      user = "git";
-      identityFile = sshKey;
-      identitiesOnly = true;
+    settings."github.com" = {
+      User = "git";
+      IdentityFile = sshKey;
+      IdentitiesOnly = "yes";
     };
   };
 }
