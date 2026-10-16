@@ -67,14 +67,10 @@ in {
           height = 1080;
         };
       };
+      # Home server: headless, reached over SSH.
       t14s = {
         system = "x86_64-linux";
-        features = base ++ laptop;
-        display = {
-          output = "eDP-1";
-          width = 1920;
-          height = 1080;
-        };
+        features = base;
       };
     };
   };

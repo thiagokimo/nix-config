@@ -26,7 +26,7 @@
 - **🎛️ Multi-Host Hardware Profiles**:
   - **Framework 13 (AMD)**: Full hardware acceleration, LUKS disk encryption, high-DPI scaling (2256×1504 display).
   - **ThinkPad T14 Gen 2 (Intel)**: Curated `nixos-hardware` profile, LUKS disk encryption, and 8GB swapfile.
-  - **ThinkPad T14s (Intel)**: Curated `nixos-hardware` profile, LUKS disk encryption, and 8GB swapfile.
+  - **ThinkPad T14s (Intel)**: Headless home server and self-hosted CI runner. Curated `nixos-hardware` profile, LUKS disk encryption, and 8GB swapfile.
 - **🎨 System-Wide Gruvbox Aesthetics (Stylix)**: System and user-space synchronization under **Gruvbox Dark Hard** base16 palette, paired with **Bibata-Modern-Ice** cursors, **JetBrainsMono Nerd Font**, and centralized wallpapers fetched from `thiagokimo/nix-wallpapers`.
 - **🌀 Lua-Compiled Hyprland Desktop**: Wayland compositor configured dynamically through a compiled `hyprland.lua` configuration, including custom Bezier animations, dwindle layout, and hardware/media shortcuts.
 - **🌖 Noctalia Shell Ecosystem**: Modern unified status bar and desktop shell delivering split dual bars (top and bottom), Belo Horizonte live weather tracking, media control, audio visualizers, and a **display-resolution-aware lockscreen** whose widget geometry calculates mathematically per host.
@@ -129,13 +129,13 @@ System generation, testing, and theme calculations are abstracted into modular l
 
 ## 🖥️ Hardware & Hosts
 
-Host configurations reside under `hosts/` and are registered centrally in `vars.hosts`:
+Host configurations reside under `hosts/` and are registered centrally in `vars.hosts`, where each host lists its features. Every host gets zsh, docker, kanata and audio. The laptops (`framework`, `t14`) also get desktop, gaming and hyprland:
 
 | Hostname | Platform / CPU | Target Machine | Resolution | Storage / Swap | Special Hardware Configurations |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`framework`** | `x86_64-linux`<br>AMD Ryzen | Framework Laptop 13 | `2256×1504`<br>(eDP-1) | LUKS Encrypted<br>Swap Partition | `hardware.cpu.amd.updateMicrocode`, AMD KVM virtualization, high-DPI scaling. |
 | **`t14`** | `x86_64-linux`<br>Intel Gen 2 | Lenovo ThinkPad T14 | `1920×1080`<br>(eDP-1) | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14 module, Intel microcode, power-profiles-daemon. |
-| **`t14s`** | `x86_64-linux`<br>Intel | Lenovo ThinkPad T14s | `1920×1080`<br>(eDP-1) | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14s module, Intel microcode, power-profiles-daemon. |
+| **`t14s`** | `x86_64-linux`<br>Intel | Lenovo ThinkPad T14s (home server) | Headless | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14s module, Intel microcode, GitHub Actions runners, never sleeps with the lid closed. |
 
 ---
 
@@ -153,7 +153,7 @@ Rather than maintaining a flat configuration file, `features/hyprland/hyprland.n
   - `SUPER + SHIFT + PRINT`: Interactive region screenshot
   - Hardware keys: Audio mute, volume up/down, brightness up/down, and lid switch sleep/lock triggers.
 
-### Noctalia Shell (`modules/home-manager/programs/noctalia`)
+### Noctalia Shell (`features/hyprland/noctalia.nix`)
 
 A unified desktop shell environment offering status bars, widgets, and lockscreen management:
 - **Dual Status Bars**:
@@ -181,7 +181,7 @@ Shared system capabilities configured in `modules/base` and `modules/nixos`:
   Full audio stack replacement with PipeWire, WirePlumber session management, 32-bit ALSA support, PulseAudio emulation (`pactl`), and JACK integration.
 - **Containerization & Gaming**:
   - Docker daemon with `docker-compose` and non-root group assignment (`features/docker.nix`).
-  - Steam enabled with firewall openings for Steam Remote Play and dedicated servers (`modules/nixos/steam.nix`).
+  - Steam enabled with firewall openings for Steam Remote Play and dedicated servers (`features/gaming.nix`).
 - **Nix Store Maintenance & nh (`modules/base/nh.nix` & `nix.nix`)**:
   Automatic weekly store optimization, automated garbage collection (`--delete-older-than 7d`), legacy channel disabling, and `nh` CLI configured to target `vars.user.configDir`.
 
@@ -214,7 +214,7 @@ Neovim configured declaratively through Nixvim:
 - **Fastfetch (`cli/fastfetch.nix`)**: Custom ASCII NixOS card layout using `myLib.colors.hexToRgb` to dynamically color card borders (OS, Host, Kernel, Uptime, Packages, Shell, WM, Terminal, CPU, GPU, Memory, Battery) with truecolor ANSI escape sequences matching the active Stylix Gruvbox theme.
 - **CLI Utilities**: `yazi` (terminal file manager), `fzf` (fuzzy finder), `btop` (resource monitor), `ani-cli`, `cbonsai`, `peaclock`, `pipes`, and `cmatrix`.
 
-### Standardized XDG User Directories & MIME Associations (`xdg.nix`)
+### Standardized XDG User Directories & MIME Associations (`features/desktop/xdg.nix`)
 
 - **Organized Home Directory Layout**:
   - `~/Documents`, `~/Downloads`, `~/Projects`
@@ -253,7 +253,7 @@ Optional tools are behind `enable` switches in the `custom.*` namespace. Both ar
 │   ├── framework/             # AMD Framework 13 Laptop profile
 │   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel) profile
 │   └── t14s/                  # Lenovo ThinkPad T14s (Intel) profile
-├── features/                  # Features spanning NixOS & Home Manager, loaded automatically (zsh, hyprland, audio, docker, kanata)
+├── features/                  # Features spanning NixOS & Home Manager, chosen per host in vars.nix
 ├── lib/                       # Custom library helpers (builders, colors)
 ├── modules/                   # Reusable NixOS and Home Manager modules
 │   ├── flake/                 # Flake-level options (vars)
@@ -261,7 +261,7 @@ Optional tools are behind `enable` switches in the `custom.*` namespace. Both ar
 │   ├── nixos/                 # System-level modules & services (boot, networking, tailscale)
 │   └── home-manager/          # User-space environment & theming
 │       ├── cli/               # Tools & editor (nixvim, fastfetch, yazi, git)
-│       ├── programs/          # GUI apps & shell (noctalia, kitty, browsers, ai)
+│       ├── programs/          # AI tools (claude-code)
 │       └── scripts/           # Custom utility scripts (firmware-update)
 ├── overlays/                  # Nixpkgs overlays (stable packages, custom modifications)
 └── pkgs/                      # Custom local package definitions
