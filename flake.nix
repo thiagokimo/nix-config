@@ -16,7 +16,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    hyprland.url = "github:hyprwm/Hyprland";
     nix-wallpapers = {
       url = "github:thiagokimo/nix-wallpapers";
       flake = false;
