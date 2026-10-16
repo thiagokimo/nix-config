@@ -1,0 +1,12 @@
+# Git identity.
+{
+  flake.modules.homeManager.cli = {vars, ...}: {
+    programs.git = {
+      enable = true;
+      settings.user = {
+        name = "Thiago Rocha";
+        email = vars.user.email;
+      };
+    };
+  };
+}
