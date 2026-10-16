@@ -27,7 +27,6 @@
     '';
 in {
   imports = [
-    ../common
     ./hardware-configuration.nix
   ];
 

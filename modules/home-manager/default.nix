@@ -1,6 +1,5 @@
 {vars, ...}: {
   imports = [
-    ../base/nixpkgs.nix
     ./cli
     ./programs/ai.nix
     ./scripts

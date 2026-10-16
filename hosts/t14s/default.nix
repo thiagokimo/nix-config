@@ -1,8 +1,6 @@
 {...}: {
   imports = [
-    ../common
     ./hardware-configuration.nix
-    ../../modules/nixos/github-runners.nix
   ];
 
   swapDevices = [

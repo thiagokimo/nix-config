@@ -34,9 +34,11 @@
     }
     // options;
 in {
-  services.github-runners = lib.mapAttrs mkRunner repos;
+  flake.modules.nixos.github-runners = {
+    services.github-runners = lib.mapAttrs mkRunner repos;
 
-  # Jobs run nix, and allowed-users only lists the main user. These are the
-  # DynamicUser names systemd gives each runner service.
-  nix.settings.allowed-users = map (repo: "github-runner-${repo}") (lib.attrNames repos);
+    # Jobs run nix, and allowed-users only lists the main user. These are the
+    # DynamicUser names systemd gives each runner service.
+    nix.settings.allowed-users = map (repo: "github-runner-${repo}") (lib.attrNames repos);
+  };
 }
