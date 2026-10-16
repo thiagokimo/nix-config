@@ -87,7 +87,7 @@ graph TD
     subgraph NixOSStack ["NixOS System Stack"]
         NixOS --> Common["hosts/common"]
         Common --> Base["modules/base (nix, nh, user)"]
-        Common --> Services["modules/nixos (kanata, tailscale)"]
+        Common --> Services["modules/nixos (tailscale)"]
     end
 
     subgraph HMStack ["Home Manager User Stack"]
@@ -171,7 +171,7 @@ A unified desktop shell environment offering status bars, widgets, and lockscree
 
 Shared system capabilities configured in `modules/base` and `modules/nixos`:
 
-- **Low-Latency Kanata Daemon (`services/kanata.nix`)**:
+- **Low-Latency Kanata Daemon (`features/kanata.nix`)**:
   Interception service running under dedicated `uinput` permissions that turns both **Caps Lock** and **Left Control** into dual-role keys: tapping outputs `Escape` and holding outputs `Left Control` (`tap-hold 100 200 esc lctrl`).
 - **Tuigreet Display Manager (`features/hyprland/login.nix`)**:
   Clean TUI greeting display manager launching directly into `start-hyprland`.
@@ -253,11 +253,11 @@ Optional tools are behind `enable` switches in the `custom.*` namespace. Both ar
 │   ├── framework/             # AMD Framework 13 Laptop profile
 │   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel) profile
 │   └── t14s/                  # Lenovo ThinkPad T14s (Intel) profile
-├── features/                  # Features spanning NixOS & Home Manager, loaded automatically (zsh, hyprland, audio, docker)
+├── features/                  # Features spanning NixOS & Home Manager, loaded automatically (zsh, hyprland, audio, docker, kanata)
 ├── lib/                       # Custom library helpers (builders, colors)
 ├── modules/                   # Reusable NixOS and Home Manager modules
 │   ├── base/                  # Core system foundation (nix, nh, nixpkgs, user)
-│   ├── nixos/                 # System-level modules & services (boot, kanata, tailscale)
+│   ├── nixos/                 # System-level modules & services (boot, networking, tailscale)
 │   └── home-manager/          # User-space environment & theming
 │       ├── cli/               # Tools & editor (nixvim, fastfetch, yazi, git)
 │       ├── programs/          # GUI apps & shell (noctalia, kitty, browsers, ai)

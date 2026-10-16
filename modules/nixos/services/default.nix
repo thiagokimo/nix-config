@@ -1,6 +1,5 @@
 {
   imports = [
-    ./kanata.nix
     ./tailscale.nix
   ];
 
