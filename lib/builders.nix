@@ -19,6 +19,7 @@ in {
           {nixpkgs.hostPlatform = system;}
           ../hosts/${hostname}
         ]
+        ++ builtins.attrValues inputs.self.modules.nixos
         ++ modules;
     };
 
@@ -35,6 +36,7 @@ in {
         [
           ../modules/home-manager
         ]
+        ++ builtins.attrValues inputs.self.modules.homeManager
         ++ modules;
     };
 

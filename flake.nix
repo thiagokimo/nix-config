@@ -2,6 +2,11 @@
   description = "My things :)";
 
   inputs = {
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+    import-tree.url = "github:vic/import-tree";
     # Bare nixpkgs urls
     # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     # nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
@@ -37,57 +42,67 @@
   outputs = {
     self,
     nixpkgs,
-    home-manager,
+    flake-parts,
     ...
   } @ inputs: let
-    systems = [
-      "x86_64-linux"
-      "aarch64-linux"
-    ];
-    forAllSystems = f:
-      nixpkgs.lib.genAttrs systems (
-        system: let
-          pkgs = import nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-          };
-        in
-          f pkgs
-      );
     vars = import ./vars.nix;
     myLib = import ./lib {inherit inputs vars;};
-  in {
-    packages = forAllSystems (pkgs: import ./pkgs pkgs);
-    overlays = import ./overlays {inherit inputs;};
-    formatter = forAllSystems (pkgs: pkgs.alejandra);
-    devShells = forAllSystems (pkgs: {
-      default = pkgs.mkShell {
-        name = "nix-config-dev-env";
-        buildInputs = with pkgs; [
-          alejandra
-          antigravity-ide
-          nixd
-        ];
-      };
-    });
+  in
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      # Every file in features/ is a flake-parts module that adds NixOS and
+      # Home Manager modules under flake.modules.
+      imports = [
+        flake-parts.flakeModules.modules
+        (inputs.import-tree ./features)
+      ];
 
-    nixosConfigurations = builtins.mapAttrs (hostname: hostCfg:
-      myLib.buildSystem {
-        inherit hostname;
-        system = hostCfg.system;
-      })
-    vars.hosts;
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
 
-    homeConfigurations =
-      nixpkgs.lib.mapAttrs' (hostname: hostCfg: {
-        name = "${vars.user.name}@${hostname}";
-        value = myLib.buildHome {
-          inherit hostname;
-          system = hostCfg.system;
+      perSystem = {
+        pkgs,
+        system,
+        ...
+      }: {
+        _module.args.pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
         };
-      })
-      vars.hosts;
 
-    checks = forAllSystems (pkgs: myLib.buildChecks {inherit pkgs self;});
-  };
+        packages = import ./pkgs pkgs;
+        formatter = pkgs.alejandra;
+        devShells.default = pkgs.mkShell {
+          name = "nix-config-dev-env";
+          buildInputs = with pkgs; [
+            alejandra
+            antigravity-ide
+            nixd
+          ];
+        };
+        checks = myLib.buildChecks {inherit pkgs self;};
+      };
+
+      flake = {
+        overlays = import ./overlays {inherit inputs;};
+
+        nixosConfigurations = builtins.mapAttrs (hostname: hostCfg:
+          myLib.buildSystem {
+            inherit hostname;
+            system = hostCfg.system;
+          })
+        vars.hosts;
+
+        homeConfigurations =
+          nixpkgs.lib.mapAttrs' (hostname: hostCfg: {
+            name = "${vars.user.name}@${hostname}";
+            value = myLib.buildHome {
+              inherit hostname;
+              system = hostCfg.system;
+            };
+          })
+          vars.hosts;
+      };
+    };
 }
