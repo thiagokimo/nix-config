@@ -7,7 +7,6 @@
     ../../modules/nixos/networking.nix
     ../../modules/nixos/security.nix
     ../../modules/nixos/services
-    ../../modules/nixos/steam.nix
   ];
 
   system.stateVersion = vars.system.stateVersion;

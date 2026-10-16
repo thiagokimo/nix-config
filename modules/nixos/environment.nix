@@ -15,10 +15,6 @@
       neovim
       wget
 
-      wineWow64Packages.stable
-      winetricks
-      zenity
-
       cacert
     ];
   };
