@@ -6,7 +6,7 @@
 }: {
   vars.hosts.t14s = {
     system = "x86_64-linux";
-    features = config.vars.featureSets.base ++ ["github-runners"];
+    features = config.vars.featureSets.base ++ ["github-runners" "ssh-agent"];
 
     nixos = {
       imports = [
@@ -20,6 +20,10 @@
           size = 8 * 1024;
         }
       ];
+
+      # Start the user's systemd instance at boot and keep it after logout, so
+      # user services such as the SSH agent don't depend on an open SSH session.
+      users.users.${config.vars.user.name}.linger = true;
 
       services.logind.settings.Login = {
         HandleLidSwitch = "ignore";
