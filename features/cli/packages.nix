@@ -8,6 +8,7 @@
       p7zip
       unrar
       bat
+      jq
       btop
       wl-clipboard
 
