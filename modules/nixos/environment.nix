@@ -15,6 +15,10 @@
       neovim
       wget
 
+      # Lets SSH sessions from kitty (TERM=xterm-kitty) work on hosts without
+      # kitty, such as t14s.
+      kitty.terminfo
+
       cacert
     ];
   };
