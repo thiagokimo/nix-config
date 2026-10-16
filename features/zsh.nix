@@ -1,12 +1,14 @@
 # zsh as the shell of every user: the NixOS side makes it the login shell, the
 # Home Manager side configures it.
-{
+{config, ...}: let
+  inherit (config) vars;
+in {
   flake.modules.nixos.zsh = {pkgs, ...}: {
     programs.zsh.enable = true;
     users.defaultUserShell = pkgs.zsh;
   };
 
-  flake.modules.homeManager.zsh = {vars, ...}: {
+  flake.modules.homeManager.zsh = {
     programs.zsh = {
       enable = true;
       enableCompletion = true;

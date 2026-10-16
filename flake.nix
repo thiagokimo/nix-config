@@ -44,15 +44,17 @@
     nixpkgs,
     flake-parts,
     ...
-  } @ inputs: let
-    vars = import ./vars.nix;
-    myLib = import ./lib {inherit inputs vars;};
-  in
-    flake-parts.lib.mkFlake {inherit inputs;} {
+  } @ inputs:
+    flake-parts.lib.mkFlake {inherit inputs;} ({config, ...}: let
+      inherit (config) vars;
+      myLib = import ./lib {inherit inputs vars;};
+    in {
       # Every file in features/ is a flake-parts module that adds NixOS and
       # Home Manager modules under flake.modules.
       imports = [
         flake-parts.flakeModules.modules
+        ./modules/flake/vars.nix
+        ./vars.nix
         (inputs.import-tree ./features)
       ];
 
@@ -104,5 +106,5 @@
           })
           vars.hosts;
       };
-    };
+    });
 }
