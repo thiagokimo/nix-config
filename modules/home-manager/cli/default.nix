@@ -3,6 +3,7 @@
     ./eza.nix
     ./fastfetch.nix
     ./fzf.nix
+    ./gh.nix
     ./git.nix
     ./nvim
     ./yazi.nix
