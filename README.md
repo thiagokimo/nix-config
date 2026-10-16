@@ -87,7 +87,7 @@ graph TD
     subgraph NixOSStack ["NixOS System Stack"]
         NixOS --> Common["hosts/common"]
         Common --> Base["modules/base (nix, nh, user)"]
-        Common --> Services["modules/nixos (audio, tuigreet, kanata, tailscale)"]
+        Common --> Services["modules/nixos (audio, kanata, tailscale)"]
     end
 
     subgraph HMStack ["Home Manager User Stack"]
@@ -141,9 +141,9 @@ Host configurations reside under `hosts/` and are registered centrally in `vars.
 
 ## 🌖 Desktop & Noctalia Shell
 
-### Lua-Powered Hyprland (`modules/home-manager/hyprland`)
+### Lua-Powered Hyprland (`features/hyprland`)
 
-Rather than maintaining a flat configuration file, `modules/home-manager/hyprland/hyprland.nix` dynamically compiles `~/.config/hypr/hyprland.lua`:
+Rather than maintaining a flat configuration file, `features/hyprland/hyprland.nix` dynamically compiles `~/.config/hypr/hyprland.lua`:
 - **Window Management & Dwindle**: Dwindle layout with smart splits, active window opacity `1.0`, inactive opacity `0.89`, border radius `20px`, and custom cubic-bezier animations (`myBezier, 0.05, 0.9, 0.1, 1.05`).
 - **Window Rules**: Dedicated workspace pinning for Steam (workspace 7), Kew and Pavucontrol (workspace 9).
 - **Noctalia IPC Integration**: Hyprland binds communicate directly with the Noctalia daemon via `${ipc} = "noctalia msg"`:
@@ -173,7 +173,7 @@ Shared system capabilities configured in `modules/base` and `modules/nixos`:
 
 - **Low-Latency Kanata Daemon (`services/kanata.nix`)**:
   Interception service running under dedicated `uinput` permissions that turns both **Caps Lock** and **Left Control** into dual-role keys: tapping outputs `Escape` and holding outputs `Left Control` (`tap-hold 100 200 esc lctrl`).
-- **Tuigreet Display Manager (`services/tuigreet.nix`)**:
+- **Tuigreet Display Manager (`features/hyprland/login.nix`)**:
   Clean TUI greeting display manager launching directly into `start-hyprland`.
 - **Tailscale Mesh VPN (`services/tailscale.nix`)**:
   Enables Tailscale daemon with `tailscale0` set as a trusted firewall interface and `checkReversePath = "loose"` for exit-node and subnet compatibility.
@@ -253,13 +253,13 @@ Optional tools are behind `enable` switches in the `custom.*` namespace. Both ar
 │   ├── framework/             # AMD Framework 13 Laptop profile
 │   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel) profile
 │   └── t14s/                  # Lenovo ThinkPad T14s (Intel) profile
+├── features/                  # Features spanning NixOS & Home Manager, loaded automatically (zsh, hyprland)
 ├── lib/                       # Custom library helpers (builders, colors)
 ├── modules/                   # Reusable NixOS and Home Manager modules
 │   ├── base/                  # Core system foundation (nix, nh, nixpkgs, user)
 │   ├── nixos/                 # System-level modules & services (audio, boot, kanata, tailscale)
 │   └── home-manager/          # User-space environment & theming
-│       ├── cli/               # Shell, tools & editor (zsh, nixvim, fastfetch, yazi)
-│       ├── hyprland/          # Lua-compiled Hyprland & hyprpaper setup
+│       ├── cli/               # Tools & editor (nixvim, fastfetch, yazi, git)
 │       ├── programs/          # GUI apps & shell (noctalia, kitty, browsers, ai)
 │       └── scripts/           # Custom utility scripts (firmware-update)
 ├── overlays/                  # Nixpkgs overlays (stable packages, custom modifications)
