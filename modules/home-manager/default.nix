@@ -2,7 +2,6 @@
   imports = [
     ../base/nixpkgs.nix
     ./cli
-    ./hyprland
     ./programs/ai.nix
     ./programs/audio-and-video.nix
     ./programs/browsers.nix
