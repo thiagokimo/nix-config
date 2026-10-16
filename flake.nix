@@ -6,6 +6,7 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+    import-tree.url = "github:vic/import-tree";
     # Bare nixpkgs urls
     # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     # nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
@@ -48,6 +49,13 @@
     myLib = import ./lib {inherit inputs vars;};
   in
     flake-parts.lib.mkFlake {inherit inputs;} {
+      # Every file in features/ is a flake-parts module that adds NixOS and
+      # Home Manager modules under flake.modules.
+      imports = [
+        flake-parts.flakeModules.modules
+        (inputs.import-tree ./features)
+      ];
+
       systems = [
         "x86_64-linux"
         "aarch64-linux"

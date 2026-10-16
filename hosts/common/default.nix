@@ -18,7 +18,6 @@
   ];
 
   system.stateVersion = vars.system.stateVersion;
-  programs.zsh.enable = true;
   time.timeZone = "America/Sao_Paulo";
   console.keyMap = "us-acentos";
 
