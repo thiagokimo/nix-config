@@ -63,41 +63,69 @@
 
 ## 🏗️ Architecture & Flake Design
 
-The repository centers around a declarative, modular Nix Flake layout that dynamically generates NixOS configurations, Home Manager profiles, and test checks via a centralized library helper (`lib/default.nix`).
+The flake follows the dendritic pattern on top of [flake-parts](https://flake.parts). `flake.nix` imports flake-level modules: the typed `vars` option, its values in `vars.nix`, and every file in `features/`, which `import-tree` loads on its own. Each feature adds a NixOS module, a Home Manager module or both to `flake.modules`. The builders in `lib/` then generate one NixOS and one Home Manager configuration per host. Each one gets the modules every host shares, plus the features listed for that host in `vars.nix`.
 
 ### System Architecture Diagram
 
 ```mermaid
 graph TD
-    Flake["flake.nix"] -->|Imports| Vars["vars.nix"]
-    Flake -->|Imports| Lib["lib/default.nix"]
-    Flake -->|Inputs| DetSys["Determinate Systems Cooled Channels"]
+    Inputs["Inputs<br/>Determinate Systems nixpkgs, home-manager,<br/>nixvim, stylix, noctalia, nixos-hardware"] --> Flake
+    Flake["flake.nix<br/>flake-parts mkFlake"]
+
+    subgraph FlakeLevel ["Flake-level modules"]
+        VarsOpt["modules/flake/vars.nix<br/>declares the typed vars option"]
+        Vars["vars.nix<br/>user, app defaults, hosts and their features"]
+        subgraph Features ["features/ (loaded by import-tree)"]
+            BaseF["base: zsh, docker, kanata, audio<br/>every host"]
+            LaptopF["laptop: desktop, gaming, hyprland<br/>framework and t14"]
+        end
+    end
+
+    Flake -->|imports| VarsOpt
+    Flake -->|imports| Vars
+    Flake -->|imports| Features
+    Vars -->|sets| VarsOpt
+    BaseF -->|define| FlakeModules
+    LaptopF -->|define| FlakeModules
+    FlakeModules["flake.modules<br/>nixos.* and homeManager.*"]
 
     subgraph CustomLib ["Shared Library (lib/)"]
-        Lib --> Builders["lib/builders.nix"]
+        Lib["lib/default.nix"] --> Builders["lib/builders.nix"]
         Lib --> Colors["lib/colors.nix"]
     end
 
-    subgraph Generators ["Flake Outputs & Generators"]
-        Builders -->|buildSystem| NixOS["nixosConfigurations<br/>(framework, t14, t14s)"]
-        Builders -->|buildHome| HomeM["homeConfigurations<br/>(thiago@host)"]
-        Builders -->|buildChecks| Checks["checks<br/>(Alejandra & Builds)"]
+    VarsOpt -->|config.vars| Lib
+    FlakeModules -->|features the host lists| Builders
+
+    subgraph Outputs ["Flake Outputs"]
+        NixOS["nixosConfigurations<br/>framework, t14, t14s"]
+        HomeM["homeConfigurations<br/>thiago@host"]
+        Checks["checks<br/>Alejandra and builds"]
     end
 
-    subgraph NixOSStack ["NixOS System Stack"]
-        NixOS --> Common["hosts/common"]
-        Common --> Base["modules/base (nix, nh, user)"]
-        Common --> Services["modules/nixos (tailscale)"]
+    Builders -->|buildSystem| NixOS
+    Builders -->|buildHome| HomeM
+    Builders -->|buildChecks| Checks
+
+    subgraph NixOSStack ["NixOS"]
+        NixOS --> HostDir["hosts/framework, t14, t14s<br/>one per machine: hardware;<br/>t14s adds the GitHub runners"]
+        HostDir --> Common["hosts/common<br/>shared by every host:<br/>locale and time"]
+        Common --> Base["modules/base<br/>nix, nh, nixpkgs, user"]
+        Common --> SysMods["modules/nixos<br/>boot, networking, bluetooth,<br/>environment, SSH, tailscale"]
     end
 
-    subgraph HMStack ["Home Manager User Stack"]
-        HomeM --> Desktop["Hyprland (Lua) & Noctalia Shell"]
-        HomeM --> Theming["Stylix (Gruvbox) & XDG Standards"]
-        HomeM --> CLI["CLI Tools, Zsh & Nixvim Editor"]
-        CLI -.->|Truecolor ANSI| Colors
+    subgraph HMStack ["Home Manager"]
+        HomeM --> HMMods["modules/home-manager<br/>shared by every host:<br/>CLI tools and Nixvim, Stylix,<br/>AI tools, scripts"]
     end
+
+    HMMods -.->|Truecolor ANSI| Colors
 
     style Flake fill:#7daea3,stroke:#3c3836,stroke-width:2px,color:#282828
+    style VarsOpt fill:#7daea3,stroke:#3c3836,stroke-width:1px,color:#282828
+    style Vars fill:#7daea3,stroke:#3c3836,stroke-width:1px,color:#282828
+    style BaseF fill:#89b482,stroke:#3c3836,stroke-width:1px,color:#282828
+    style LaptopF fill:#89b482,stroke:#3c3836,stroke-width:1px,color:#282828
+    style FlakeModules fill:#89b482,stroke:#3c3836,stroke-width:2px,color:#282828
     style Lib fill:#a9b665,stroke:#3c3836,stroke-width:2px,color:#282828
     style Builders fill:#a9b665,stroke:#3c3836,stroke-width:1px,color:#282828
     style Colors fill:#d8a657,stroke:#3c3836,stroke-width:1px,color:#282828
@@ -110,8 +138,8 @@ graph TD
 
 System generation, testing, and theme calculations are abstracted into modular library helpers:
 
-- **`myLib.buildSystem`**: Generates a standard `nixosSystem` evaluated against the selected host platform, injecting `inputs`, `user`, `hostname`, `vars`, and `myLib` into module `specialArgs`.
-- **`myLib.buildHome`**: Generates a standalone `homeManagerConfiguration` mapped to `modules/home-manager`, injecting identical context into `extraSpecialArgs`.
+- **`myLib.buildSystem`**: Generates a standard `nixosSystem` evaluated against the selected host platform from `hosts/<host>` plus the NixOS modules of the features the host lists, injecting `inputs`, `user`, `hostname`, `vars`, and `myLib` into module `specialArgs`.
+- **`myLib.buildHome`**: Generates a standalone `homeManagerConfiguration` from `modules/home-manager` plus the Home Manager modules of the host's features, injecting identical context into `extraSpecialArgs`.
 - **`myLib.buildChecks`**: Dynamically generates CI and evaluation checks for the host architecture:
   - **Formatting**: Validates repository Nix formatting against `alejandra`.
   - **NixOS Toplevel Builds**: Verifies evaluation and builds the system toplevel for each declared host in `vars.hosts`.
