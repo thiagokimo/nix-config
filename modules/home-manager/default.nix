@@ -1,9 +1,6 @@
-{
-  inputs,
-  vars,
-  ...
-}: {
+{vars, ...}: {
   imports = [
+    ../base/nixpkgs.nix
     ./cli
     ./hyprland
     ./programs/ai.nix
@@ -11,28 +8,13 @@
     ./programs/browsers.nix
     ./programs/chat.nix
     ./programs/design.nix
-    ./programs/dunst.nix
     ./programs/kitty.nix
     ./programs/noctalia
     ./programs/torrent.nix
-    ./programs/waybar
-    ./programs/wofi.nix
     ./scripts
     ./stylix
     ./xdg.nix
   ];
-
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = _: true;
-    };
-    overlays = with inputs.self.overlays; [
-      additions
-      modifications
-      stable-packages
-    ];
-  };
 
   programs.home-manager.enable = true;
 
@@ -44,9 +26,6 @@
 
     file."Media/Pictures/my-avatar.jpeg".source = ../../assets/my-avatar.jpeg;
 
-    sessionVariables = {
-      EDITOR = vars.defaults.editor.bin;
-      XDG_DATA_HOME = "${vars.user.home}/.local/share";
-    };
+    sessionVariables = vars.sessionVariables;
   };
 }
