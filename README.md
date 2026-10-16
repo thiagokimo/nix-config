@@ -87,7 +87,7 @@ graph TD
     subgraph NixOSStack ["NixOS System Stack"]
         NixOS --> Common["hosts/common"]
         Common --> Base["modules/base (nix, nh, user)"]
-        Common --> Services["modules/nixos (audio, kanata, tailscale)"]
+        Common --> Services["modules/nixos (kanata, tailscale)"]
     end
 
     subgraph HMStack ["Home Manager User Stack"]
@@ -177,7 +177,7 @@ Shared system capabilities configured in `modules/base` and `modules/nixos`:
   Clean TUI greeting display manager launching directly into `start-hyprland`.
 - **Tailscale Mesh VPN (`services/tailscale.nix`)**:
   Enables Tailscale daemon with `tailscale0` set as a trusted firewall interface and `checkReversePath = "loose"` for exit-node and subnet compatibility.
-- **PipeWire & WirePlumber (`audio.nix`)**:
+- **PipeWire & WirePlumber (`features/audio.nix`)**:
   Full audio stack replacement with PipeWire, WirePlumber session management, 32-bit ALSA support, PulseAudio emulation (`pactl`), and JACK integration.
 - **Containerization & Gaming**:
   - Docker daemon with `docker-compose` and non-root group assignment (`modules/nixos/docker.nix`).
@@ -253,11 +253,11 @@ Optional tools are behind `enable` switches in the `custom.*` namespace. Both ar
 │   ├── framework/             # AMD Framework 13 Laptop profile
 │   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel) profile
 │   └── t14s/                  # Lenovo ThinkPad T14s (Intel) profile
-├── features/                  # Features spanning NixOS & Home Manager, loaded automatically (zsh, hyprland)
+├── features/                  # Features spanning NixOS & Home Manager, loaded automatically (zsh, hyprland, audio)
 ├── lib/                       # Custom library helpers (builders, colors)
 ├── modules/                   # Reusable NixOS and Home Manager modules
 │   ├── base/                  # Core system foundation (nix, nh, nixpkgs, user)
-│   ├── nixos/                 # System-level modules & services (audio, boot, kanata, tailscale)
+│   ├── nixos/                 # System-level modules & services (boot, kanata, tailscale)
 │   └── home-manager/          # User-space environment & theming
 │       ├── cli/               # Tools & editor (nixvim, fastfetch, yazi, git)
 │       ├── programs/          # GUI apps & shell (noctalia, kitty, browsers, ai)
