@@ -737,27 +737,6 @@
         "type": "github"
       }
     },
-    "pixel-pong": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1791998954,
-        "narHash": "sha256-yOMKTDi86pEWroP2Oa1pq1JAdCgeJfJzQqJfJLP1ehs=",
-        "ref": "main",
-        "rev": "9751f523efd0e613c8edd37b718ceebe52781da7",
-        "revCount": 115,
-        "type": "git",
-        "url": "ssh://git@github.com/thiagokimo/pixel-pong"
-      },
-      "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "ssh://git@github.com/thiagokimo/pixel-pong"
-      }
-    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -790,7 +769,6 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvim": "nixvim",
         "noctalia": "noctalia",
-        "pixel-pong": "pixel-pong",
         "stylix": "stylix"
       }
     },
