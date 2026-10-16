@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   vars,
   lib,
   ...
@@ -93,16 +92,6 @@ in {
       };
     };
 
-    portal = {
-      enable = true;
-      config = {
-        common = {default = ["hyprland" "gtk"];};
-        hyprland = {default = ["hyprland" "gtk"];};
-      };
-      extraPortals = [
-        pkgs.xdg-desktop-portal-gtk
-      ];
-    };
     mimeApps = {
       enable = true;
       inherit defaultApplications;

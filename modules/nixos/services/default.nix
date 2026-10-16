@@ -1,6 +1,5 @@
 {
   imports = [
-    ./tuigreet.nix
     ./kanata.nix
     ./tailscale.nix
   ];
