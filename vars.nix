@@ -1,10 +1,5 @@
 # Values for the `vars` option declared in modules/flake/vars.nix.
-{config, ...}: let
-  # Features every host gets.
-  base = ["ai" "audio" "bluetooth" "cli" "core" "docker" "firmware" "kanata" "nvim" "ssh" "stylix" "tailscale" "zsh"];
-  # Features for the laptops I carry around.
-  laptop = ["desktop" "gaming" "hyprland"];
-in {
+{config, ...}: {
   vars = {
     user = {
       name = "thiago";
@@ -48,30 +43,11 @@ in {
       };
     };
 
-    hosts = {
-      framework = {
-        system = "x86_64-linux";
-        features = base ++ laptop;
-        display = {
-          output = "eDP-1";
-          width = 2256;
-          height = 1504;
-        };
-      };
-      t14 = {
-        system = "x86_64-linux";
-        features = base ++ laptop;
-        display = {
-          output = "eDP-1";
-          width = 1920;
-          height = 1080;
-        };
-      };
-      # Home server: headless, reached over SSH.
-      t14s = {
-        system = "x86_64-linux";
-        features = base ++ ["github-runners"];
-      };
+    featureSets = {
+      # Features every host gets.
+      base = ["ai" "audio" "bluetooth" "cli" "core" "docker" "firmware" "kanata" "nvim" "ssh" "stylix" "tailscale" "zsh"];
+      # Features for the laptops I carry around.
+      laptop = ["desktop" "gaming" "hyprland"];
     };
   };
 }
