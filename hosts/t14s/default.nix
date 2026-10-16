@@ -21,6 +21,10 @@
         }
       ];
 
+      # Start the user's systemd instance at boot and keep it after logout, so
+      # user services such as the SSH agent don't depend on an open SSH session.
+      users.users.${config.vars.user.name}.linger = true;
+
       services.logind.settings.Login = {
         HandleLidSwitch = "ignore";
         HandleLidSwitchExternalPower = "ignore";
