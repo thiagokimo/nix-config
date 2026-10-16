@@ -86,10 +86,17 @@ in {
       description = "Default apps, by role.";
     };
 
+    featureSets = mkOption {
+      type = types.attrsOf (types.listOf types.str);
+      default = {};
+      example = {laptop = ["desktop" "hyprland"];};
+      description = "Named lists of features that hosts combine in their features list.";
+    };
+
     hosts = mkOption {
       type = types.attrsOf host;
       default = {};
-      description = "Machines built by this flake. Each gets a NixOS and a Home Manager configuration.";
+      description = "Machines built by this flake, each set in hosts/<name>. Each gets a NixOS and a Home Manager configuration.";
     };
   };
 }

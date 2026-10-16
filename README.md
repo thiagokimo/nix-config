@@ -63,7 +63,7 @@
 
 ## 🏗️ Architecture & Flake Design
 
-The flake follows the dendritic pattern on top of [flake-parts](https://flake.parts): every `.nix` file is a flake-parts module, except the generated hardware configurations and the color helpers in `lib/`. `flake.nix` imports the typed `vars` option and its values in `vars.nix`, and `import-tree` loads every file in `features/` and `hosts/`. Each feature adds a NixOS module, a Home Manager module or both to `flake.modules`, and several files can add to the same feature. Each host file sets the machine's own NixOS module. `modules/flake/hosts.nix` then builds one NixOS and one Home Manager configuration per host, from its own module and the features listed for it in `vars.nix`. No module receives `specialArgs`: values come from the flake scope.
+The flake follows the dendritic pattern on top of [flake-parts](https://flake.parts): every `.nix` file is a flake-parts module, except the generated hardware configurations and the color helpers in `lib/`. `flake.nix` imports the typed `vars` option and its values in `vars.nix`, and `import-tree` loads every file in `features/` and `hosts/`. Each feature adds a NixOS module, a Home Manager module or both to `flake.modules`, and several files can add to the same feature. Each host file sets everything about one machine in `vars.hosts`: its system, display, features and own NixOS module. `modules/flake/hosts.nix` then builds one NixOS and one Home Manager configuration per host, from its own module and the features it lists. No module receives `specialArgs`: values come from the flake scope.
 
 ### System Architecture Diagram
 
@@ -74,21 +74,21 @@ graph TD
 
     subgraph FlakeLevel ["Flake-level modules"]
         VarsOpt["modules/flake/vars.nix<br/>declares the typed vars option"]
-        Vars["vars.nix<br/>user, app defaults, hosts and their features"]
+        Vars["vars.nix<br/>user, app defaults, feature sets"]
         subgraph Features ["features/ (loaded by import-tree)"]
             BaseF["base, on every host:<br/>core, cli, nvim, stylix, zsh, ai, audio,<br/>bluetooth, docker, firmware, kanata, ssh, tailscale"]
             LaptopF["laptop, on framework and t14:<br/>desktop, gaming, hyprland"]
             ServerF["t14s only:<br/>github-runners"]
         end
         subgraph Hosts ["hosts/ (loaded by import-tree)"]
-            HostFiles["hosts/framework, t14, t14s<br/>each machine's own NixOS module:<br/>hardware, nixos-hardware, swap;<br/>t14s never sleeps"]
+            HostFiles["hosts/framework, t14, t14s<br/>each machine: system, display,<br/>features from the feature sets,<br/>and its own NixOS module"]
         end
         HostsMod["modules/flake/hosts.nix<br/>builds every host"]
     end
 
     Flake -->|imports| FlakeLevel
     Vars -->|sets| VarsOpt
-    HostFiles -->|sets vars.hosts.NAME.nixos| VarsOpt
+    HostFiles -->|sets vars.hosts.NAME| VarsOpt
     BaseF -->|define| FlakeModules
     LaptopF -->|define| FlakeModules
     ServerF -->|define| FlakeModules
@@ -151,7 +151,7 @@ A host that lists a feature no file defines fails evaluation with an error that 
 
 ## 🖥️ Hardware & Hosts
 
-Each host has its own module in `hosts/<host>/default.nix` (hardware, `nixos-hardware` profile, swap and anything only that machine needs, next to its generated `_hardware-configuration.nix`), and is registered in `vars.hosts` with its system, display and features. Every host gets the `base` features: core, cli, nvim, stylix, zsh, ai, audio, bluetooth, docker, firmware, kanata, ssh and tailscale. The laptops (`framework`, `t14`) also get desktop, gaming and hyprland, and `t14s` gets github-runners:
+Each host is defined in `hosts/<host>/default.nix`: its system, display and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: core, cli, nvim, stylix, zsh, ai, audio, bluetooth, docker, firmware, kanata, ssh and tailscale. The laptops (`framework`, `t14`) also get desktop, gaming and hyprland, and `t14s` gets github-runners:
 
 | Hostname | Platform / CPU | Target Machine | Resolution | Storage / Swap | Special Hardware Configurations |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -251,8 +251,8 @@ Neovim configured declaratively through Nixvim:
 ```text
 .
 ├── flake.nix                  # Flake entry point: flake-parts, imports everything below
-├── vars.nix                   # Values of the typed vars option (user, app defaults, hosts and their features)
-├── features/                  # Features spanning NixOS & Home Manager, chosen per host in vars.nix
+├── vars.nix                   # Values of the typed vars option (user, app defaults, feature sets)
+├── features/                  # Features spanning NixOS & Home Manager, chosen by each host
 │   ├── core/                  # Boot, locale, user, networking, Nix, nh, nixpkgs, Home Manager basics
 │   ├── cli/                   # Command-line tools (fastfetch, eza, fzf, gh, git, yazi)
 │   ├── nvim/                  # Nixvim options, key mappings and plugins
@@ -261,7 +261,7 @@ Neovim configured declaratively through Nixvim:
 │   ├── desktop/               # Graphical session: fonts, kitty, default apps, GUI apps
 │   ├── hyprland/              # Hyprland, Noctalia, hyprpaper, portals, login screen
 │   └── *.nix                  # Single-file features (ai, audio, bluetooth, docker, gaming, ...)
-├── hosts/                     # Each machine's own NixOS module and generated hardware configuration
+├── hosts/                     # Each machine: system, display, features, own NixOS module, hardware configuration
 │   ├── framework/             # AMD Framework 13 Laptop
 │   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel)
 │   └── t14s/                  # Lenovo ThinkPad T14s (Intel), home server
