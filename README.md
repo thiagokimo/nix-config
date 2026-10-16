@@ -180,7 +180,7 @@ Shared system capabilities configured in `modules/base` and `modules/nixos`:
 - **PipeWire & WirePlumber (`features/audio.nix`)**:
   Full audio stack replacement with PipeWire, WirePlumber session management, 32-bit ALSA support, PulseAudio emulation (`pactl`), and JACK integration.
 - **Containerization & Gaming**:
-  - Docker daemon with `docker-compose` and non-root group assignment (`modules/nixos/docker.nix`).
+  - Docker daemon with `docker-compose` and non-root group assignment (`features/docker.nix`).
   - Steam enabled with firewall openings for Steam Remote Play and dedicated servers (`modules/nixos/steam.nix`).
 - **Nix Store Maintenance & nh (`modules/base/nh.nix` & `nix.nix`)**:
   Automatic weekly store optimization, automated garbage collection (`--delete-older-than 7d`), legacy channel disabling, and `nh` CLI configured to target `vars.user.configDir`.
@@ -253,7 +253,7 @@ Optional tools are behind `enable` switches in the `custom.*` namespace. Both ar
 │   ├── framework/             # AMD Framework 13 Laptop profile
 │   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel) profile
 │   └── t14s/                  # Lenovo ThinkPad T14s (Intel) profile
-├── features/                  # Features spanning NixOS & Home Manager, loaded automatically (zsh, hyprland, audio)
+├── features/                  # Features spanning NixOS & Home Manager, loaded automatically (zsh, hyprland, audio, docker)
 ├── lib/                       # Custom library helpers (builders, colors)
 ├── modules/                   # Reusable NixOS and Home Manager modules
 │   ├── base/                  # Core system foundation (nix, nh, nixpkgs, user)

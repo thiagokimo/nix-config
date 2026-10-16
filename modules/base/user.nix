@@ -2,7 +2,7 @@
   users = {
     users.${vars.user.name} = {
       isNormalUser = true;
-      extraGroups = ["networkmanager" "wheel" "input" "uinput" "docker"];
+      extraGroups = ["networkmanager" "wheel" "input" "uinput"];
     };
   };
 }
