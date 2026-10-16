@@ -6,7 +6,7 @@
 }: {
   vars.hosts.t14s = {
     system = "x86_64-linux";
-    features = config.vars.featureSets.base ++ ["github-runners"];
+    features = config.vars.featureSets.base ++ ["github-runners" "ssh-agent"];
 
     nixos = {
       imports = [
