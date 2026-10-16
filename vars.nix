@@ -1,7 +1,7 @@
 # Values for the `vars` option declared in modules/flake/vars.nix.
 {config, ...}: let
   # Features every host gets.
-  base = ["audio" "bluetooth" "core" "docker" "firmware" "kanata" "ssh" "tailscale" "zsh"];
+  base = ["ai" "audio" "bluetooth" "cli" "core" "docker" "firmware" "kanata" "nvim" "ssh" "stylix" "tailscale" "zsh"];
   # Features for the laptops I carry around.
   laptop = ["desktop" "gaming" "hyprland"];
 in {

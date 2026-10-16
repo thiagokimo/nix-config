@@ -14,7 +14,7 @@
 
 ---
 
-[Key Features](#-key-features) • [Screenshots](#-screenshots) • [Architecture & Flake Design](#%EF%B8%8F-architecture--flake-design) • [Hardware & Hosts](#-hardware--hosts) • [Desktop & Noctalia Shell](#-desktop--noctalia-shell) • [System Services & Base](#%EF%B8%8F-system-services--base) • [CLI, Nixvim & User Space](#-cli-nixvim--user-space) • [Modular Options System (`custom.*`)](#-modular-options-system-custom) • [Directory Layout](#-directory-layout)
+[Key Features](#-key-features) • [Screenshots](#-screenshots) • [Architecture & Flake Design](#%EF%B8%8F-architecture--flake-design) • [Hardware & Hosts](#-hardware--hosts) • [Desktop & Noctalia Shell](#-desktop--noctalia-shell) • [System Services & Base](#%EF%B8%8F-system-services--base) • [CLI, Nixvim & User Space](#-cli-nixvim--user-space) • [Directory Layout](#-directory-layout)
 
 </div>
 
@@ -249,24 +249,6 @@ Neovim configured declaratively through Nixvim:
   - `~/Media/Music`, `~/Media/Pictures`, `~/Media/Videos`, `~/Media/Pictures/Screenshots`
 - **Declarative MIME Types**: Automatically mapped from `vars.defaults` across Web (`google-chrome-stable`), Editor (`nvim`), PDF (`Papers`), Images (`Loupe`), Media (`VLC`), and File Manager (`Nautilus`).
 - **Portals**: Configured desktop portals for Hyprland and GTK (`xdg-desktop-portal-gtk`).
-
----
-
-## 🧩 Modular Options System (`custom.*`)
-
-Optional tools are behind `enable` switches in the `custom.*` namespace. Both are enabled by default:
-
-### GUI Programs (`modules/home-manager/programs`)
-
-| Option | Default Module Location | Description |
-| :--- | :--- | :--- |
-| **`custom.programs.ai.enable`** | `programs/ai.nix` | AI developer tools and assistants (`claude-code`, extra packages). |
-
-### Helper Scripts (`modules/home-manager/scripts`)
-
-| Option | Package / Command | Description |
-| :--- | :--- | :--- |
-| **`custom.scripts.firmware.enable`** | `firmware-update`, `fwupmgr` | Firmware update helper using `fwupdmgr` to check and install updates. |
 
 ---
 
