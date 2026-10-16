@@ -226,28 +226,19 @@ Neovim configured declaratively through Nixvim:
 
 ## 🧩 Modular Options System (`custom.*`)
 
-Reusable GUI tools and utility scripts are isolated behind declarative `mkEnableOption` switches in the `custom.*` namespace:
+Optional tools are behind `enable` switches in the `custom.*` namespace. Both are enabled by default:
 
 ### GUI Programs (`modules/home-manager/programs`)
 
 | Option | Default Module Location | Description |
 | :--- | :--- | :--- |
 | **`custom.programs.ai.enable`** | `programs/ai.nix` | AI developer tools and assistants (`claude-code`, extra packages). |
-| **`custom.programs.dunst.enable`** | `programs/dunst.nix` | Dunst notification daemon with custom padding and Gruvbox framing. |
-| **`custom.programs.waybar.enable`** | `programs/waybar/default.nix` | Standalone Waybar status bar with modular JSON config and CSS styling. |
-| **`custom.programs.wofi.enable`** | `programs/wofi.nix` | Wofi application launcher and emoji picker with rounded Gruvbox styling. |
 
 ### Helper Scripts (`modules/home-manager/scripts`)
 
 | Option | Package / Command | Description |
 | :--- | :--- | :--- |
-| **`custom.scripts.nix-kimo.enable`** | `nk` | Swiss-army knife CLI helper (`nk rebuild`, `nk rebuild-hm`, `nk update`, `nk gc`, `nk check`, `nk fmt`, `nk search`). |
-| **`custom.scripts.app-launcher.enable`** | `app-launcher` | Wofi toggle script launching `wofi --show drun`. |
-| **`custom.scripts.brightness.enable`** | `brightness-{up,down,set,change}` | Screen brightness adjustments via `brightnessctl` with customizable step increments. |
 | **`custom.scripts.firmware.enable`** | `firmware-update`, `fwupmgr` | Firmware update helper using `fwupdmgr` to check and install updates. |
-| **`custom.scripts.lock.enable`** | `lock-hypr` | Screen locking utility executing `hyprlock`. |
-| **`custom.scripts.screenshot.enable`** | `screenshot`, `screenshot-region` | Output and region screenshot capture saving directly to `~/Media/Pictures/Screenshots`. |
-| **`custom.scripts.sound.enable`** | `sound-{up,down,set,toggle,change}` | Audio volume adjustment and mute toggling via WirePlumber's `wpctl`. |
 
 ---
 
@@ -269,8 +260,8 @@ Reusable GUI tools and utility scripts are isolated behind declarative `mkEnable
 │   └── home-manager/          # User-space environment & theming
 │       ├── cli/               # Shell, tools & editor (zsh, nixvim, fastfetch, yazi)
 │       ├── hyprland/          # Lua-compiled Hyprland & hyprpaper setup
-│       ├── programs/          # GUI apps & shell (noctalia, kitty, waybar, wofi)
-│       └── scripts/           # Custom utility scripts (nk, sound, brightness, lock)
+│       ├── programs/          # GUI apps & shell (noctalia, kitty, browsers, ai)
+│       └── scripts/           # Custom utility scripts (firmware-update)
 ├── overlays/                  # Nixpkgs overlays (stable packages, custom modifications)
 └── pkgs/                      # Custom local package definitions
 ```

@@ -30,7 +30,7 @@
       cat = "bat";
       man = "MANROFFOPT=\"-c\" MANPAGER=\"sh -c 'col -bx | bat -l man -p'\" man";
 
-      # nix-kimo legacy shortcuts
+      # nh shortcuts
       hms = "nh home switch";
       nrs = "nh os switch";
 
