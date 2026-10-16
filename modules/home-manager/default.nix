@@ -8,7 +8,6 @@
     ./programs/chat.nix
     ./programs/design.nix
     ./programs/kitty.nix
-    ./programs/noctalia
     ./programs/torrent.nix
     ./scripts
     ./stylix
