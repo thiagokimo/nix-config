@@ -1,28 +1,9 @@
 # Keyboard remapping: Caps Lock and Left Control are Escape on tap and Control
 # on hold.
 {
+  # services.kanata sets up uinput and runs each keyboard as kanata-<name>,
+  # with access to the input and uinput groups.
   flake.modules.nixos.kanata = {
-    config,
-    pkgs,
-    ...
-  }: {
-    boot.kernelModules = ["uinput"];
-
-    hardware.uinput.enable = true;
-
-    services.udev.extraRules = ''
-      KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
-    '';
-
-    users.groups.uinput = {};
-
-    systemd.services.kanata-internalKeyboard.serviceConfig = {
-      SupplementaryGroups = [
-        "input"
-        "uinput"
-      ];
-    };
-
     services.kanata = {
       enable = true;
       keyboards = {
