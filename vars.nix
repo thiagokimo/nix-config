@@ -3,7 +3,7 @@
   # Features every host gets.
   base = ["audio" "docker" "kanata" "zsh"];
   # Features for the laptops I carry around.
-  laptop = ["hyprland"];
+  laptop = ["desktop" "hyprland"];
 in {
   vars = {
     user = {

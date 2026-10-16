@@ -3,15 +3,8 @@
     ../base/nixpkgs.nix
     ./cli
     ./programs/ai.nix
-    ./programs/audio-and-video.nix
-    ./programs/browsers.nix
-    ./programs/chat.nix
-    ./programs/design.nix
-    ./programs/kitty.nix
-    ./programs/torrent.nix
     ./scripts
     ./stylix
-    ./xdg.nix
   ];
 
   programs.home-manager.enable = true;
