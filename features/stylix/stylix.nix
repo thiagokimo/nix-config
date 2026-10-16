@@ -1,10 +1,6 @@
 # Gruvbox Dark Hard everywhere through Stylix: colors, fonts, cursor and wallpaper.
-{
-  flake.modules.homeManager.stylix = {
-    pkgs,
-    inputs,
-    ...
-  }: {
+{inputs, ...}: {
+  flake.modules.homeManager.stylix = {pkgs, ...}: {
     imports = [
       inputs.stylix.homeModules.stylix
     ];

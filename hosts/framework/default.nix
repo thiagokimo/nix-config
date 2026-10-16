@@ -1,5 +1,8 @@
+# Framework Laptop 13 (AMD).
 {
-  imports = [
-    ./hardware-configuration.nix
-  ];
+  vars.hosts.framework.nixos = {
+    imports = [
+      ./_hardware-configuration.nix
+    ];
+  };
 }
