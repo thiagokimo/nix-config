@@ -1,6 +1,8 @@
 # Git identity.
-{
-  flake.modules.homeManager.cli = {vars, ...}: {
+{config, ...}: let
+  inherit (config) vars;
+in {
+  flake.modules.homeManager.cli = {
     programs.git = {
       enable = true;
       settings.user = {

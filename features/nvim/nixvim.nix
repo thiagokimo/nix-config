@@ -1,10 +1,6 @@
 # Neovim through Nixvim, as the default editor.
-{
-  flake.modules.homeManager.nvim = {
-    inputs,
-    pkgs,
-    ...
-  }: {
+{inputs, ...}: {
+  flake.modules.homeManager.nvim = {pkgs, ...}: {
     imports = [
       inputs.nixvim.homeModules.nixvim
     ];

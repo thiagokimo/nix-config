@@ -6,28 +6,26 @@
   lib,
   pkgs,
   modulesPath,
-  inputs,
   ...
 }: {
   imports = [
-    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14s
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot = {
-    initrd = {
-      availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod"];
-      luks.devices."luks-db1ca9f2-342e-40f4-ab5e-7dd5ca81ea37".device = "/dev/disk/by-uuid/db1ca9f2-342e-40f4-ab5e-7dd5ca81ea37";
-    };
-  };
+  boot.initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+  boot.initrd.kernelModules = [];
+  boot.kernelModules = ["kvm-intel"];
+  boot.extraModulePackages = [];
 
   fileSystems."/" = {
-    device = "/dev/mapper/luks-db1ca9f2-342e-40f4-ab5e-7dd5ca81ea37";
+    device = "/dev/mapper/luks-d46c5397-2da6-42e5-93d8-98deff556a64";
     fsType = "ext4";
   };
 
+  boot.initrd.luks.devices."luks-d46c5397-2da6-42e5-93d8-98deff556a64".device = "/dev/disk/by-uuid/d46c5397-2da6-42e5-93d8-98deff556a64";
+
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/6141-0F4A";
+    device = "/dev/disk/by-uuid/7D51-2F33";
     fsType = "vfat";
     options = ["fmask=0077" "dmask=0077"];
   };
@@ -35,6 +33,5 @@
   swapDevices = [];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

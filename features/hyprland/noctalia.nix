@@ -1,19 +1,21 @@
 # Noctalia, the desktop shell for Hyprland: bars, launcher, notifications and
 # lock screen.
-{config, ...}: let
+{
+  config,
+  inputs,
+  ...
+}: let
   inherit (config) vars;
 in {
   flake.modules.homeManager.hyprland = {
     pkgs,
-    inputs,
     config,
-    hostname,
     ...
   }: let
     # The lock screen widgets are placed from the host's screen size.
     display =
-      if vars.hosts.${hostname}.display != null
-      then vars.hosts.${hostname}.display
+      if vars.hosts.${config.host.name}.display != null
+      then vars.hosts.${config.host.name}.display
       else {
         output = "eDP-1";
         width = 1920;

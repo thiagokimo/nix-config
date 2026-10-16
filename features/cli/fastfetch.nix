@@ -1,11 +1,7 @@
 # fastfetch, with a card layout colored from the Stylix palette.
 {
-  flake.modules.homeManager.cli = {
-    config,
-    myLib,
-    ...
-  }: let
-    inherit (myLib.colors) hexToRgb;
+  flake.modules.homeManager.cli = {config, ...}: let
+    inherit (import ../../lib/colors.nix) hexToRgb;
 
     # Extract Stylix palette
     c = config.lib.stylix.colors;

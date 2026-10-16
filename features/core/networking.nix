@@ -1,8 +1,7 @@
-# Host name and NetworkManager.
+# NetworkManager. modules/flake/hosts.nix sets the host name.
 {
-  flake.modules.nixos.core = {hostname, ...}: {
+  flake.modules.nixos.core = {
     networking = {
-      hostName = hostname;
       networkmanager.enable = true;
 
       firewall.allowedTCPPorts = [

@@ -38,6 +38,11 @@
         default = null;
         description = "Built-in screen, for hosts with a desktop.";
       };
+      nixos = mkOption {
+        type = types.deferredModule;
+        default = {};
+        description = "The machine's own NixOS configuration, set in hosts/<name>: hardware and anything only this host needs.";
+      };
     };
   };
 

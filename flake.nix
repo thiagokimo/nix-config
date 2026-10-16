@@ -40,22 +40,22 @@
   };
 
   outputs = {
-    self,
     nixpkgs,
     flake-parts,
     ...
   } @ inputs:
-    flake-parts.lib.mkFlake {inherit inputs;} ({config, ...}: let
-      inherit (config) vars;
-      myLib = import ./lib {inherit inputs vars;};
-    in {
-      # Every file in features/ is a flake-parts module that adds NixOS and
-      # Home Manager modules under flake.modules.
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      # Every file in features/ and hosts/ is a flake-parts module. Features add
+      # NixOS and Home Manager modules under flake.modules, hosts set their own
+      # NixOS module in vars.hosts, and modules/flake/hosts.nix builds the
+      # configurations from both.
       imports = [
         flake-parts.flakeModules.modules
         ./modules/flake/vars.nix
+        ./modules/flake/hosts.nix
         ./vars.nix
         (inputs.import-tree ./features)
+        (inputs.import-tree ./hosts)
       ];
 
       systems = [
@@ -83,28 +83,8 @@
             nixd
           ];
         };
-        checks = myLib.buildChecks {inherit pkgs self;};
       };
 
-      flake = {
-        overlays = import ./overlays {inherit inputs;};
-
-        nixosConfigurations = builtins.mapAttrs (hostname: hostCfg:
-          myLib.buildSystem {
-            inherit hostname;
-            system = hostCfg.system;
-          })
-        vars.hosts;
-
-        homeConfigurations =
-          nixpkgs.lib.mapAttrs' (hostname: hostCfg: {
-            name = "${vars.user.name}@${hostname}";
-            value = myLib.buildHome {
-              inherit hostname;
-              system = hostCfg.system;
-            };
-          })
-          vars.hosts;
-      };
-    });
+      flake.overlays = import ./overlays {inherit inputs;};
+    };
 }

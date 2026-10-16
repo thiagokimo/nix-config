@@ -1,6 +1,8 @@
 # Home Manager basics: the user, its home and session variables.
-{
-  flake.modules.homeManager.core = {vars, ...}: {
+{config, ...}: let
+  inherit (config) vars;
+in {
+  flake.modules.homeManager.core = {
     programs.home-manager.enable = true;
 
     home = {
