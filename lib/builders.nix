@@ -4,6 +4,18 @@
   myLib ? {},
 }: let
   inherit (inputs.nixpkgs.lib) nixosSystem;
+
+  # The modules of the given class (nixos or homeManager) for the features a
+  # host lists. A feature can have a part for either class or both. Names are
+  # sorted, so the order of the list doesn't matter.
+  featureModules = class: hostname: let
+    inherit (inputs.self) modules;
+    features = builtins.sort builtins.lessThan vars.hosts.${hostname}.features;
+    unknown = builtins.filter (f: !(modules.nixos ? ${f} || modules.homeManager ? ${f})) features;
+  in
+    if unknown != []
+    then throw "Host ${hostname} lists unknown features: ${toString unknown}"
+    else map (f: modules.${class}.${f}) (builtins.filter (f: modules.${class} ? ${f}) features);
 in {
   buildSystem = {
     system,
@@ -19,13 +31,13 @@ in {
           {nixpkgs.hostPlatform = system;}
           ../hosts/${hostname}
         ]
-        ++ builtins.attrValues inputs.self.modules.nixos
+        ++ featureModules "nixos" hostname
         ++ modules;
     };
 
   buildHome = {
     system,
-    hostname ? null,
+    hostname,
     user ? vars.user.name,
     modules ? [],
   }:
@@ -36,7 +48,7 @@ in {
         [
           ../modules/home-manager
         ]
-        ++ builtins.attrValues inputs.self.modules.homeManager
+        ++ featureModules "homeManager" hostname
         ++ modules;
     };
 
