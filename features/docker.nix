@@ -1,11 +1,9 @@
 # Docker daemon with docker-compose. The main user joins the docker group to
 # run containers without sudo.
-{
-  flake.modules.nixos.docker = {
-    pkgs,
-    vars,
-    ...
-  }: {
+{config, ...}: let
+  inherit (config) vars;
+in {
+  flake.modules.nixos.docker = {pkgs, ...}: {
     virtualisation.docker = {
       enable = true;
     };

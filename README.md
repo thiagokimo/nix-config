@@ -247,7 +247,7 @@ Optional tools are behind `enable` switches in the `custom.*` namespace. Both ar
 ```text
 .
 ├── flake.nix                  # Flake entry point & host target declarations
-├── vars.nix                   # Global constants (user, hosts, displays, app defaults)
+├── vars.nix                   # Values of the typed vars option (user, hosts, displays, app defaults)
 ├── hosts/                     # Machine-specific host profiles
 │   ├── common/                # Shared base configuration across all machines
 │   ├── framework/             # AMD Framework 13 Laptop profile
@@ -256,6 +256,7 @@ Optional tools are behind `enable` switches in the `custom.*` namespace. Both ar
 ├── features/                  # Features spanning NixOS & Home Manager, loaded automatically (zsh, hyprland, audio, docker, kanata)
 ├── lib/                       # Custom library helpers (builders, colors)
 ├── modules/                   # Reusable NixOS and Home Manager modules
+│   ├── flake/                 # Flake-level options (vars)
 │   ├── base/                  # Core system foundation (nix, nh, nixpkgs, user)
 │   ├── nixos/                 # System-level modules & services (boot, networking, tailscale)
 │   └── home-manager/          # User-space environment & theming
