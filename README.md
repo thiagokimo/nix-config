@@ -63,7 +63,7 @@
 
 ## 🏗️ Architecture & Flake Design
 
-The flake follows the dendritic pattern on top of [flake-parts](https://flake.parts). `flake.nix` imports flake-level modules: the typed `vars` option, its values in `vars.nix`, and every file in `features/`, which `import-tree` loads on its own. Each feature adds a NixOS module, a Home Manager module or both to `flake.modules`. The builders in `lib/` then generate one NixOS and one Home Manager configuration per host. Each one gets the modules every host shares, plus the features listed for that host in `vars.nix`.
+The flake follows the dendritic pattern on top of [flake-parts](https://flake.parts): every `.nix` file is a flake-parts module, except the generated hardware configurations and the color helpers in `lib/`. `flake.nix` imports the typed `vars` option and its values in `vars.nix`, and `import-tree` loads every file in `features/` and `hosts/`. Each feature adds a NixOS module, a Home Manager module or both to `flake.modules`, and several files can add to the same feature. Each host file sets the machine's own NixOS module. `modules/flake/hosts.nix` then builds one NixOS and one Home Manager configuration per host, from its own module and the features listed for it in `vars.nix`. No module receives `specialArgs`: values come from the flake scope.
 
 ### System Architecture Diagram
 
@@ -76,26 +76,26 @@ graph TD
         VarsOpt["modules/flake/vars.nix<br/>declares the typed vars option"]
         Vars["vars.nix<br/>user, app defaults, hosts and their features"]
         subgraph Features ["features/ (loaded by import-tree)"]
-            BaseF["base: zsh, docker, kanata, audio<br/>every host"]
-            LaptopF["laptop: desktop, gaming, hyprland<br/>framework and t14"]
+            BaseF["base, on every host:<br/>core, cli, nvim, stylix, zsh, ai, audio,<br/>bluetooth, docker, firmware, kanata, ssh, tailscale"]
+            LaptopF["laptop, on framework and t14:<br/>desktop, gaming, hyprland"]
+            ServerF["t14s only:<br/>github-runners"]
         end
+        subgraph Hosts ["hosts/ (loaded by import-tree)"]
+            HostFiles["hosts/framework, t14, t14s<br/>each machine's own NixOS module:<br/>hardware, nixos-hardware, swap;<br/>t14s never sleeps"]
+        end
+        HostsMod["modules/flake/hosts.nix<br/>builds every host"]
     end
 
-    Flake -->|imports| VarsOpt
-    Flake -->|imports| Vars
-    Flake -->|imports| Features
+    Flake -->|imports| FlakeLevel
     Vars -->|sets| VarsOpt
+    HostFiles -->|sets vars.hosts.NAME.nixos| VarsOpt
     BaseF -->|define| FlakeModules
     LaptopF -->|define| FlakeModules
+    ServerF -->|define| FlakeModules
     FlakeModules["flake.modules<br/>nixos.* and homeManager.*"]
 
-    subgraph CustomLib ["Shared Library (lib/)"]
-        Lib["lib/default.nix"] --> Builders["lib/builders.nix"]
-        Lib --> Colors["lib/colors.nix"]
-    end
-
-    VarsOpt -->|config.vars| Lib
-    FlakeModules -->|features the host lists| Builders
+    VarsOpt -->|config.vars| HostsMod
+    FlakeModules -->|features each host lists| HostsMod
 
     subgraph Outputs ["Flake Outputs"]
         NixOS["nixosConfigurations<br/>framework, t14, t14s"]
@@ -103,48 +103,42 @@ graph TD
         Checks["checks<br/>Alejandra and builds"]
     end
 
-    Builders -->|buildSystem| NixOS
-    Builders -->|buildHome| HomeM
-    Builders -->|buildChecks| Checks
+    HostsMod --> NixOS
+    HostsMod --> HomeM
+    HostsMod --> Checks
 
-    subgraph NixOSStack ["NixOS"]
-        NixOS --> HostDir["hosts/framework, t14, t14s<br/>one per machine: hardware;<br/>t14s adds the GitHub runners"]
-        HostDir --> Common["hosts/common<br/>shared by every host:<br/>locale and time"]
-        Common --> Base["modules/base<br/>nix, nh, nixpkgs, user"]
-        Common --> SysMods["modules/nixos<br/>boot, networking, bluetooth,<br/>environment, SSH, tailscale"]
-    end
-
-    subgraph HMStack ["Home Manager"]
-        HomeM --> HMMods["modules/home-manager<br/>shared by every host:<br/>CLI tools and Nixvim, Stylix,<br/>AI tools, scripts"]
-    end
-
-    HMMods -.->|Truecolor ANSI| Colors
+    Colors["lib/colors.nix<br/>hex to RGB"]
+    BaseF -.->|fastfetch colors| Colors
 
     style Flake fill:#7daea3,stroke:#3c3836,stroke-width:2px,color:#282828
     style VarsOpt fill:#7daea3,stroke:#3c3836,stroke-width:1px,color:#282828
     style Vars fill:#7daea3,stroke:#3c3836,stroke-width:1px,color:#282828
+    style HostFiles fill:#7daea3,stroke:#3c3836,stroke-width:1px,color:#282828
     style BaseF fill:#89b482,stroke:#3c3836,stroke-width:1px,color:#282828
     style LaptopF fill:#89b482,stroke:#3c3836,stroke-width:1px,color:#282828
+    style ServerF fill:#89b482,stroke:#3c3836,stroke-width:1px,color:#282828
     style FlakeModules fill:#89b482,stroke:#3c3836,stroke-width:2px,color:#282828
-    style Lib fill:#a9b665,stroke:#3c3836,stroke-width:2px,color:#282828
-    style Builders fill:#a9b665,stroke:#3c3836,stroke-width:1px,color:#282828
+    style HostsMod fill:#a9b665,stroke:#3c3836,stroke-width:2px,color:#282828
     style Colors fill:#d8a657,stroke:#3c3836,stroke-width:1px,color:#282828
     style NixOS fill:#d3869b,stroke:#3c3836,stroke-width:2px,color:#282828
     style HomeM fill:#e78a4e,stroke:#3c3836,stroke-width:2px,color:#282828
     style Checks fill:#d8a657,stroke:#3c3836,stroke-width:2px,color:#282828
 ```
 
-### Shared Library Utilities (`lib/`)
+### Building the Hosts (`modules/flake/hosts.nix`)
 
-System generation, testing, and theme calculations are abstracted into modular library helpers:
+For each host in `vars.hosts`, it builds:
 
-- **`myLib.buildSystem`**: Generates a standard `nixosSystem` evaluated against the selected host platform from `hosts/<host>` plus the NixOS modules of the features the host lists, injecting `inputs`, `user`, `hostname`, `vars`, and `myLib` into module `specialArgs`.
-- **`myLib.buildHome`**: Generates a standalone `homeManagerConfiguration` from `modules/home-manager` plus the Home Manager modules of the host's features, injecting identical context into `extraSpecialArgs`.
-- **`myLib.buildChecks`**: Dynamically generates CI and evaluation checks for the host architecture:
+- **`nixosConfigurations.<host>`**: a `nixosSystem` from the host's own module (`vars.hosts.<host>.nixos`, set in `hosts/<host>/default.nix`) and the NixOS modules of the features it lists. It also sets `networking.hostName`.
+- **`homeConfigurations."thiago@<host>"`**: a standalone Home Manager configuration from the Home Manager modules of the host's features. It also sets the `host.name` option, which Noctalia uses to find the host's display.
+- **`checks`**, for the hosts of each system:
   - **Formatting**: Validates repository Nix formatting against `alejandra`.
-  - **NixOS Toplevel Builds**: Verifies evaluation and builds the system toplevel for each declared host in `vars.hosts`.
-  - **Home Manager Activations**: Validates and builds user activation packages for each declared host.
-- **`myLib.colors` (`lib/colors.nix`)**: Exposes `hexToDec` and `hexToRgb` functions. Used across modules (such as `modules/home-manager/cli/fastfetch.nix`) to translate Stylix hex color definitions into RGB ANSI escape codes dynamically.
+  - **NixOS Toplevel Builds**: Builds the system toplevel of each host.
+  - **Home Manager Activations**: Builds the activation package of each host.
+
+A host that lists a feature no file defines fails evaluation with an error that names it.
+
+`lib/colors.nix` exposes `hexToDec` and `hexToRgb`, which `features/cli/fastfetch.nix` uses to turn Stylix hex colors into RGB ANSI escape codes.
 
 ### Package Channels & Overlays
 
@@ -157,7 +151,7 @@ System generation, testing, and theme calculations are abstracted into modular l
 
 ## 🖥️ Hardware & Hosts
 
-Host configurations reside under `hosts/` and are registered centrally in `vars.hosts`, where each host lists its features. Every host gets zsh, docker, kanata and audio. The laptops (`framework`, `t14`) also get desktop, gaming and hyprland:
+Each host has its own module in `hosts/<host>/default.nix` (hardware, `nixos-hardware` profile, swap and anything only that machine needs, next to its generated `_hardware-configuration.nix`), and is registered in `vars.hosts` with its system, display and features. Every host gets the `base` features: core, cli, nvim, stylix, zsh, ai, audio, bluetooth, docker, firmware, kanata, ssh and tailscale. The laptops (`framework`, `t14`) also get desktop, gaming and hyprland, and `t14s` gets github-runners:
 
 | Hostname | Platform / CPU | Target Machine | Resolution | Storage / Swap | Special Hardware Configurations |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -188,7 +182,7 @@ A unified desktop shell environment offering status bars, widgets, and lockscree
   - **Top Bar**: Workspace pager, taskbar, active window indicator, brightness slider, volume status, network status, battery level, and clock.
   - **Bottom Bar**: RAM usage, CPU temperature, system monitor, media controls, audio visualizer, system tray, notification center, clipboard history, Bluetooth manager, and session control.
 - **Dynamic Lockscreen Widget Layout**:
-  Lockscreen widget coordinates are computed mathematically based on the active host's screen dimensions (`vars.hosts.${hostname}.display`):
+  Lockscreen widget coordinates are computed mathematically based on the active host's screen dimensions (`vars.hosts.<host>.display`):
   - Dynamic center coordinates: `centerX = width / 2`, `centerY = height / 2`.
   - Clock anchored at `cy = height * 0.25`, Sysmon at `cx = width * 0.75`, Weather at `cx = width * 0.25`, audio visualizer centered, and login box anchored at `cy = height - 128`.
 - **Live Weather & Localization**: Live weather integration targeting Belo Horizonte, displayed in Celsius with graphical ambient effects.
@@ -197,27 +191,27 @@ A unified desktop shell environment offering status bars, widgets, and lockscree
 
 ## ⚙️ System Services & Base
 
-Shared system capabilities configured in `modules/base` and `modules/nixos`:
+System capabilities provided by features:
 
 - **Low-Latency Kanata Daemon (`features/kanata.nix`)**:
   Interception service running under dedicated `uinput` permissions that turns both **Caps Lock** and **Left Control** into dual-role keys: tapping outputs `Escape` and holding outputs `Left Control` (`tap-hold 100 200 esc lctrl`).
 - **Tuigreet Display Manager (`features/hyprland/login.nix`)**:
   Clean TUI greeting display manager launching directly into `start-hyprland`.
-- **Tailscale Mesh VPN (`services/tailscale.nix`)**:
+- **Tailscale Mesh VPN (`features/tailscale.nix`)**:
   Enables Tailscale daemon with `tailscale0` set as a trusted firewall interface and `checkReversePath = "loose"` for exit-node and subnet compatibility.
 - **PipeWire & WirePlumber (`features/audio.nix`)**:
   Full audio stack replacement with PipeWire, WirePlumber session management, 32-bit ALSA support, PulseAudio emulation (`pactl`), and JACK integration.
 - **Containerization & Gaming**:
   - Docker daemon with `docker-compose` and non-root group assignment (`features/docker.nix`).
   - Steam enabled with firewall openings for Steam Remote Play and dedicated servers (`features/gaming.nix`).
-- **Nix Store Maintenance & nh (`modules/base/nh.nix` & `nix.nix`)**:
+- **Nix Store Maintenance & nh (`features/core/nix.nix` & `nh.nix`)**:
   Automatic weekly store optimization, automated garbage collection (`--delete-older-than 7d`), legacy channel disabling, and `nh` CLI configured to target `vars.user.configDir`.
 
 ---
 
 ## 💻 CLI, Nixvim & User Space
 
-### Declarative Nixvim Editor (`modules/home-manager/cli/nvim`)
+### Declarative Nixvim Editor (`features/nvim`)
 
 Neovim configured declaratively through Nixvim:
 - **Colorscheme**: Native Gruvbox theme adhering to Stylix palette rules.
@@ -230,7 +224,7 @@ Neovim configured declaratively through Nixvim:
   - `stylua`: Lua code formatting for Hyprland configs and scripts.
 - **Keybindings & Ergonomics**: Window splits, buffer navigation, clipboard synchronization with `wl-clipboard`, and line numbering.
 
-### Shell, Fastfetch & CLI Tools (`modules/home-manager/cli`)
+### Shell, Fastfetch & CLI Tools (`features/cli`, `features/zsh.nix`)
 
 - **Zsh & Oh-My-Zsh**: Configured with `robbyrussell` prompt theme, `zsh-autosuggestions`, `zsh-syntax-highlighting`, and custom aliases:
   - `nrs`: Rebuild NixOS configuration via `nh os switch`
@@ -239,7 +233,7 @@ Neovim configured declaratively through Nixvim:
   - `ls`: Modern icons view via `eza --icons=always --no-quotes`
   - `tree`: Tree structure view via `eza --icons=always --tree --no-quotes`
   - `cat`: Syntax-highlighted output via `bat`
-- **Fastfetch (`cli/fastfetch.nix`)**: Custom ASCII NixOS card layout using `myLib.colors.hexToRgb` to dynamically color card borders (OS, Host, Kernel, Uptime, Packages, Shell, WM, Terminal, CPU, GPU, Memory, Battery) with truecolor ANSI escape sequences matching the active Stylix Gruvbox theme.
+- **Fastfetch (`features/cli/fastfetch.nix`)**: Custom ASCII NixOS card layout using `hexToRgb` from `lib/colors.nix` to dynamically color card borders (OS, Host, Kernel, Uptime, Packages, Shell, WM, Terminal, CPU, GPU, Memory, Battery) with truecolor ANSI escape sequences matching the active Stylix Gruvbox theme.
 - **CLI Utilities**: `yazi` (terminal file manager), `fzf` (fuzzy finder), `btop` (resource monitor), `ani-cli`, `cbonsai`, `peaclock`, `pipes`, and `cmatrix`.
 
 ### Standardized XDG User Directories & MIME Associations (`features/desktop/xdg.nix`)
@@ -256,23 +250,23 @@ Neovim configured declaratively through Nixvim:
 
 ```text
 .
-├── flake.nix                  # Flake entry point & host target declarations
-├── vars.nix                   # Values of the typed vars option (user, hosts, displays, app defaults)
-├── hosts/                     # Machine-specific host profiles
-│   ├── common/                # Shared base configuration across all machines
-│   ├── framework/             # AMD Framework 13 Laptop profile
-│   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel) profile
-│   └── t14s/                  # Lenovo ThinkPad T14s (Intel) profile
+├── flake.nix                  # Flake entry point: flake-parts, imports everything below
+├── vars.nix                   # Values of the typed vars option (user, app defaults, hosts and their features)
 ├── features/                  # Features spanning NixOS & Home Manager, chosen per host in vars.nix
-├── lib/                       # Custom library helpers (builders, colors)
-├── modules/                   # Reusable NixOS and Home Manager modules
-│   ├── flake/                 # Flake-level options (vars)
-│   ├── base/                  # Core system foundation (nix, nh, nixpkgs, user)
-│   ├── nixos/                 # System-level modules & services (boot, networking, tailscale)
-│   └── home-manager/          # User-space environment & theming
-│       ├── cli/               # Tools & editor (nixvim, fastfetch, yazi, git)
-│       ├── programs/          # AI tools (claude-code)
-│       └── scripts/           # Custom utility scripts (firmware-update)
+│   ├── core/                  # Boot, locale, user, networking, Nix, nh, nixpkgs, Home Manager basics
+│   ├── cli/                   # Command-line tools (fastfetch, eza, fzf, gh, git, yazi)
+│   ├── nvim/                  # Nixvim options, key mappings and plugins
+│   ├── stylix/                # Gruvbox Dark Hard theming
+│   ├── firmware/              # fwupd and the firmware-update script
+│   ├── desktop/               # Graphical session: fonts, kitty, default apps, GUI apps
+│   ├── hyprland/              # Hyprland, Noctalia, hyprpaper, portals, login screen
+│   └── *.nix                  # Single-file features (ai, audio, bluetooth, docker, gaming, ...)
+├── hosts/                     # Each machine's own NixOS module and generated hardware configuration
+│   ├── framework/             # AMD Framework 13 Laptop
+│   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel)
+│   └── t14s/                  # Lenovo ThinkPad T14s (Intel), home server
+├── modules/flake/             # Flake-level modules: the vars option and the host builder
+├── lib/                       # colors.nix: hex to RGB helpers
 ├── overlays/                  # Nixpkgs overlays (stable packages, custom modifications)
 └── pkgs/                      # Custom local package definitions
 ```
