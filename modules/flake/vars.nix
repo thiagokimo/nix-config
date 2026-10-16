@@ -29,14 +29,26 @@
         type = types.str;
         example = "x86_64-linux";
       };
-      display = {
-        output = mkOption {
-          type = types.str;
-          example = "eDP-1";
-        };
-        width = mkOption {type = types.ints.positive;};
-        height = mkOption {type = types.ints.positive;};
+      features = mkOption {
+        type = types.listOf types.str;
+        description = "Features from features/ that this host gets, in both NixOS and Home Manager.";
       };
+      display = mkOption {
+        type = types.nullOr display;
+        default = null;
+        description = "Built-in screen, for hosts with a desktop.";
+      };
+    };
+  };
+
+  display = types.submodule {
+    options = {
+      output = mkOption {
+        type = types.str;
+        example = "eDP-1";
+      };
+      width = mkOption {type = types.ints.positive;};
+      height = mkOption {type = types.ints.positive;};
     };
   };
 in {

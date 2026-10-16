@@ -23,4 +23,9 @@
     hibernate.enable = false;
     hybrid-sleep.enable = false;
   };
+
+  # Without the desktop there is no power-profiles-daemon, and the
+  # nixos-hardware laptop profile would turn on TLP instead. Its power saving
+  # (USB autosuspend, for one) doesn't suit a machine that is always on.
+  services.tlp.enable = false;
 }

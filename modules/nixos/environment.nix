@@ -13,14 +13,7 @@
       curl
       git
       neovim
-      xdg-utils
       wget
-
-      libmtp
-
-      wineWow64Packages.stable
-      winetricks
-      zenity
 
       cacert
     ];

@@ -1,18 +1,12 @@
-{
-  pkgs,
-  vars,
-  ...
-}: {
+{vars, ...}: {
   imports = [
     ../../modules/base
     ../../modules/nixos/bluetooth.nix
     ../../modules/nixos/boot.nix
     ../../modules/nixos/environment.nix
-    ../../modules/nixos/fonts.nix
     ../../modules/nixos/networking.nix
     ../../modules/nixos/security.nix
     ../../modules/nixos/services
-    ../../modules/nixos/steam.nix
   ];
 
   system.stateVersion = vars.system.stateVersion;
@@ -32,14 +26,5 @@
       LC_TELEPHONE = "pt_BR.UTF-8";
       LC_TIME = "pt_BR.UTF-8";
     };
-  };
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [
-      libva-vdpau-driver
-      libvdpau-va-gl
-    ];
   };
 }
