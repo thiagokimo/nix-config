@@ -19,5 +19,20 @@
         linux_display_server = "auto";
       };
     };
+
+    # ssh goes through kitty's ssh kitten, which tints the window red while
+    # connected to t14s (by name, Tailscale name or Tailscale IP) and restores
+    # the colors on exit. Outside kitty, plain ssh is used.
+    xdg.configFile."kitty/ssh.conf".text = ''
+      hostname t14s t14s.* 100.115.181.106
+      color_scheme ssh-server.conf
+    '';
+    xdg.configFile."kitty/ssh-server.conf".text = ''
+      background #2b1416
+    '';
+
+    programs.zsh.initContent = ''
+      [[ -n $KITTY_WINDOW_ID ]] && alias ssh="kitten ssh"
+    '';
   };
 }
