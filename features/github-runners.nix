@@ -17,8 +17,11 @@
     nix-config = {};
     pixel-pong = {
       extraLabels = ["t14s" "pixel-pong"];
-      # One job at a time: the Firebase emulators in its tests use fixed ports.
-      count = 1;
+      # Two jobs at a time. Each replica gives the Firebase emulators in its
+      # tests their own ports, picked from the `-<n>` suffix of RUNNER_NAME, so
+      # the name has to keep ending in the replica number.
+      count = 2;
+      name = "t14s-pixel-pong";
     };
   };
 
@@ -38,7 +41,16 @@ in {
     services.github-runners = lib.mapAttrs mkRunner repos;
 
     # Jobs run nix, and allowed-users only lists the main user. These are the
-    # DynamicUser names systemd gives each runner service.
-    nix.settings.allowed-users = map (repo: "github-runner-${repo}") (lib.attrNames repos);
+    # DynamicUser names systemd gives each runner service: github-runner-<repo>
+    # for a single runner, github-runner-<repo>-<n> for each of several.
+    nix.settings.allowed-users = lib.concatLists (lib.mapAttrsToList (
+        repo: options: let
+          count = options.count or 1;
+        in
+          if count == 1
+          then ["github-runner-${repo}"]
+          else map (n: "github-runner-${repo}-${toString n}") (lib.range 1 count)
+      )
+      repos);
   };
 }
