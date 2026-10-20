@@ -10,6 +10,7 @@
     home.packages = with pkgs; [
       # Browsing, reading and files
       google-chrome
+      tor-browser
       calibre
       koreader
       nautilus
