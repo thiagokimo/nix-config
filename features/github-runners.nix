@@ -9,19 +9,36 @@
 #   echo -n 'github_pat_…' | sudo tee /etc/github-runner/<repo>.token >/dev/null
 #   sudo chmod 0600 /etc/github-runner/<repo>.token
 #
-# Workflows pick a runner with `runs-on: [self-hosted, <label>]`. Every runner
-# has the `t14s` label. The per-repository options below replace the defaults
-# in mkRunner.
+# Workflows pick a runner with `runs-on: [self-hosted, <label>]`. A host that
+# lists this feature runs the runners under its name below; those on t14s have
+# the `t14s` label. The per-runner options replace the defaults in mkRunner.
 {lib, ...}: let
-  repos = {
-    nix-config = {};
-    pixel-pong = {
-      extraLabels = ["t14s" "pixel-pong"];
-      # Two jobs at a time. Each replica gives the Firebase emulators in its
-      # tests their own ports, picked from the `-<n>` suffix of RUNNER_NAME, so
-      # the name has to keep ending in the replica number.
-      count = 2;
-      name = "t14s-pixel-pong";
+  runnersByHost = {
+    t14s = {
+      nix-config = {};
+      pixel-pong = {
+        extraLabels = ["t14s" "pixel-pong"];
+        # Two jobs at a time. Each replica gives the Firebase emulators in its
+        # tests their own ports, picked from the `-<n>` suffix of RUNNER_NAME,
+        # so the name has to keep ending in the replica number.
+        count = 2;
+        name = "t14s-pixel-pong";
+      };
+    };
+
+    # Temporary, while t14s is without power: t14 stands in for its pixel-pong
+    # runner. To revert, remove this entry and "github-runners" from the
+    # features in hosts/t14/default.nix.
+    t14 = {
+      # With count = 1 nixpkgs leaves the `-<n>` suffix out of both the service
+      # and the runner name, so the attribute and the name carry it instead:
+      # service github-runner-pixel-pong-1, runner t14-pixel-pong-1.
+      pixel-pong-1 = {
+        url = "https://github.com/thiagokimo/pixel-pong";
+        tokenFile = "/etc/github-runner/pixel-pong.token";
+        extraLabels = ["pixel-pong"];
+        name = "t14-pixel-pong-1";
+      };
     };
   };
 
@@ -37,20 +54,22 @@
     }
     // options;
 in {
-  flake.modules.nixos.github-runners = {
-    services.github-runners = lib.mapAttrs mkRunner repos;
+  flake.modules.nixos.github-runners = {config, ...}: let
+    runners = runnersByHost.${config.networking.hostName};
+  in {
+    services.github-runners = lib.mapAttrs mkRunner runners;
 
     # Jobs run nix, and allowed-users only lists the main user. These are the
-    # DynamicUser names systemd gives each runner service: github-runner-<repo>
-    # for a single runner, github-runner-<repo>-<n> for each of several.
+    # DynamicUser names systemd gives each runner service: github-runner-<attr>
+    # for a single runner, github-runner-<attr>-<n> for each of several.
     nix.settings.allowed-users = lib.concatLists (lib.mapAttrsToList (
-        repo: options: let
+        attr: options: let
           count = options.count or 1;
         in
           if count == 1
-          then ["github-runner-${repo}"]
-          else map (n: "github-runner-${repo}-${toString n}") (lib.range 1 count)
+          then ["github-runner-${attr}"]
+          else map (n: "github-runner-${attr}-${toString n}") (lib.range 1 count)
       )
-      repos);
+      runners);
   };
 }
