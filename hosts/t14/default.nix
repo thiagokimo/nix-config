@@ -6,7 +6,9 @@
 }: {
   vars.hosts.t14 = {
     system = "x86_64-linux";
-    features = with config.vars.featureSets; base ++ laptop;
+    # github-runners is temporary, while t14s is without power: see
+    # features/github-runners.nix.
+    features = with config.vars.featureSets; base ++ laptop ++ ["github-runners"];
     display = {
       output = "eDP-1";
       width = 1920;
