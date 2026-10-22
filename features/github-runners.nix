@@ -30,14 +30,12 @@
     # runner. To revert, remove this entry and "github-runners" from the
     # features in hosts/t14/default.nix.
     t14 = {
-      # With count = 1 nixpkgs leaves the `-<n>` suffix out of both the service
-      # and the runner name, so the attribute and the name carry it instead:
-      # service github-runner-pixel-pong-1, runner t14-pixel-pong-1.
-      pixel-pong-1 = {
-        url = "https://github.com/thiagokimo/pixel-pong";
-        tokenFile = "/etc/github-runner/pixel-pong.token";
+      # Two replicas, like on t14s: services github-runner-pixel-pong-1 and -2,
+      # runners t14-pixel-pong-1 and -2.
+      pixel-pong = {
         extraLabels = ["pixel-pong"];
-        name = "t14-pixel-pong-1";
+        count = 2;
+        name = "t14-pixel-pong";
       };
     };
   };
