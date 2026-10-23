@@ -26,9 +26,7 @@
       };
     };
 
-    # Temporary, while t14s is without power: t14 stands in for its pixel-pong
-    # runner. To revert, remove this entry and "github-runners" from the
-    # features in hosts/t14/default.nix.
+    # Standby for t14s, see standbyFor below.
     t14 = {
       # Two replicas, like on t14s: services github-runner-pixel-pong-1 and -2,
       # runners t14-pixel-pong-1 and -2.
@@ -36,8 +34,20 @@
         extraLabels = ["pixel-pong"];
         count = 2;
         name = "t14-pixel-pong";
+        # The runners can stay off for weeks, and GitHub deletes a runner that
+        # has been offline that long, leaving the saved registration stale. An
+        # ephemeral runner registers afresh on each start and takes one job per
+        # registration, and GitHub drops it soon after it goes offline.
+        ephemeral = true;
       };
     };
+  };
+
+  # GitHub has no priority between runners with the same labels, so a standby
+  # host keeps its runners off while the primary answers over Tailscale. t14
+  # is a work laptop and should only take jobs when t14s is down.
+  standbyFor = {
+    t14 = "t14s";
   };
 
   mkRunner = repo: options:
@@ -52,15 +62,18 @@
     }
     // options;
 in {
-  flake.modules.nixos.github-runners = {config, ...}: let
-    runners = runnersByHost.${config.networking.hostName};
-  in {
-    services.github-runners = lib.mapAttrs mkRunner runners;
+  flake.modules.nixos.github-runners = {
+    config,
+    pkgs,
+    ...
+  }: let
+    hostName = config.networking.hostName;
+    runners = runnersByHost.${hostName};
 
-    # Jobs run nix, and allowed-users only lists the main user. These are the
-    # DynamicUser names systemd gives each runner service: github-runner-<attr>
-    # for a single runner, github-runner-<attr>-<n> for each of several.
-    nix.settings.allowed-users = lib.concatLists (lib.mapAttrsToList (
+    # The runner services, which are also the DynamicUser names systemd gives
+    # them: github-runner-<attr> for a single runner, github-runner-<attr>-<n>
+    # for each of several.
+    services = lib.concatLists (lib.mapAttrsToList (
         attr: options: let
           count = options.count or 1;
         in
@@ -69,5 +82,84 @@ in {
           else map (n: "github-runner-${attr}-${toString n}") (lib.range 1 count)
       )
       runners);
-  };
+  in
+    lib.mkMerge [
+      {
+        services.github-runners = lib.mapAttrs mkRunner runners;
+
+        # Jobs run nix, and allowed-users only lists the main user.
+        nix.settings.allowed-users = services;
+      }
+
+      (lib.mkIf (standbyFor ? ${hostName}) (let
+        primary = standbyFor.${hostName};
+        systemctl = "${config.systemd.package}/bin/systemctl";
+      in {
+        # Only the standby timer starts the runners, so they never compete
+        # with the primary right after boot.
+        systemd.services =
+          lib.genAttrs services (_: {wantedBy = lib.mkForce [];})
+          // {
+            github-runner-standby = {
+              description = "Run the GitHub runners only while ${primary} is down";
+              serviceConfig = {
+                Type = "oneshot";
+                # Keeps the count of missed pings between runs.
+                RuntimeDirectory = "github-runner-standby";
+                RuntimeDirectoryPreserve = true;
+              };
+              scriptArgs = lib.escapeShellArgs services;
+              script = ''
+                misses_file=$RUNTIME_DIRECTORY/misses
+
+                if ${lib.getExe config.services.tailscale.package} ping --c 3 --timeout 5s ${primary} >/dev/null 2>&1; then
+                  echo 0 >"$misses_file"
+                  for unit in "$@"; do
+                    state=$(${systemctl} is-active "$unit" || true)
+                    if [[ $state == inactive || $state == failed ]]; then
+                      echo "${primary} no ar, $unit já parado"
+                    # A job in progress runs as Runner.Worker under the
+                    # runner's user. Never kill it: try again next round.
+                    elif ${pkgs.procps}/bin/pgrep -u "$unit" -f Runner.Worker >/dev/null; then
+                      echo "${primary} no ar, mantive $unit: job em andamento"
+                    elif ${systemctl} stop "$unit"; then
+                      echo "${primary} no ar, parei $unit"
+                    else
+                      echo "${primary} no ar, falha ao parar $unit"
+                    fi
+                  done
+                  exit 0
+                fi
+
+                # Wait for two missed rounds in a row, so a network hiccup
+                # doesn't bounce the runners.
+                misses=$(($(cat "$misses_file" 2>/dev/null || echo 0) + 1))
+                echo "$misses" >"$misses_file"
+                if ((misses < 2)); then
+                  echo "${primary} fora do ar ($misses/2 rodadas), aguardando"
+                  exit 0
+                fi
+                for unit in "$@"; do
+                  state=$(${systemctl} is-active "$unit" || true)
+                  if [[ $state != inactive && $state != failed ]]; then
+                    echo "${primary} fora do ar, $unit já no ar"
+                  elif ${systemctl} start "$unit"; then
+                    echo "${primary} fora do ar, iniciei $unit"
+                  else
+                    echo "${primary} fora do ar, falha ao iniciar $unit"
+                  fi
+                done
+              '';
+            };
+          };
+
+        systemd.timers.github-runner-standby = {
+          wantedBy = ["timers.target"];
+          timerConfig = {
+            OnBootSec = "30s";
+            OnUnitActiveSec = "2min";
+          };
+        };
+      }))
+    ];
 }
