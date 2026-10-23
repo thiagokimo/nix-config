@@ -6,8 +6,8 @@
 }: {
   vars.hosts.t14 = {
     system = "x86_64-linux";
-    # github-runners is temporary, while t14s is without power: see
-    # features/github-runners.nix.
+    # github-runners here are a standby for t14s: they only run while t14s is
+    # down, see features/github-runners.nix.
     features = with config.vars.featureSets; base ++ laptop ++ ["github-runners"];
     display = {
       output = "eDP-1";
