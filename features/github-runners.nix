@@ -116,8 +116,15 @@ in {
                   echo 0 >"$misses_file"
                   for unit in "$@"; do
                     state=$(${systemctl} is-active "$unit" || true)
-                    if [[ $state == inactive || $state == failed ]]; then
+                    if [[ $state == inactive ]]; then
                       echo "${primary} no ar, $unit já parado"
+                    elif [[ $state == failed ]]; then
+                      ${systemctl} reset-failed "$unit"
+                      echo "${primary} no ar, $unit já parado, limpei o estado failed"
+                    # Stopping a runner while it starts or stops interrupts
+                    # its registration, e.g. when a switch restarts it.
+                    elif [[ $state != active ]]; then
+                      echo "${primary} no ar, mantive $unit: $state, tento na próxima rodada"
                     # A job in progress runs as Runner.Worker under the
                     # runner's user. Never kill it: try again next round.
                     elif ${pkgs.procps}/bin/pgrep -u "$unit" -f Runner.Worker >/dev/null; then
