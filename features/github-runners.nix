@@ -94,26 +94,64 @@ in {
       (lib.mkIf (standbyFor ? ${hostName}) (let
         primary = standbyFor.${hostName};
         systemctl = "${config.systemd.package}/bin/systemctl";
+        tailscale = lib.getExe config.services.tailscale.package;
+        stateDir = "/run/github-runner-standby";
       in {
-        # Only the standby timer starts the runners, so they never compete
-        # with the primary right after boot.
         systemd.services =
-          lib.genAttrs services (_: {wantedBy = lib.mkForce [];})
+          lib.genAttrs services (_: {
+            # Only the standby timer starts the runners, so they never compete
+            # with the primary right after boot.
+            wantedBy = lib.mkForce [];
+            # An ephemeral runner exits after each job and Restart=on-success
+            # brings it back for the next one, so the standby rarely finds it
+            # stopped. The flag only exists while the primary is down, and
+            # without it the restart is skipped and the unit stays inactive.
+            serviceConfig.ExecCondition = "+${pkgs.coreutils}/bin/test -e ${stateDir}/enabled";
+          })
           // {
             github-runner-standby = {
               description = "Run the GitHub runners only while ${primary} is down";
               serviceConfig = {
                 Type = "oneshot";
-                # Keeps the count of missed pings between runs.
+                # Keeps the runners' flag and the outage timestamps between
+                # runs.
                 RuntimeDirectory = "github-runner-standby";
                 RuntimeDirectoryPreserve = true;
               };
               scriptArgs = lib.escapeShellArgs services;
               script = ''
-                misses_file=$RUNTIME_DIRECTORY/misses
+                enabled_file=${stateDir}/enabled
+                down_since_file=${stateDir}/down-since
+                last_round_file=${stateDir}/last-round
+                now=$(date +%s)
 
-                if ${lib.getExe config.services.tailscale.package} ping --c 3 --timeout 5s ${primary} >/dev/null 2>&1; then
-                  echo 0 >"$misses_file"
+                # A round long after the previous one means the laptop slept or
+                # the timer lagged, so the earlier misses say nothing about now.
+                last_round=$(cat "$last_round_file" 2>/dev/null || echo 0)
+                echo "$now" >"$last_round_file"
+                if ((now - last_round > 300)) && [[ -e $down_since_file ]]; then
+                  rm -f "$down_since_file"
+                  echo "última rodada há $((now - last_round))s, recomecei a contagem"
+                fi
+
+                # Only judge ${primary} while this host is on the tailnet itself,
+                # and leave the runners as they are otherwise.
+                read -r self_ok primary_online < <(
+                  ${tailscale} status --json 2>/dev/null | ${lib.getExe pkgs.jq} -r --arg peer ${primary} '
+                    [.BackendState == "Running" and .Self.Online == true,
+                     any(.Peer[]?; .HostName == $peer and .Online == true)] | @tsv'
+                ) || true
+                if [[ $self_ok != true ]]; then
+                  rm -f "$down_since_file"
+                  echo "${hostName} fora do Tailscale, rodada não conta"
+                  exit 0
+                fi
+
+                # The coordination server's view comes first: after a network
+                # change here it still saw ${primary} while the direct path was
+                # broken. The ping only confirms.
+                if [[ $primary_online == true ]] || ${tailscale} ping --c 3 --timeout 5s ${primary} >/dev/null 2>&1; then
+                  rm -f "$down_since_file" "$enabled_file"
                   for unit in "$@"; do
                     state=$(${systemctl} is-active "$unit" || true)
                     if [[ $state == inactive ]]; then
@@ -138,14 +176,15 @@ in {
                   exit 0
                 fi
 
-                # Wait for two missed rounds in a row, so a network hiccup
-                # doesn't bounce the runners.
-                misses=$(($(cat "$misses_file" 2>/dev/null || echo 0) + 1))
-                echo "$misses" >"$misses_file"
-                if ((misses < 2)); then
-                  echo "${primary} fora do ar ($misses/2 rodadas), aguardando"
+                # Wait until ${primary} has been down for 10 minutes, so a network
+                # change here doesn't bounce the runners.
+                [[ -e $down_since_file ]] || echo "$now" >"$down_since_file"
+                down_for=$((now - $(cat "$down_since_file")))
+                if ((down_for < 600)); then
+                  echo "${primary} fora do ar há $((down_for / 60)) min, aguardando 10 min"
                   exit 0
                 fi
+                touch "$enabled_file"
                 for unit in "$@"; do
                   state=$(${systemctl} is-active "$unit" || true)
                   if [[ $state != inactive && $state != failed ]]; then
