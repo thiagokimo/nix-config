@@ -235,6 +235,9 @@
     luaMouseBinds = lib.concatMapStringsSep "\n" (m: "hl.bind(\"${m.mod} + ${m.btn}\", ${m.dsp})") mouseBindings;
     luaHardwareBinds = lib.concatMapStringsSep "\n" (h: "hl.bind(${h.key}, ${h.dsp}, ${h.opts})") hardwareBindings;
   in {
+    # noctalia draws the stylix wallpaper itself, so hyprpaper is redundant
+    stylix.targets.hyprland.hyprpaper.enable = false;
+
     wayland.windowManager.hyprland = {
       enable = true;
 
