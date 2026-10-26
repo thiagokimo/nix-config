@@ -44,10 +44,12 @@ in {
             enabled = true;
             end = ["tray" "spacer_10" "notifications" "spacer_9" "clipboard" "spacer_8" "bluetooth" "spacer_3" "session"];
             font_family = config.stylix.fonts.monospace.name;
-            margin_edge = 0;
-            margin_ends = 0;
+            margin_edge = 8;
+            margin_ends = 14;
             position = "bottom";
-            radius = 0;
+            radius = 14;
+            background_opacity = 0.85;
+            shadow = true;
             scale = 1.5;
             start = ["ram" "spacer_2" "temp" "spacer_4" "sysmon"];
           };
@@ -55,9 +57,11 @@ in {
             center = ["active_window"];
             end = ["brightness" "spacer_12" "volume" "spacer_11" "network" "spacer_7" "battery" "spacer_13" "clock"];
             font_family = config.stylix.fonts.monospace.name;
-            margin_edge = 0;
-            margin_ends = 0;
-            radius = 0;
+            margin_edge = 8;
+            margin_ends = 14;
+            radius = 14;
+            background_opacity = 0.85;
+            shadow = true;
             scale = 1.5;
             start = ["workspaces" "spacer_14" "taskbar"];
           };
@@ -146,6 +150,9 @@ in {
           avatar_path = "${vars.user.home}/Media/Pictures/my-avatar.jpeg";
           font_family = config.stylix.fonts.monospace.name;
           launch_apps_as_systemd_services = true;
+          panel = {
+            transparency_mode = "glass";
+          };
           ui_scale = 1.5;
           screenshot = {
             directory = "${vars.user.home}/Media/Pictures/Screenshots";
