@@ -34,4 +34,20 @@ rec {
     g = hexToDec (builtins.substring 2 2 hex);
     b = hexToDec (builtins.substring 4 2 hex);
   in "${toString r};${toString g};${toString b}";
+
+  decToHex = n: let
+    digits = "0123456789abcdef";
+    digit = i: builtins.substring i 1 digits;
+  in
+    digit (n / 16) + digit (n - (n / 16) * 16);
+
+  # Blends two bare hex colors: amount 0 gives `a`, 1 gives `b`.
+  mix = a: b: amount: let
+    channel = i: let
+      x = hexToDec (builtins.substring i 2 a);
+      y = hexToDec (builtins.substring i 2 b);
+    in
+      decToHex (builtins.floor (x + (y - x) * amount + 0.5));
+  in
+    channel 0 + channel 2 + channel 4;
 }
