@@ -79,13 +79,15 @@ in {
         hostname = {
           ssh_only = true;
           ssh_symbol = "${host.icon} ";
-          format = "${pill accent "$ssh_symbol$hostname"} ";
+          format = "${pill accent " $ssh_symbol$hostname "} ";
           style = "bold";
         };
         os = {
           disabled = false;
-          format = pill "orange" "$symbol";
-          symbols.NixOS = "";
+          format = pill "orange" " $symbol ";
+          # kitty draws a private-use glyph followed by a space two cells wide,
+          # which centers the logo between the one-cell paddings.
+          symbols.NixOS = " ";
         };
         directory = {
           format = "[](fg:base02)[ $path](bg:base02 fg:base06)[$read_only](bg:base02 fg:red)[](fg:base02)";
@@ -95,7 +97,7 @@ in {
         };
         git_branch = {
           symbol = " ";
-          format = "[](fg:base01)[$symbol$branch](bg:base01 fg:aqua)";
+          format = "[](fg:base01)[$symbol$branch](bg:base01 fg:cyan)";
         };
         git_status = {
           format = "[( $all_status$ahead_behind)](bg:base01 fg:yellow)[](fg:base01)";
