@@ -1,5 +1,7 @@
 # The Hyprland compositor and its Lua config.
-{
+{config, ...}: let
+  inherit (config) vars;
+in {
   flake.modules.homeManager.hyprland = {
     pkgs,
     lib,
@@ -234,6 +236,13 @@
     luaBinds = lib.concatMapStringsSep "\n" (b: "hl.bind(\"${b.mod} + ${b.key}\", ${b.dsp})") keyBindings;
     luaMouseBinds = lib.concatMapStringsSep "\n" (m: "hl.bind(\"${m.mod} + ${m.btn}\", ${m.dsp})") mouseBindings;
     luaHardwareBinds = lib.concatMapStringsSep "\n" (h: "hl.bind(${h.key}, ${h.dsp}, ${h.opts})") hardwareBindings;
+
+    # SSH windows are titled "<icon> <host> · …" (see zsh.nix); their border
+    # takes that host's accent instead of the rotating gradient.
+    luaSshRules = lib.concatStringsSep "\n" (lib.mapAttrsToList (name: host: let
+      accent = c.${host.accent};
+    in "hl.window_rule({ name = \"ssh-${name}\", match = { title = \"^${host.icon} ${name} · .*\" }, border_color = \"${rgba accent "ff"} ${rgba accent "66"}\" })")
+    vars.hosts);
   in {
     # noctalia draws the stylix wallpaper itself, so hyprpaper is redundant
     stylix.targets.hyprland.hyprpaper.enable = false;
@@ -409,7 +418,7 @@
       hl.window_rule({ name = "suppress-maximize", match = { class = ".*" }, suppress_event = "maximize" })
       hl.window_rule({ name = "steam-workspace", match = { class = "^([Ss]team)$" }, workspace = "7" })
       hl.window_rule({ name = "music-workspace", match = { class = "^(kew|pavucontrol|org.pulseaudio.pavucontrol)$" }, workspace = "9" })
-      hl.window_rule({ name = "kitty-translucent", match = { class = "^(kitty)$" }, opacity = "0.95 0.9" })
+      ${luaSshRules}
       hl.window_rule({
         name = "float-utilities",
         match = { class = "^(blueman-manager|.blueman-manager-wrapped|nm-connection-editor|xdg-desktop-portal-gtk)$" },
