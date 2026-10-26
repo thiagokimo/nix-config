@@ -7,8 +7,8 @@
   vars.hosts.t14s = {
     system = "x86_64-linux";
     features = config.vars.featureSets.base ++ ["github-runners" "ssh-agent"];
-    # red with a server glyph: the one machine a prompt must never be mistaken for.
-    accent = "base08";
+    # purple with a server glyph, apart from the laptops' aqua and yellow.
+    accent = "base0E";
     icon = "󰒋";
     tailscaleIp = "100.115.181.106";
 
