@@ -3,6 +3,7 @@
   vars.hosts.framework = {
     system = "x86_64-linux";
     features = with config.vars.featureSets; base ++ laptop;
+    accent = "base0A";
     display = {
       output = "eDP-1";
       width = 2256;

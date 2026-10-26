@@ -38,6 +38,21 @@
         default = null;
         description = "Built-in screen, for hosts with a desktop.";
       };
+      accent = mkOption {
+        type = types.enum ["base08" "base09" "base0A" "base0B" "base0C" "base0D" "base0E" "base0F"];
+        default = "base0D";
+        description = "Stylix palette slot that identifies the host in prompts and terminals, so SSH sessions on different machines don't look alike.";
+      };
+      icon = mkOption {
+        type = types.str;
+        default = "󰌢";
+        description = "Nerd Font glyph shown next to the host name in prompts and window titles.";
+      };
+      tailscaleIp = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "Tailscale address, so SSH sessions opened by IP get the host's terminal colors too.";
+      };
       nixos = mkOption {
         type = types.deferredModule;
         default = {};

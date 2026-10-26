@@ -9,6 +9,8 @@
     # github-runners here are a standby for t14s: they only run while t14s is
     # down, see features/github-runners.nix.
     features = with config.vars.featureSets; base ++ laptop ++ ["github-runners"];
+    accent = "base0C";
+    tailscaleIp = "100.67.195.85";
     display = {
       output = "eDP-1";
       width = 1920;
