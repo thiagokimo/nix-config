@@ -7,15 +7,18 @@
     ...
   }: let
     # decoration vars
-    border-size = 3;
-    gaps-in = 5;
-    gaps-out = 10;
+    border-size = 2;
+    gaps-in = 6;
+    gaps-out = 14;
     active-opacity = 1;
-    inactive-opacity = 0.89;
-    rounding = 20;
-    rounding-power = 2;
-    blur = true;
+    inactive-opacity = 0.92;
+    rounding = 14;
+    rounding-power = 3;
     layout = "dwindle";
+
+    # stylix palette, as bare hex (no #)
+    c = config.lib.stylix.colors;
+    rgba = color: alpha: "rgba(${color}${alpha})";
 
     # noctalia's interface
     ipc = "${config.programs.noctalia.package}/bin/noctalia msg";
@@ -271,6 +274,13 @@
           border_size = ${toString border-size},
           resize_on_border = true,
           layout = "${layout}",
+          col = {
+            active_border = {
+              colors = {"${rgba c.base09 "ff"}", "${rgba c.base0A "ff"}", "${rgba c.base0C "ff"}"},
+              angle = 45
+            },
+            inactive_border = "${rgba c.base01 "cc"}",
+          },
         },
 
         decoration = {
@@ -279,33 +289,34 @@
           active_opacity = ${toString active-opacity},
           inactive_opacity = ${toString inactive-opacity},
           blur = {
-            enabled = ${
-        if blur
-        then "true"
-        else "false"
-      },
-            size = 3,
-            passes = 2,
-            vibrancy = 0.1696
+            enabled = true,
+            size = 6,
+            passes = 3,
+            noise = 0.02,
+            contrast = 1.05,
+            brightness = 0.9,
+            vibrancy = 0.2,
+            popups = true
           },
           shadow = {
             enabled = true,
-            range = 4,
-            render_power = 3
+            range = 20,
+            render_power = 3,
+            color = "${rgba c.base00 "ee"}",
+            color_inactive = "${rgba c.base00 "88"}"
+          },
+          -- faint orange halo around the focused window only
+          glow = {
+            enabled = true,
+            range = 10,
+            render_power = 3,
+            color = "${rgba c.base09 "40"}",
+            color_inactive = "${rgba c.base00 "00"}"
           },
         },
 
         animations = {
-          enabled = true,
-          bezier = { "myBezier, 0.05, 0.9, 0.1, 1.05"},
-          animation = {
-            "windows, 1, 7, myBezier",
-            "windowsOut, 1, 7, default, popin 80%",
-            "border, 1, 10, default",
-            "borderangle, 1, 8, default",
-            "fade, 1, 7, default",
-            "workspaces, 1, 6, default"
-          }
+          enabled = true
         },
 
         dwindle = {
@@ -348,14 +359,68 @@
       hl.on("hyprland.start", function()
         hl.exec_cmd("${config.programs.noctalia.package}/bin/noctalia")
         hl.exec_cmd("dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
-
-        -- window rules
-        hl.exec_cmd("hyprctl keyword windowrulev2 'workspace 7, class:^(steam)$'")
-        hl.exec_cmd("hyprctl keyword windowrulev2 'workspace 7, class:^(Steam)$'")
-        hl.exec_cmd("hyprctl keyword windowrulev2 'workspace 9, class:^(kew)$'")
-        hl.exec_cmd("hyprctl keyword windowrulev2 'workspace 9, class:^(pavucontrol)$'")
-        hl.exec_cmd("hyprctl keyword windowrulev2 'workspace 9, class:^(org.pulseaudio.pavucontrol)$'")
       end)
+
+      -- animations
+      hl.curve("snappy",  { type = "spring", mass = 1, stiffness = 260, dampening = 24 })
+      hl.curve("easeOut", { type = "bezier", points = { {0.23, 1}, {0.32, 1} } })
+      hl.curve("linear",  { type = "bezier", points = { {0, 0}, {1, 1} } })
+
+      hl.animation({ leaf = "global",           enabled = true, speed = 10,  bezier = "default" })
+      hl.animation({ leaf = "windowsIn",        enabled = true, speed = 4,   spring = "snappy",  style = "popin 80%" })
+      hl.animation({ leaf = "windowsMove",      enabled = true, speed = 4,   spring = "snappy" })
+      hl.animation({ leaf = "windowsOut",       enabled = true, speed = 2,   bezier = "easeOut", style = "popin 85%" })
+      hl.animation({ leaf = "fade",             enabled = true, speed = 3,   bezier = "easeOut" })
+      hl.animation({ leaf = "border",           enabled = true, speed = 5,   bezier = "easeOut" })
+      hl.animation({ leaf = "borderangle",      enabled = true, speed = 100, bezier = "linear",  style = "loop" })
+      hl.animation({ leaf = "layersIn",         enabled = true, speed = 3.5, bezier = "easeOut", style = "slide" })
+      hl.animation({ leaf = "layersOut",        enabled = true, speed = 2,   bezier = "easeOut", style = "slide" })
+      hl.animation({ leaf = "workspaces",       enabled = true, speed = 4,   spring = "snappy",  style = "slidefade 20%" })
+      hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 4,   spring = "snappy",  style = "slidefadevert 20%" })
+
+      -- smart gaps: a lone tiled window fills the screen without border or rounding
+      hl.workspace_rule({ workspace = "w[tv1]", gaps_out = 0, gaps_in = 0 })
+      hl.workspace_rule({ workspace = "f[1]", gaps_out = 0, gaps_in = 0 })
+      hl.window_rule({
+        name = "no-gaps-wtv1",
+        match = { float = false, workspace = "w[tv1]" },
+        border_size = 0,
+        rounding = 0,
+      })
+      hl.window_rule({
+        name = "no-gaps-f1",
+        match = { float = false, workspace = "f[1]" },
+        border_size = 0,
+        rounding = 0,
+      })
+
+      -- frosted noctalia bars and panels
+      hl.layer_rule({
+        name = "blur-noctalia",
+        match = { namespace = "^noctalia-(bar|panel|attached-panel|notification|osd|overview-launcher|window-switcher|dock).*" },
+        blur = true,
+        ignore_alpha = 0.2,
+      })
+
+      -- window rules
+      hl.window_rule({ name = "suppress-maximize", match = { class = ".*" }, suppress_event = "maximize" })
+      hl.window_rule({ name = "steam-workspace", match = { class = "^([Ss]team)$" }, workspace = "7" })
+      hl.window_rule({ name = "music-workspace", match = { class = "^(kew|pavucontrol|org.pulseaudio.pavucontrol)$" }, workspace = "9" })
+      hl.window_rule({ name = "kitty-translucent", match = { class = "^(kitty)$" }, opacity = "0.95 0.9" })
+      hl.window_rule({
+        name = "float-utilities",
+        match = { class = "^(blueman-manager|.blueman-manager-wrapped|nm-connection-editor|xdg-desktop-portal-gtk)$" },
+        float = true,
+        center = true,
+        size = "monitor_w*0.45 monitor_h*0.55",
+      })
+      hl.window_rule({
+        name = "float-dialogs",
+        match = { title = "^(Open File|Open Folder|Save As|Save File|File Upload|Select a File).*" },
+        float = true,
+        center = true,
+        size = "monitor_w*0.5 monitor_h*0.6",
+      })
 
       -- bindings
       ${luaBinds}
