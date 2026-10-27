@@ -16,6 +16,14 @@ in {
     c = config.lib.stylix.colors;
     accent = c.${host.accent};
 
+    # The look shared by every capsule on the bar.
+    island = {
+      fill = "surface";
+      opacity = 0.92;
+      border = "#${c.base02}";
+      radius = 8;
+    };
+
     # The lock screen widgets are placed from the host's screen size.
     display =
       if host.display != null
@@ -60,17 +68,19 @@ in {
             font_weight = 600;
 
             capsule = true;
-            capsule_fill = "surface";
-            capsule_opacity = 0.92;
-            capsule_border = "#${c.base02}";
+            capsule_fill = island.fill;
+            capsule_opacity = island.opacity;
+            capsule_border = island.border;
             capsule_thickness = 0.9;
-            capsule_radius = 8;
+            capsule_radius = island.radius;
 
-            start = ["launcher" "workspaces" "active_window"];
+            start = ["launcher" "workspaces" "active_window" "group:media"];
             center = ["group:time"];
-            end = ["group:media" "group:sysmon" "group:status" "group:system"];
+            end = ["group:sysmon" "group:status" "group:system"];
 
-            capsule_group = [
+            # Groups don't inherit the capsule_* defaults above, so each one
+            # gets the island style explicitly.
+            capsule_group = map (group: island // group) [
               {
                 id = "time";
                 members = ["weather" "clock"];
@@ -235,20 +245,22 @@ in {
             capsule = false;
             color = "#${c.base04}";
             font_weight = 500;
-            max_length = 360;
+            max_length = 200;
           };
           weather = {
             show_condition = false;
             icon_color = "#${c.base0A}";
           };
           clock = {
-            format = "{:%a %d %b  %H:%M}";
+            format = "{:%H:%M}";
+            tooltip_format = "{:%A, %d %B %Y}";
             font_weight = 800;
             color = "on_surface";
           };
           media = {
             hide_when_no_media = true;
-            max_length = 260;
+            max_length = 160;
+            title_scroll = "on_hover";
           };
           audio_visualizer = {
             color_2 = "secondary";
