@@ -33,6 +33,10 @@ in {
       pkgs.hyprshot
     ];
 
+    # The nix-wallpapers repo, linked from the store so it updates with the
+    # flake input. Noctalia browses and rotates through it.
+    home.file."Media/Pictures/Wallpapers".source = inputs.nix-wallpapers;
+
     programs.noctalia = {
       enable = true;
       package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
@@ -164,6 +168,17 @@ in {
           builtin = "Gruvbox";
           community_palette = "Oxocarbon";
           wallpaper_scheme = "m3-content";
+        };
+
+        wallpaper = {
+          directory = "${vars.user.home}/Media/Pictures/Wallpapers";
+          automation = {
+            enabled = true;
+            interval_seconds = 1800;
+            order = "random";
+            # The images live in per-theme subfolders.
+            recursive = true;
+          };
         };
 
         weather = {
