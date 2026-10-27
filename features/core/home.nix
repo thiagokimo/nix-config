@@ -11,8 +11,6 @@ in {
       stateVersion = vars.system.stateVersion;
       pointerCursor.enable = true;
 
-      file."Media/Pictures/my-avatar.jpeg".source = ../../assets/my-avatar.jpeg;
-
       sessionVariables = vars.sessionVariables;
     };
   };
