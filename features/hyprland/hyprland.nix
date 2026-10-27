@@ -176,7 +176,7 @@ in {
       {
         mod = "SUPER + CTRL";
         key = "8";
-        dsp = "function() hl.exec_cmd('[workspace 8] ${pkgs.kitty}/bin/kitty -e ${pkgs.btop}/bin/btop'); hl.exec_cmd('[workspace 8] ${pkgs.kitty}/bin/kitty --dir ${config.home.homeDirectory}/.config/nix-config -e nvim .'); end";
+        dsp = "function() hl.exec_cmd('[workspace 8] ${pkgs.kitty}/bin/kitty -e ${pkgs.btop}/bin/btop'); hl.exec_cmd('[workspace 8] ${pkgs.kitty}/bin/kitty --dir ${vars.user.configDir} -e nvim .'); end";
       }
       {
         mod = "SUPER + CTRL";

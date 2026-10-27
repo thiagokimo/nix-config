@@ -75,7 +75,7 @@
             keyIcon = "󱄅";
             key = "│ 󱄅  Nix Gen   ";
             keyColor = "38;2;${blue}";
-            text = "echo \"Sys #$(readlink /nix/var/nix/profiles/system | sed -E 's/.*-([0-9]+)-link/\\1/'), Home #$(readlink ~/.local/state/nix/profiles/home-manager 2>/dev/null | sed -E 's/.*-([0-9]+)-link/\\1/')\"";
+            text = "echo \"Sys #$(readlink /nix/var/nix/profiles/system | sed -E 's/.*-([0-9]+)-link/\\1/'), Home #$(readlink ${config.xdg.stateHome}/nix/profiles/home-manager 2>/dev/null | sed -E 's/.*-([0-9]+)-link/\\1/')\"";
           }
           {
             type = "disk";
