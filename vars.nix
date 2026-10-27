@@ -12,7 +12,6 @@
 
     sessionVariables = {
       EDITOR = config.vars.defaults.editor.bin;
-      XDG_DATA_HOME = "${config.vars.user.home}/.local/share";
     };
 
     defaults = {
