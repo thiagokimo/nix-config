@@ -12,10 +12,14 @@ in {
     config,
     ...
   }: let
+    host = vars.hosts.${config.host.name};
+    c = config.lib.stylix.colors;
+    accent = c.${host.accent};
+
     # The lock screen widgets are placed from the host's screen size.
     display =
-      if vars.hosts.${config.host.name}.display != null
-      then vars.hosts.${config.host.name}.display
+      if host.display != null
+      then host.display
       else {
         output = "eDP-1";
         width = 1920;
@@ -37,33 +41,63 @@ in {
       enable = true;
       package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
       settings = {
+        # One floating top bar. The bar itself is transparent and the widgets
+        # sit in capsule groups, so only those "islands" are drawn and blurred.
         bar = {
-          order = ["top" "bottom"];
-          bottom = {
-            center = ["media" "spacer_16" "audio_visualizer"];
-            enabled = true;
-            end = ["tray" "spacer_10" "notifications" "spacer_9" "clipboard" "spacer_8" "bluetooth" "spacer_3" "session"];
-            font_family = config.stylix.fonts.monospace.name;
-            margin_edge = 8;
-            margin_ends = 14;
-            position = "bottom";
-            radius = 14;
-            background_opacity = 0.85;
-            shadow = true;
+          order = ["main"];
+          main = {
+            position = "top";
             scale = 1.5;
-            start = ["ram" "spacer_2" "temp" "spacer_4" "sysmon"];
-          };
-          top = {
-            center = ["active_window"];
-            end = ["brightness" "spacer_12" "volume" "spacer_11" "network" "spacer_7" "battery" "spacer_13" "clock"];
-            font_family = config.stylix.fonts.monospace.name;
+            thickness = 30;
             margin_edge = 8;
-            margin_ends = 14;
-            radius = 14;
-            background_opacity = 0.85;
-            shadow = true;
-            scale = 1.5;
-            start = ["workspaces" "spacer_14" "taskbar"];
+            margin_ends = 8;
+            padding = 0;
+            widget_spacing = 6;
+            background_opacity = 0.0;
+            shadow = false;
+            dead_zone.click_through = true;
+            font_family = config.stylix.fonts.monospace.name;
+            font_weight = 600;
+
+            capsule = true;
+            capsule_fill = "surface";
+            capsule_opacity = 0.92;
+            capsule_border = "#${c.base02}";
+            capsule_thickness = 0.9;
+            capsule_radius = 8;
+
+            start = ["launcher" "workspaces" "active_window"];
+            center = ["group:time"];
+            end = ["group:media" "group:sysmon" "group:status" "group:system"];
+
+            capsule_group = [
+              {
+                id = "time";
+                members = ["weather" "clock"];
+                widget_spacing = 12;
+              }
+              {
+                id = "media";
+                members = ["media" "audio_visualizer"];
+              }
+              {
+                # Only the CPU shows until hovered.
+                id = "sysmon";
+                members = ["cpu" "ram" "temp"];
+                accordion = true;
+                accordion_direction = "start";
+                accordion_delay_ms = 150;
+              }
+              {
+                id = "status";
+                members = ["tray" "network" "bluetooth" "volume" "brightness" "battery"];
+                widget_spacing = 12;
+              }
+              {
+                id = "system";
+                members = ["notifications" "clipboard" "session"];
+              }
+            ];
           };
         };
 
@@ -172,26 +206,76 @@ in {
           effects = true;
         };
 
+        # Each status icon gets its own gruvbox hue; the host accent marks the
+        # launcher and the focused workspace, as it does in kitty and the prompt.
         widget = {
+          launcher = {
+            custom_image = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake-white.svg";
+            custom_image_colorize = true;
+            color = "#${accent}";
+          };
+          workspaces = {
+            style = "regular";
+            show_labels = false;
+            pill_scale = 0.5;
+            active_pill_size = 2.8;
+            capsule_padding = 10;
+            focused_color = "#${accent}";
+            occupied_color = "#${c.base04}";
+            empty_color = "#${c.base03}";
+          };
+          active_window = {
+            capsule = false;
+            color = "#${c.base04}";
+            font_weight = 500;
+            max_length = 360;
+          };
+          weather = {
+            show_condition = false;
+            icon_color = "#${c.base0A}";
+          };
+          clock = {
+            format = "{:%a %d %b  %H:%M}";
+            font_weight = 800;
+            color = "on_surface";
+          };
+          media = {
+            hide_when_no_media = true;
+            max_length = 260;
+          };
           audio_visualizer = {
             color_2 = "secondary";
-            scale = 1.5;
           };
-          spacer_10 = {type = "spacer";};
-          spacer_11 = {type = "spacer";};
-          spacer_12 = {type = "spacer";};
-          spacer_13 = {type = "spacer";};
-          spacer_14 = {type = "spacer";};
-          spacer_15 = {type = "spacer";};
-          spacer_16 = {type = "spacer";};
-          spacer_2 = {type = "spacer";};
-          spacer_3 = {type = "spacer";};
-          spacer_4 = {type = "spacer";};
-          spacer_5 = {type = "spacer";};
-          spacer_6 = {type = "spacer";};
-          spacer_7 = {type = "spacer";};
-          spacer_8 = {type = "spacer";};
-          spacer_9 = {type = "spacer";};
+          cpu = {
+            type = "sysmon";
+            stat = "cpu_usage";
+            visualization = "none";
+            icon_color = "#${c.base0B}";
+          };
+          ram = {
+            type = "sysmon";
+            stat = "ram_used";
+            visualization = "none";
+            icon_color = "#${c.base0D}";
+          };
+          temp = {
+            type = "sysmon";
+            stat = "cpu_temp";
+            visualization = "none";
+            icon_color = "#${c.base0E}";
+          };
+          network = {
+            show_label = false;
+            icon_color = "#${accent}";
+          };
+          bluetooth.icon_color = "#${c.base0D}";
+          volume.icon_color = "#${c.base09}";
+          brightness = {
+            show_label = false;
+            icon_color = "#${c.base0A}";
+          };
+          battery.icon_color = "#${c.base0B}";
+          session.color = "error";
         };
       };
     };
