@@ -55,8 +55,11 @@ in {
           order = ["main"];
           main = {
             position = "top";
-            scale = 1.5;
-            thickness = 30;
+            # Smaller content in a bar of the same height leaves room around
+            # the icons; font_scale keeps the text at its old size.
+            scale = 1.25;
+            font_scale = 1.15;
+            thickness = 36;
             margin_edge = 8;
             margin_ends = 8;
             padding = 0;
@@ -245,7 +248,7 @@ in {
             capsule = false;
             color = "#${c.base04}";
             font_weight = 500;
-            max_length = 200;
+            max_length = 240;
           };
           weather = {
             show_condition = false;
@@ -259,7 +262,7 @@ in {
           };
           media = {
             hide_when_no_media = true;
-            max_length = 160;
+            max_length = 190;
             title_scroll = "on_hover";
           };
           audio_visualizer = {
