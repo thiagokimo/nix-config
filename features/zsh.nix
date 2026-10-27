@@ -54,9 +54,10 @@ in {
       };
     };
 
-    # The prompt, styled like the noctalia bar islands. Over SSH it opens with
-    # a badge in the host's accent color (the same one kitty tints the window
-    # with), so a prompt with a host badge is always a remote one.
+    # The prompt, styled like the noctalia bar islands. It opens with the host:
+    # a quiet island locally, and over SSH a solid pill in the host's accent
+    # color (the same one kitty tints the window with), so a remote prompt
+    # stands out.
     programs.starship = {
       enable = true;
       enableZshIntegration = true;
@@ -70,7 +71,7 @@ in {
         add_newline = true;
         format = lib.concatStrings [
           "$hostname"
-          "$os"
+          "\${custom.host}"
           " $directory"
           "( $git_branch$git_status)"
           "( $nix_shell)"
@@ -83,15 +84,15 @@ in {
         hostname = {
           ssh_only = true;
           ssh_symbol = "${host.icon} ";
-          format = "${pill accent " $ssh_symbol$hostname "} ";
+          format = pill accent " $ssh_symbol$hostname ";
           style = "bold";
         };
-        os = {
-          disabled = false;
-          format = island "[ $symbol ](bold bg:base01 fg:${accent})";
-          # kitty draws a private-use glyph followed by a space two cells wide,
-          # which centers the logo between the one-cell paddings.
-          symbols.NixOS = " ";
+        # The same badge as a quiet island when local. Starship can't hide a
+        # module while a variable is set, so a cheap sh test decides.
+        custom.host = {
+          when = ''[ -z "$SSH_CONNECTION" ]'';
+          shell = ["sh"];
+          format = island "[ ${host.icon} ](bg:base01 fg:${accent})[${config.host.name} ](bg:base01 fg:base05)";
         };
         directory = {
           format = island "[ $path](bg:base01 fg:base05)[$read_only](bg:base01 fg:red)";
