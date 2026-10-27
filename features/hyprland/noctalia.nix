@@ -186,6 +186,13 @@ in {
           launch_apps_as_systemd_services = true;
           panel = {
             transparency_mode = "glass";
+            # Attached panels take the bar's background, which is fully
+            # transparent, so every panel floats with its own instead.
+            control_center_placement = "floating";
+            wallpaper_placement = "floating";
+            session_placement = "floating";
+            open_near_click_control_center = true;
+            open_near_click_session = true;
           };
           ui_scale = 1.5;
           screenshot = {
