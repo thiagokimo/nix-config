@@ -259,12 +259,7 @@ in {
             occupied_color = "#${c.base04}";
             empty_color = "#${c.base03}";
           };
-          active_window = {
-            capsule = false;
-            color = "#${c.base04}";
-            font_weight = 500;
-            max_length = 240;
-          };
+          active_window.max_length = 240;
           weather = {
             show_condition = false;
             icon_color = "#${c.base0A}";
