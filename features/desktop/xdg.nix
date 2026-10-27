@@ -91,7 +91,8 @@ in {
         publicShare = null;
         templates = null;
         extraConfig = {
-          SCREENSHOTS = "${config.home.homeDirectory}/Media/Pictures/Screenshots";
+          SCREENSHOTS = "${config.xdg.userDirs.pictures}/Screenshots";
+          WALLPAPERS = "${config.xdg.userDirs.pictures}/Wallpapers";
         };
       };
 

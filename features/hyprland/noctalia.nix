@@ -40,6 +40,11 @@ in {
 
     centerX = width / 2.0;
     centerY = height / 2.0;
+
+    # The folders come from xdg.userDirs, which is the only place that lays
+    # them out.
+    dirs = config.xdg.userDirs;
+    avatar = "${dirs.pictures}/my-avatar.jpeg";
   in {
     home.packages = [
       pkgs.hyprshot
@@ -47,7 +52,8 @@ in {
 
     # The nix-wallpapers repo, linked from the store so it updates with the
     # flake input. Noctalia browses and rotates through it.
-    home.file."Media/Pictures/Wallpapers".source = inputs.nix-wallpapers;
+    home.file.${dirs.extraConfig.WALLPAPERS}.source = inputs.nix-wallpapers;
+    home.file.${avatar}.source = ../../assets/my-avatar.jpeg;
 
     programs.noctalia = {
       enable = true;
@@ -198,7 +204,7 @@ in {
         };
 
         shell = {
-          avatar_path = "${vars.user.home}/Media/Pictures/my-avatar.jpeg";
+          avatar_path = avatar;
           font_family = config.stylix.fonts.monospace.name;
           launch_apps_as_systemd_services = true;
           panel = {
@@ -213,7 +219,7 @@ in {
           };
           ui_scale = 1.5;
           screenshot = {
-            directory = "${vars.user.home}/Media/Pictures/Screenshots";
+            directory = dirs.extraConfig.SCREENSHOTS;
           };
         };
 
@@ -225,7 +231,7 @@ in {
         };
 
         wallpaper = {
-          directory = "${vars.user.home}/Media/Pictures/Wallpapers";
+          directory = dirs.extraConfig.WALLPAPERS;
           automation = {
             enabled = true;
             interval_seconds = 1800;
