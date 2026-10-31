@@ -374,6 +374,7 @@ in {
 
       -- auto start processes
       hl.on("hyprland.start", function()
+        hl.exec_cmd("${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init")
         hl.exec_cmd("${config.programs.noctalia.package}/bin/noctalia")
         hl.exec_cmd("dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
       end)
