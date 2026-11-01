@@ -18,6 +18,10 @@ in {
     rounding-power = 3;
     layout = "dwindle";
 
+    # The bar's capsules fill its height evenly, so repeating its margin from
+    # the screen edge under it keeps them vertically centered.
+    lone-gaps-out = "{ top = ${toString config.programs.noctalia.settings.bar.main.margin_edge}, right = 0, bottom = 0, left = 0 }";
+
     # stylix palette, as bare hex (no #)
     c = config.lib.stylix.colors;
     rgba = color: alpha: "rgba(${color}${alpha})";
@@ -396,9 +400,10 @@ in {
       hl.animation({ leaf = "workspaces",       enabled = true, speed = 4,   spring = "snappy",  style = "slidefade 20%" })
       hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 4,   spring = "snappy",  style = "slidefadevert 20%" })
 
-      -- smart gaps: a lone tiled window fills the screen without border or rounding
-      hl.workspace_rule({ workspace = "w[tv1]", gaps_out = 0, gaps_in = 0 })
-      hl.workspace_rule({ workspace = "f[1]", gaps_out = 0, gaps_in = 0 })
+      -- smart gaps: a lone tiled window fills the screen without border or
+      -- rounding, leaving only the space that centers the bar above it
+      hl.workspace_rule({ workspace = "w[tv1]", gaps_out = ${lone-gaps-out}, gaps_in = 0 })
+      hl.workspace_rule({ workspace = "f[1]", gaps_out = ${lone-gaps-out}, gaps_in = 0 })
       hl.window_rule({
         name = "no-gaps-wtv1",
         match = { float = false, workspace = "w[tv1]" },
