@@ -24,6 +24,16 @@
         count = 2;
         name = "t14s-pixel-pong";
       };
+      papel-e-caneta = {
+        extraLabels = ["t14s" "papel-e-caneta"];
+        # Two jobs at a time, like pixel-pong. The end-to-end job gives each
+        # replica its own emulator ports (20000 + 100 × n, apart from
+        # pixel-pong's and from the ones used by hand), picked from the `-<n>`
+        # suffix of RUNNER_NAME, so the name has to keep ending in the replica
+        # number.
+        count = 2;
+        name = "t14s-papel-e-caneta";
+      };
     };
 
     # Standby for t14s, see standbyFor below.
