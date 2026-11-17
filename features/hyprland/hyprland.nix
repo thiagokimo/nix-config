@@ -351,7 +351,9 @@ in {
         },
 
         debug = {
-          vfr = true
+          vfr = true,
+          -- keep hyprland.log so a compositor crash leaves a trace
+          disable_logs = false
         },
 
         misc = {
