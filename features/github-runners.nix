@@ -50,6 +50,14 @@
         # registration, and GitHub drops it soon after it goes offline.
         ephemeral = true;
       };
+      # Same as pixel-pong above: runners t14-papel-e-caneta-1 and -2, whose
+      # `-<n>` suffix still picks each replica's emulator ports.
+      papel-e-caneta = {
+        extraLabels = ["papel-e-caneta"];
+        count = 2;
+        name = "t14-papel-e-caneta";
+        ephemeral = true;
+      };
     };
   };
 
