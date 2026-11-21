@@ -52,6 +52,10 @@
 
       boot.initrd.prepend = ["${acpiOverride}"];
 
+      # Mesa hides the Tiger Lake GPU's Vulkan video decoding unless asked for
+      # it, and GeForce NOW decodes its stream through Vulkan.
+      services.flatpak.overrides.settings."com.nvidia.geforcenow".Environment.ANV_DEBUG = "video-decode";
+
       swapDevices = [
         {
           device = "/swapfile";
