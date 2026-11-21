@@ -293,6 +293,8 @@ in {
           gaps_in = ${toString gaps-in},
           gaps_out = ${toString gaps-out},
           border_size = ${toString border-size},
+          -- lets windows with the "immediate" rule (games) tear
+          allow_tearing = true,
           resize_on_border = true,
           layout = "${layout}",
           col = {
@@ -430,6 +432,23 @@ in {
       -- window rules
       hl.window_rule({ name = "suppress-maximize", match = { class = ".*" }, suppress_event = "maximize" })
       hl.window_rule({ name = "steam-workspace", match = { class = "^([Ss]team)$" }, workspace = "7" })
+      -- Steam's friends list and dialogs float instead of tiling next to it
+      hl.window_rule({
+        name = "steam-float",
+        match = { class = "^([Ss]team)$", title = "^(Friends List|Steam Settings|Properties - .*|Screenshot Manager)$" },
+        float = true,
+        center = true,
+      })
+      -- games (Proton, native or in gamescope) get workspace 8, fullscreen,
+      -- tearing for lower latency, and keep the screen from going idle
+      hl.window_rule({
+        name = "games",
+        match = { class = "^(steam_app_.*|gamescope)$" },
+        workspace = "8",
+        fullscreen = true,
+        immediate = true,
+        idle_inhibit = "fullscreen",
+      })
       hl.window_rule({ name = "music-workspace", match = { class = "^(kew|pavucontrol|org.pulseaudio.pavucontrol)$" }, workspace = "9" })
       ${luaSshRules}
       hl.window_rule({

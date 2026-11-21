@@ -1,5 +1,9 @@
-# Framework Laptop 13 (AMD).
-{config, ...}: {
+# Framework Laptop 13 (AMD Ryzen 7040).
+{
+  config,
+  inputs,
+  ...
+}: {
   vars.hosts.framework = {
     system = "x86_64-linux";
     features = with config.vars.featureSets; base ++ laptop;
@@ -13,6 +17,7 @@
     nixos = {
       imports = [
         ./_hardware-configuration.nix
+        inputs.nixos-hardware.nixosModules.framework-13-7040-amd
       ];
     };
   };
