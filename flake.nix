@@ -21,6 +21,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    # Declarative Flatpak remotes and apps, for apps only shipped as Flatpaks.
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     nix-wallpapers = {
       url = "github:thiagokimo/nix-wallpapers";
       flake = false;
