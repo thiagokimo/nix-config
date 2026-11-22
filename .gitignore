@@ -1,2 +1,6 @@
 .direnv
 result*
+
+# Claude Code: the checkouts its sessions work in, and personal settings.
+.claude/worktrees/
+.claude/settings.local.json
