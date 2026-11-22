@@ -36,6 +36,7 @@
 - **⚡ Fully Declarative Nixvim**: Complete Neovim environment maintained in Nix with `neo-tree`, `lualine`, `bufferline`, `vim-nix` and `dart-vim-plugin`.
 - **⌨️ Low-Latency Dual-Role Keys (Kanata)**: Hardware-level keyboard remap daemon intercepting `uinput` to provide tap-for-Escape and hold-for-Ctrl on both Caps Lock and Left Control (`(tap-hold 100 200 esc lctrl)`).
 - **🤖 Self-Hosted CI**: The T14s runs GitHub Actions runners for this repository and others. The T14 keeps standby runners that start only when the T14s has been unreachable over Tailscale for 10 minutes.
+- **📟 Uptime Monitoring**: The Pi runs Gatus, which checks every host over Tailscale (ping and SSH) and pushes alerts through a self-hosted ntfy to the phone when a server goes down and when it comes back. Laptops only show on the dashboard.
 - **🚀 nh (Nix CLI Helper) & Automated GC**: Integrated `nh` for switching (`nrs` and `hms` aliases) alongside weekly Nix store optimization and garbage collection (`--delete-older-than 7d`).
 - **🌐 Secure Mesh Networking (Tailscale)**: Tailscale service with trusted interface routing (`tailscale0`) and loose reverse-path filtering.
 
@@ -90,7 +91,7 @@ graph TD
         subgraph Features ["features/ (loaded by import-tree)"]
             BaseF["base, on every host:<br/>ai, audio, bluetooth, cli, core, docker,<br/>firmware, kanata, nvim, ssh, stylix, tailscale, zsh"]
             LaptopF["laptop, on framework and t14:<br/>desktop, gaming, hyprland"]
-            ServerF["per host:<br/>github-runners on t14s and t14 (standby),<br/>ssh-agent on t14s"]
+            ServerF["per host:<br/>github-runners on t14s and t14 (standby),<br/>ssh-agent on t14s,<br/>monitoring on pi"]
         end
         subgraph Hosts ["hosts/ (loaded by import-tree)"]
             HostFiles["hosts/framework, t14, t14s, pi<br/>each machine: system, display, accent,<br/>features from the feature sets,<br/>and its own NixOS module"]
@@ -169,14 +170,14 @@ Every push to `main` runs on the self-hosted runner on `t14s`: it checks formatt
 
 ## 🖥️ Hardware & Hosts
 
-Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: ai, audio, bluetooth, cli, core, docker, firmware, kanata, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get desktop, gaming and hyprland. `t14s` adds github-runners and ssh-agent, and `t14` also lists github-runners as its standby. `pi` runs only the base features, on `aarch64-linux`.
+Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: ai, audio, bluetooth, cli, core, docker, firmware, kanata, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get desktop, gaming and hyprland. `t14s` adds github-runners and ssh-agent, and `t14` also lists github-runners as its standby. `pi` adds monitoring, on `aarch64-linux`.
 
 | Hostname | Platform / CPU | Target Machine | Resolution | Storage / Swap | Special Hardware Configurations |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`framework`** | `x86_64-linux`<br>AMD Ryzen | Framework Laptop 13 | `2256×1504`<br>(eDP-1) | LUKS Encrypted<br>Swap Partition | AMD microcode, `kvm-amd`, yellow accent. |
 | **`t14`** | `x86_64-linux`<br>Intel Gen 2 | Lenovo ThinkPad T14 | `1920×1080`<br>(eDP-1) | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14 module, ACPI SSDT override fixing a missing method that disabled a thermal zone, standby GitHub runners, aqua accent. |
 | **`t14s`** | `x86_64-linux`<br>Intel | Lenovo ThinkPad T14s (home server) | Headless | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14s module, GitHub Actions runners, never sleeps with the lid closed, TLP off, user services kept running without a login, purple accent with a server glyph. |
-| **`pi`** | `aarch64-linux`<br>Broadcom BCM2711 | Raspberry Pi 4 in an Argon ONE M.2 case | Headless | M.2 SATA SSD over USB 3<br>zram swap | `nixos-hardware` Raspberry Pi 4 module with the cached mainline kernel, extlinux instead of systemd-boot, Argon ONE fan curve and power button, red accent with a Raspberry Pi glyph. |
+| **`pi`** | `aarch64-linux`<br>Broadcom BCM2711 | Raspberry Pi 4 in an Argon ONE M.2 case | Headless | M.2 SATA SSD over USB 3<br>zram swap | `nixos-hardware` Raspberry Pi 4 module with the cached mainline kernel, extlinux instead of systemd-boot, Argon ONE fan curve and power button, Gatus and ntfy uptime monitoring, Wi-Fi country set to Brazil, red accent with a Raspberry Pi glyph. |
 
 ---
 
@@ -231,6 +232,8 @@ System capabilities provided by features:
 - **Firmware (`features/firmware`)**: `fwupd` with a `firmware-update` helper (`fwup` alias) that refreshes metadata, checks and installs updates.
 - **GitHub Actions Runners (`features/github-runners.nix`)**:
   One runner service per repository. On `t14`, a timer checks every 2 minutes whether `t14s` is reachable over Tailscale, starts the ephemeral standby runners after 10 minutes of outage, and stops them once `t14s` returns, without interrupting a running job.
+- **Uptime Monitoring (`features/monitoring.nix`)**:
+  Gatus checks each other host with a Tailscale address every minute (ICMP ping and a TCP check on SSH) and keeps its history in SQLite. Servers, the hosts without the desktop feature, alert after three failed checks and again when they recover, through ntfy on the same host. Both listen on the tailnet only: the dashboard on port 8080, ntfy on port 2586, topic `homelab`.
 - **Containerization & Gaming**:
   - Docker daemon with `docker-compose` and non-root group assignment (`features/docker.nix`).
   - Steam with firewall openings for Remote Play and dedicated servers, plus Wine and winetricks (`features/gaming.nix`).
@@ -305,11 +308,12 @@ Translucent kitty (`0.9` opacity) with powerline tabs and a cursor trail. `ssh` 
 │   ├── firmware/              # fwupd and the firmware-update script
 │   ├── desktop/               # Graphical session: fonts, kitty, default apps, GUI apps
 │   ├── hyprland/              # Hyprland, Noctalia, portals, login screen
-│   └── *.nix                  # Single-file features (ai, audio, bluetooth, docker, gaming, github-runners, ...)
+│   └── *.nix                  # Single-file features (ai, audio, bluetooth, docker, gaming, github-runners, monitoring, ...)
 ├── hosts/                     # Each machine: system, display, accent, features, own NixOS module, hardware configuration
 │   ├── framework/             # AMD Framework 13 Laptop
 │   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel)
-│   └── t14s/                  # Lenovo ThinkPad T14s (Intel), home server
+│   ├── t14s/                  # Lenovo ThinkPad T14s (Intel), home server
+│   └── pi/                    # Raspberry Pi 4 in an Argon ONE M.2 case, monitoring server
 ├── modules/flake/             # Flake-level modules: the vars option and the host builder
 ├── lib/                       # colors.nix: hex to RGB and color mixing helpers
 ├── overlays/                  # Nixpkgs overlays (stable packages, local packages, custom modifications)
