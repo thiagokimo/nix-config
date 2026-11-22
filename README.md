@@ -28,6 +28,7 @@
   - **Framework 13 (AMD)**: LUKS disk encryption, AMD microcode and KVM, 2256×1504 display.
   - **ThinkPad T14 Gen 2 (Intel)**: Curated `nixos-hardware` profile, LUKS disk encryption, 8GB swapfile, an ACPI table fix for a thermal sensor firmware bug, and standby CI runners.
   - **ThinkPad T14s (Intel)**: Headless home server and self-hosted CI runner. Curated `nixos-hardware` profile, LUKS disk encryption, 8GB swapfile, and never sleeps with the lid closed.
+  - **Raspberry Pi 4 (Argon ONE M.2)**: Small always-on server on `aarch64-linux`, booting from the case’s M.2 SATA SSD. `nixos-hardware` profile with the mainline kernel, the Argon ONE fan and power button daemon, and zram swap.
 - **🎨 System-Wide Gruvbox Aesthetics (Stylix)**: System and user space share the **Gruvbox Dark Hard** base16 palette, **Bibata-Modern-Ice** cursors and **JetBrainsMono Nerd Font**. Wallpapers come from [`thiagokimo/nix-wallpapers`](https://github.com/thiagokimo/nix-wallpapers).
 - **🏷️ Per-Host Identity**: Each host has an accent color and a glyph. They mark the launcher, focused workspace and prompt, and over SSH they tint the kitty window, title it with the host and color its Hyprland border, so a remote shell can't pass for a local one.
 - **🌀 Lua-Compiled Hyprland Desktop**: Hyprland configured through a generated `hyprland.lua`, with spring animations, a rotating gradient border, smart gaps, blur and dwindle layout.
@@ -92,7 +93,7 @@ graph TD
             ServerF["per host:<br/>github-runners on t14s and t14 (standby),<br/>ssh-agent on t14s"]
         end
         subgraph Hosts ["hosts/ (loaded by import-tree)"]
-            HostFiles["hosts/framework, t14, t14s<br/>each machine: system, display, accent,<br/>features from the feature sets,<br/>and its own NixOS module"]
+            HostFiles["hosts/framework, t14, t14s, pi<br/>each machine: system, display, accent,<br/>features from the feature sets,<br/>and its own NixOS module"]
         end
         HostsMod["modules/flake/hosts.nix<br/>builds every host"]
     end
@@ -109,7 +110,7 @@ graph TD
     FlakeModules -->|features each host lists| HostsMod
 
     subgraph Outputs ["Flake Outputs"]
-        NixOS["nixosConfigurations<br/>framework, t14, t14s"]
+        NixOS["nixosConfigurations<br/>framework, t14, t14s, pi"]
         HomeM["homeConfigurations<br/>thiago@host"]
         Checks["checks<br/>Alejandra and builds"]
     end
@@ -168,13 +169,14 @@ Every push to `main` runs on the self-hosted runner on `t14s`: it checks formatt
 
 ## 🖥️ Hardware & Hosts
 
-Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: ai, audio, bluetooth, cli, core, docker, firmware, kanata, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get desktop, gaming and hyprland. `t14s` adds github-runners and ssh-agent, and `t14` also lists github-runners as its standby.
+Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: ai, audio, bluetooth, cli, core, docker, firmware, kanata, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get desktop, gaming and hyprland. `t14s` adds github-runners and ssh-agent, and `t14` also lists github-runners as its standby. `pi` runs only the base features, on `aarch64-linux`.
 
 | Hostname | Platform / CPU | Target Machine | Resolution | Storage / Swap | Special Hardware Configurations |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`framework`** | `x86_64-linux`<br>AMD Ryzen | Framework Laptop 13 | `2256×1504`<br>(eDP-1) | LUKS Encrypted<br>Swap Partition | AMD microcode, `kvm-amd`, yellow accent. |
 | **`t14`** | `x86_64-linux`<br>Intel Gen 2 | Lenovo ThinkPad T14 | `1920×1080`<br>(eDP-1) | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14 module, ACPI SSDT override fixing a missing method that disabled a thermal zone, standby GitHub runners, aqua accent. |
 | **`t14s`** | `x86_64-linux`<br>Intel | Lenovo ThinkPad T14s (home server) | Headless | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14s module, GitHub Actions runners, never sleeps with the lid closed, TLP off, user services kept running without a login, purple accent with a server glyph. |
+| **`pi`** | `aarch64-linux`<br>Broadcom BCM2711 | Raspberry Pi 4 in an Argon ONE M.2 case | Headless | M.2 SATA SSD over USB 3<br>zram swap | `nixos-hardware` Raspberry Pi 4 module with the cached mainline kernel, extlinux instead of systemd-boot, Argon ONE fan curve and power button, red accent with a Raspberry Pi glyph. |
 
 ---
 
