@@ -53,6 +53,11 @@
         default = null;
         description = "Tailscale address, so SSH sessions opened by IP get the host's terminal colors too.";
       };
+      forwardAgent = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Whether SSH sessions into this host from hosts with the ssh-agent feature forward the agent, so git there can use the key of the machine connecting.";
+      };
       nixos = mkOption {
         type = types.deferredModule;
         default = {};

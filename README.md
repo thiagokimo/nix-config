@@ -90,7 +90,7 @@ graph TD
         Vars["vars.nix<br/>user, app defaults, feature sets"]
         subgraph Features ["features/ (loaded by import-tree)"]
             BaseF["base, on every host:<br/>ai, audio, bluetooth, cli, core, docker,<br/>firmware, kanata, nvim, ssh, stylix, tailscale, zsh"]
-            LaptopF["laptop, on framework and t14:<br/>desktop, gaming, hyprland"]
+            LaptopF["laptop, on framework and t14:<br/>desktop, gaming, hyprland, ssh-agent"]
             ServerF["per host:<br/>github-runners on t14s and t14 (standby),<br/>ssh-agent on t14s,<br/>monitoring on pi"]
         end
         subgraph Hosts ["hosts/ (loaded by import-tree)"]
@@ -170,7 +170,7 @@ Every push to `main` runs on the self-hosted runner on `t14s`: it checks formatt
 
 ## 🖥️ Hardware & Hosts
 
-Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: ai, audio, bluetooth, cli, core, docker, firmware, kanata, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get desktop, gaming and hyprland. `t14s` adds github-runners and ssh-agent, and `t14` also lists github-runners as its standby. `pi` adds monitoring, on `aarch64-linux`.
+Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: ai, audio, bluetooth, cli, core, docker, firmware, kanata, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get desktop, gaming, hyprland and ssh-agent, which forwards the agent into hosts with `forwardAgent`, the `pi` for now. `t14s` adds github-runners and ssh-agent, and `t14` also lists github-runners as its standby. `pi` adds monitoring, on `aarch64-linux`.
 
 | Hostname | Platform / CPU | Target Machine | Resolution | Storage / Swap | Special Hardware Configurations |
 | :--- | :--- | :--- | :--- | :--- | :--- |

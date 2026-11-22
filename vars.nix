@@ -46,7 +46,7 @@
       # Features every host gets.
       base = ["ai" "audio" "bluetooth" "cli" "core" "docker" "firmware" "kanata" "nvim" "ssh" "stylix" "tailscale" "zsh"];
       # Features for the laptops I carry around.
-      laptop = ["desktop" "gaming" "hyprland"];
+      laptop = ["desktop" "gaming" "hyprland" "ssh-agent"];
     };
   };
 }
