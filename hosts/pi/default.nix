@@ -12,6 +12,10 @@
     accent = "base08";
     icon = "󰐿";
     tailscaleIp = "100.115.255.84";
+    # git on the Pi pushes and pulls with the key of the laptop connecting. The
+    # matching public key has to be at ~/.ssh/id_ed25519.pub on the Pi, since
+    # features/cli/gh.nix sets IdentitiesOnly for github.com.
+    forwardAgent = true;
 
     nixos = {pkgs, ...}: {
       imports = [
