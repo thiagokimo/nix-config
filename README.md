@@ -36,7 +36,7 @@
 - **⚡ Fully Declarative Nixvim**: Complete Neovim environment maintained in Nix with `neo-tree`, `lualine`, `bufferline`, `vim-nix` and `dart-vim-plugin`.
 - **⌨️ Low-Latency Dual-Role Keys (Kanata)**: Hardware-level keyboard remap daemon intercepting `uinput` to provide tap-for-Escape and hold-for-Ctrl on both Caps Lock and Left Control (`(tap-hold 100 200 esc lctrl)`).
 - **🤖 Self-Hosted CI**: The T14s runs GitHub Actions runners for this repository and others. The T14 keeps standby runners that start only when the T14s has been unreachable over Tailscale for 10 minutes.
-- **📟 Uptime Monitoring**: The Pi runs Gatus, which checks every host over Tailscale (ping and SSH) and pushes alerts through a self-hosted ntfy to the phone when a server goes down and when it comes back. Laptops only show on the dashboard.
+- **📟 Uptime Monitoring**: The Pi runs Gatus, which checks every host over Tailscale (ping and SSH) and pushes alerts through a self-hosted ntfy to the phone when a server goes down and when it comes back. Laptops only show on the dashboard. Any system service that fails on the Pi or the T14s is pushed too, with its last log lines.
 - **🛡️ Network-Wide Ad Blocking**: The Pi runs AdGuard Home as the tailnet’s DNS server, so every device on Tailscale gets ad and tracker blocking anywhere, over encrypted upstreams. Gatus checks that it answers and blocks.
 - **🏷️ Friendly Service Names**: The Pi’s services answer at `status.lan`, `dns.lan` and `ntfy.lan` instead of an address and port: AdGuard resolves the names for every tailnet device, and Caddy routes each to its service.
 - **🚀 nh (Nix CLI Helper) & Automated GC**: Integrated `nh` for switching (`nrs` and `hms` aliases) alongside weekly Nix store optimization and garbage collection (`--delete-older-than 7d`).
@@ -93,7 +93,7 @@ graph TD
         subgraph Features ["features/ (loaded by import-tree)"]
             BaseF["base, on every host:<br/>ai, audio, bluetooth, cli, core, docker,<br/>firmware, kanata, nvim, ssh, stylix, tailscale, zsh"]
             LaptopF["laptop, on framework and t14:<br/>desktop, gaming, hyprland, ssh-agent"]
-            ServerF["per host:<br/>github-runners on t14s and t14 (standby),<br/>ssh-agent on t14s,<br/>adguard, monitoring and proxy on pi"]
+            ServerF["per host:<br/>github-runners on t14s and t14 (standby),<br/>failure-alerts on t14s and pi,<br/>ssh-agent on t14s,<br/>adguard, monitoring and proxy on pi"]
         end
         subgraph Hosts ["hosts/ (loaded by import-tree)"]
             HostFiles["hosts/framework, t14, t14s, pi<br/>each machine: system, display, accent,<br/>features from the feature sets,<br/>and its own NixOS module"]
@@ -172,7 +172,7 @@ Every push to `main` runs on the self-hosted runner on `t14s`: it checks formatt
 
 ## 🖥️ Hardware & Hosts
 
-Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: ai, audio, bluetooth, cli, core, docker, firmware, kanata, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get desktop, gaming, hyprland and ssh-agent, which forwards the agent into hosts with `forwardAgent`, the `pi` for now. `t14s` adds github-runners and ssh-agent, and `t14` also lists github-runners as its standby. `pi` adds adguard, monitoring and proxy, on `aarch64-linux`.
+Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: ai, audio, bluetooth, cli, core, docker, firmware, kanata, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get desktop, gaming, hyprland and ssh-agent, which forwards the agent into hosts with `forwardAgent`, the `pi` for now. `t14s` adds failure-alerts, github-runners and ssh-agent, and `t14` also lists github-runners as its standby. `pi` adds adguard, failure-alerts, monitoring and proxy, on `aarch64-linux`.
 
 | Hostname | Platform / CPU | Target Machine | Resolution | Storage / Swap | Special Hardware Configurations |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -236,6 +236,8 @@ System capabilities provided by features:
   One runner service per repository. On `t14`, a timer checks every 2 minutes whether `t14s` is reachable over Tailscale, starts the ephemeral standby runners after 10 minutes of outage, and stops them once `t14s` returns, without interrupting a running job.
 - **Uptime Monitoring (`features/monitoring.nix`)**:
   Gatus checks each other host with a Tailscale address every minute (ICMP ping and a TCP check on SSH) and keeps its history in SQLite. Servers, the hosts without the desktop feature, alert after three failed checks and again when they recover, through ntfy on the same host. Both listen on the tailnet only: the dashboard on port 8080, ntfy on port 2586, topic `homelab`.
+- **Failed Service Alerts (`failure-alerts` in `features/monitoring.nix`)**:
+  A top-level systemd drop-in gives every system service `OnFailure=notify-failure@<name>`, which pushes “<service> failed on <host>” with the last 15 log lines to the same ntfy topic, straight to the monitoring host’s Tailscale address. The notifier resets the hook for itself, so it can’t trigger itself when ntfy is unreachable. Services that restart on failure only count once they give up.
 - **AdGuard Home (`features/adguard.nix`)**:
   DNS on port 53 with the AdGuard DNS filter and AdAway blocklists, forwarding to Quad9 and Cloudflare over DNS-over-HTTPS. Declarative: the Nix file is the whole configuration, while query logs and statistics persist. The admin page listens on port 3000, tailnet only. With monitoring on the same host, Gatus checks that it resolves and that it blocks, and alerts when either fails.
 - **Friendly Names (`features/proxy.nix`)**:
@@ -314,7 +316,7 @@ Translucent kitty (`0.9` opacity) with powerline tabs and a cursor trail. `ssh` 
 │   ├── firmware/              # fwupd and the firmware-update script
 │   ├── desktop/               # Graphical session: fonts, kitty, default apps, GUI apps
 │   ├── hyprland/              # Hyprland, Noctalia, portals, login screen
-│   └── *.nix                  # Single-file features (adguard, ai, audio, bluetooth, docker, gaming, github-runners, monitoring, proxy, ...)
+│   └── *.nix                  # Single-file features (adguard, ai, audio, bluetooth, docker, gaming, github-runners, monitoring + failure-alerts, proxy, ...)
 ├── hosts/                     # Each machine: system, display, accent, features, own NixOS module, hardware configuration
 │   ├── framework/             # AMD Framework 13 Laptop
 │   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel)
