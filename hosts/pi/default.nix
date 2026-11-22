@@ -33,6 +33,12 @@
       # Fan curve and power button of the Argon ONE case, over I2C and GPIO 4.
       services.hardware.argonone.enable = true;
 
+      # The Wi-Fi starts with no country ("WORLD"), which narrows its channels
+      # until an access point announces one. The Pi stays home, so set Brazil
+      # from boot. iw shows and changes it at runtime.
+      boot.extraModprobeConfig = "options cfg80211 ieee80211_regdom=BR";
+      environment.systemPackages = [pkgs.iw];
+
       # Compressed swap in RAM, gentler on the SSD than a swapfile.
       zramSwap.enable = true;
     };
