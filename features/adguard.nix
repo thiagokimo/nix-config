@@ -3,14 +3,17 @@
 # "Override local DNS") in the Tailscale admin console; devices at home, once
 # the router hands it out as the DNS server.
 #
-#   Admin page: http://<host>:3000, tailnet only.
+#   Admin page: http://<host>:3000, or http://dns.lan with the proxy; tailnet
+#   only.
 #
 # This file is the whole configuration: changes made in the admin page last
 # until the next restart. Query logs and statistics are kept.
 #
 # With monitoring on the same host, Gatus checks that it answers and blocks,
 # and alerts when it doesn't: every device using it loses DNS with it.
-{
+{config, ...}: let
+  inherit (config) vars;
+in {
   flake.modules.nixos.adguard = {
     config,
     lib,
@@ -64,6 +67,11 @@
     networking.firewall = {
       allowedTCPPorts = [53];
       allowedUDPPorts = [53];
+    };
+
+    # Friendly name, with the proxy feature on the same host.
+    services.caddy.virtualHosts = lib.mkIf config.services.caddy.enable {
+      "http://dns.${vars.lanDomain}".extraConfig = "reverse_proxy 127.0.0.1:${toString webPort}";
     };
 
     services.gatus.settings.endpoints = lib.mkIf config.services.gatus.enable [

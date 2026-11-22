@@ -10,6 +10,9 @@
       stateVersion = "26.11";
     };
 
+    # Self-hosted services answer at <name>.lan, see features/proxy.nix.
+    lanDomain = "lan";
+
     sessionVariables = {
       EDITOR = config.vars.defaults.editor.bin;
     };

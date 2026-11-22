@@ -7,7 +7,7 @@
 }: {
   vars.hosts.pi = {
     system = "aarch64-linux";
-    features = config.vars.featureSets.base ++ ["adguard" "monitoring"];
+    features = config.vars.featureSets.base ++ ["adguard" "monitoring" "proxy"];
     # red with a Raspberry Pi glyph, apart from the other hosts.
     accent = "base08";
     icon = "󰐿";

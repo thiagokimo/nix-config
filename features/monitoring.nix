@@ -3,9 +3,9 @@
 # this feature, and both are reached over the tailnet only: tailscale0 is a
 # trusted interface, and no port is opened on any other.
 #
-#   Dashboard:     http://<host>:8080
-#   Notifications: subscribe to the `homelab` topic on http://<host>:2586 in the
-#                  ntfy app (the phone needs Tailscale on).
+#   Dashboard:     http://<host>:8080, or http://status.lan with the proxy
+#   Notifications: subscribe to the `homelab` topic on http://<host>:2586 (or
+#                  http://ntfy.lan) in the ntfy app, with Tailscale on.
 #
 # Servers (hosts without the desktop feature) alert when they go down and when
 # they come back. Laptops come and go, so they only show on the dashboard.
@@ -102,7 +102,16 @@ in {
         # All interfaces, so the phone reaches it over the tailnet; the
         # firewall keeps it off the home network.
         listen-http = ":${toString ntfyPort}";
+        # Requests through the proxy carry the client's address in
+        # X-Forwarded-For; without this, they'd all share one rate limit.
+        behind-proxy = true;
       };
+    };
+
+    # Friendly names, with the proxy feature on the same host.
+    services.caddy.virtualHosts = lib.mkIf config.services.caddy.enable {
+      "http://status.${vars.lanDomain}".extraConfig = "reverse_proxy 127.0.0.1:${toString gatusPort}";
+      "http://ntfy.${vars.lanDomain}".extraConfig = "reverse_proxy 127.0.0.1:${toString ntfyPort}";
     };
   };
 }
