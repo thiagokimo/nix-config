@@ -94,6 +94,12 @@ in {
 
     system.stateVersion = mkOption {type = types.str;};
 
+    lanDomain = mkOption {
+      type = types.str;
+      example = "lan";
+      description = "Top-level domain of the self-hosted services' names, such as status.lan.";
+    };
+
     sessionVariables = mkOption {
       type = types.attrsOf types.str;
       default = {};
