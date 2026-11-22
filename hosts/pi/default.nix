@@ -11,6 +11,7 @@
     # red with a Raspberry Pi glyph, apart from the other hosts.
     accent = "base08";
     icon = "󰐿";
+    tailscaleIp = "100.115.255.84";
 
     nixos = {pkgs, ...}: {
       imports = [
