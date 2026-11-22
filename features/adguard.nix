@@ -39,6 +39,9 @@
             "https://cloudflare-dns.com/dns-query"
           ];
           bootstrap_dns = ["9.9.9.9" "1.1.1.1"];
+          # Asks both upstreams at once and takes the first answer, rather than
+          # waiting on whichever is slower on the current connection.
+          upstream_mode = "parallel";
         };
 
         filtering = {
