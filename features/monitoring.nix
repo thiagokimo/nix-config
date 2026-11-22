@@ -114,4 +114,76 @@ in {
       "http://ntfy.${vars.lanDomain}".extraConfig = "reverse_proxy 127.0.0.1:${toString ntfyPort}";
     };
   };
+
+  # Failed services: when any system service on a host that lists this feature
+  # ends up failed, its name and last log lines go to the same ntfy topic. A
+  # top-level drop-in gives every service OnFailure=notify-failure@<name>, and
+  # the notifier resets it for itself, so a notifier that fails can't call
+  # itself again. Services that restart on failure only count once they give up.
+  #
+  # The message goes straight to the monitoring host's Tailscale address, so a
+  # DNS outage doesn't silence it.
+  flake.modules.nixos.failure-alerts = {
+    config,
+    pkgs,
+    ...
+  }: let
+    self = config.networking.hostName;
+    servers = lib.filterAttrs (_: host: builtins.elem "monitoring" host.features) vars.hosts;
+    server = lib.head (lib.attrNames servers);
+    address =
+      if server == self
+      then "127.0.0.1"
+      else vars.hosts.${server}.tailscaleIp;
+
+    notify = pkgs.writeShellApplication {
+      name = "notify-failure";
+      runtimeInputs = [pkgs.coreutils pkgs.curl pkgs.systemd];
+      text = ''
+        unit="$1"
+        logs=$(journalctl --unit "$unit" --lines 15 --no-pager --output cat | cut -c 1-200)
+        curl --fail --silent --show-error --max-time 15 --retry 3 \
+          --header "Title: $unit failed on ${self}" \
+          --header "Priority: 4" \
+          --header "Tags: warning" \
+          --data-binary "''${logs:-(no log lines)}" \
+          "http://${address}:${toString ntfyPort}/${topic}"
+      '';
+    };
+
+    dropIns = pkgs.symlinkJoin {
+      name = "notify-failure-drop-ins";
+      paths = [
+        (pkgs.writeTextDir "lib/systemd/system/service.d/10-notify-failure.conf" ''
+          [Unit]
+          OnFailure=notify-failure@%N.service
+        '')
+        # Sorts after 10-notify-failure.conf, so the reset wins.
+        (pkgs.writeTextDir "lib/systemd/system/notify-failure@.service.d/99-no-recursion.conf" ''
+          [Unit]
+          OnFailure=
+        '')
+      ];
+    };
+  in {
+    assertions = [
+      {
+        assertion = lib.length (lib.attrNames servers) == 1;
+        message = "failure-alerts needs exactly one host with the monitoring feature, found: ${toString (lib.attrNames servers)}";
+      }
+    ];
+
+    systemd.packages = [dropIns];
+
+    systemd.services."notify-failure@" = {
+      description = "Push the failure of %i to ntfy";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${lib.getExe notify} %i";
+        DynamicUser = true;
+        # Reads the failed unit's log.
+        SupplementaryGroups = ["systemd-journal"];
+      };
+    };
+  };
 }

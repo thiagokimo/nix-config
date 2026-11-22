@@ -6,7 +6,7 @@
 }: {
   vars.hosts.t14s = {
     system = "x86_64-linux";
-    features = config.vars.featureSets.base ++ ["github-runners" "ssh-agent"];
+    features = config.vars.featureSets.base ++ ["failure-alerts" "github-runners" "ssh-agent"];
     # purple with a server glyph, apart from the laptops' aqua and yellow.
     accent = "base0E";
     icon = "󰒋";
