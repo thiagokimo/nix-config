@@ -1,3 +1,6 @@
+# Paused: no host lists this feature. Sending every tailnet device's DNS to the
+# Pi left them all without DNS while the Pi was off; resume with a fallback.
+#
 # AdGuard Home: DNS that blocks ads and trackers. Tailnet devices use it once
 # the host's Tailscale address is set as the tailnet's global nameserver (with
 # "Override local DNS") in the Tailscale admin console; devices at home, once

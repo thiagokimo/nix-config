@@ -102,9 +102,10 @@ in {
         # All interfaces, so the phone reaches it over the tailnet; the
         # firewall keeps it off the home network.
         listen-http = ":${toString ntfyPort}";
-        # Requests through the proxy carry the client's address in
-        # X-Forwarded-For; without this, they'd all share one rate limit.
-        behind-proxy = true;
+        # With the proxy feature, requests through it carry the client's address
+        # in X-Forwarded-For; without this, they'd all share one rate limit.
+        # Without the proxy, the header isn't trusted.
+        behind-proxy = config.services.caddy.enable;
       };
     };
 
