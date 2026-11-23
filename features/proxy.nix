@@ -1,3 +1,5 @@
+# Paused along with adguard, which resolves the names: no host lists it.
+#
 # Friendly names for the self-hosted services: Caddy on port 80 sends each name
 # to its service, so http://status.lan replaces http://pi:8080. Each service
 # feature adds its own names as Caddy virtual hosts; with adguard on the same
