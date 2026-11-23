@@ -37,7 +37,7 @@
 - **⌨️ Low-Latency Dual-Role Keys (Kanata)**: Hardware-level keyboard remap daemon intercepting `uinput` to provide tap-for-Escape and hold-for-Ctrl on both Caps Lock and Left Control (`(tap-hold 100 200 esc lctrl)`).
 - **🤖 Self-Hosted CI**: The T14s runs GitHub Actions runners for this repository and others. The T14 keeps standby runners that start only when the T14s has been unreachable over Tailscale for 10 minutes.
 - **📟 Uptime Monitoring**: The Pi runs Gatus, which checks every host over Tailscale (ping and SSH) and pushes alerts through a self-hosted ntfy to the phone when a server goes down and when it comes back. Laptops only show on the dashboard. Any system service that fails on the Pi or the T14s is pushed too, with its last log lines.
-- **🚀 nh (Nix CLI Helper) & Automated GC**: Integrated `nh` for switching (`nrs` and `hms` aliases) alongside weekly Nix store optimization and garbage collection (`--delete-older-than 7d`).
+- **🚀 nh (Nix CLI Helper) & Automated GC**: Integrated `nh` for switching (`nrs` and `hms` aliases, and `sysup` to update a host in one go) alongside weekly Nix store optimization and garbage collection (`--delete-older-than 7d`).
 - **🌐 Secure Mesh Networking (Tailscale)**: Tailscale service with trusted interface routing (`tailscale0`) and loose reverse-path filtering.
 
 ---
@@ -178,6 +178,22 @@ Each host is defined in `hosts/<host>/default.nix`: its system, display, accent,
 | **`t14`** | `x86_64-linux`<br>Intel Gen 2 | Lenovo ThinkPad T14 | `1920×1080`<br>(eDP-1) | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14 module, ACPI SSDT override fixing a missing method that disabled a thermal zone, standby GitHub runners, aqua accent. |
 | **`t14s`** | `x86_64-linux`<br>Intel | Lenovo ThinkPad T14s (home server) | Headless | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14s module, GitHub Actions runners, never sleeps with the lid closed, TLP off, user services kept running without a login, purple accent with a server glyph. |
 | **`pi`** | `aarch64-linux`<br>Broadcom BCM2711 | Raspberry Pi 4 in an Argon ONE M.2 case | Headless | M.2 SATA SSD over USB 3<br>zram swap | `nixos-hardware` Raspberry Pi 4 module with the cached mainline kernel, extlinux instead of systemd-boot, Argon ONE fan curve and power button, Gatus and ntfy uptime monitoring, failed-service alerts, Wi-Fi country set to Brazil, red accent with a Raspberry Pi glyph. |
+
+### Updating a Host
+
+`sysup` brings a host up to date with `main` in one command. It stops at the first step that fails:
+
+1. `git pull --ff-only` in `~/.config/nix-config`
+2. `nh os switch` (asks for the sudo password)
+3. `nh home switch`
+4. `firmware-update -y --no-reboot-check`: installs firmware updates but never reboots, since the LUKS hosts wait at the passphrase prompt after a reboot
+
+```sh
+sysup                  # on the host itself
+ssh -tA t14s sysup     # on another host, over Tailscale
+```
+
+It's a script rather than a zsh alias, so it also runs in a non-interactive SSH command. `-t` gives `nh` a terminal for the sudo prompt, and `-A` forwards the SSH agent for the `git pull`. A host that doesn't have `sysup` yet gets it from its first update by hand: `git pull --ff-only && nrs && hms`.
 
 ---
 
