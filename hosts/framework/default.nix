@@ -19,6 +19,8 @@
         ./_hardware-configuration.nix
         inputs.nixos-hardware.nixosModules.framework-13-7040-amd
       ];
+
+      programs.captive-browser.interface = "wlp1s0";
     };
   };
 }
