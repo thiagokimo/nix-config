@@ -68,6 +68,12 @@
     t14 = "t14s";
   };
 
+  # One system user per repository, shared by its runners. A static user, not
+  # systemd's DynamicUser: nix-daemon matches allowed-users by name, and a
+  # dynamic user's name is only found by asking systemd, which the daemon
+  # stopped getting answers to, refusing jobs as "user '62099'".
+  userFor = repo: "github-runner-${repo}";
+
   mkRunner = repo: options:
     {
       enable = true;
@@ -77,6 +83,7 @@
       # Re-registering under the same name replaces the old entry, e.g. after a
       # reinstall.
       replace = true;
+      user = userFor repo;
     }
     // options;
 in {
@@ -88,9 +95,8 @@ in {
     hostName = config.networking.hostName;
     runners = runnersByHost.${hostName};
 
-    # The runner services, which are also the DynamicUser names systemd gives
-    # them: github-runner-<attr> for a single runner, github-runner-<attr>-<n>
-    # for each of several.
+    # The runner services: github-runner-<attr> for a single runner,
+    # github-runner-<attr>-<n> for each of several.
     services = lib.concatLists (lib.mapAttrsToList (
         attr: options: let
           count = options.count or 1;
@@ -105,8 +111,17 @@ in {
       {
         services.github-runners = lib.mapAttrs mkRunner runners;
 
+        users.users = lib.mapAttrs' (repo: _:
+          lib.nameValuePair (userFor repo) {
+            isSystemUser = true;
+            group = userFor repo;
+            description = "GitHub Actions runners for ${repo}";
+          })
+        runners;
+        users.groups = lib.mapAttrs' (repo: _: lib.nameValuePair (userFor repo) {}) runners;
+
         # Jobs run nix, and allowed-users only lists the main user.
-        nix.settings.allowed-users = services;
+        nix.settings.allowed-users = map userFor (lib.attrNames runners);
       }
 
       (lib.mkIf (standbyFor ? ${hostName}) (let
