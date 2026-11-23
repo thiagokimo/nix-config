@@ -229,7 +229,7 @@ System capabilities provided by features:
 - **PipeWire & WirePlumber (`features/audio.nix`)**:
   PipeWire with WirePlumber session management, 32-bit ALSA support, PulseAudio emulation (`pactl`) and JACK, plus `wiremix` and `pavucontrol` as mixers.
 - **Bluetooth (`features/bluetooth.nix`)**: Powered on at boot, with `bluetui` in the terminal and the blueman applet on the desktop.
-- **Firmware (`features/firmware`)**: `fwupd` with a `firmware-update` helper (`fwup` alias) that refreshes metadata, checks and installs updates.
+- **Firmware (`features/firmware`)**: `fwupd` with a `firmware-update` helper (`fwup` alias) that refreshes metadata, checks and installs updates, and `sysup`, which pulls this repository, rebuilds NixOS and Home Manager and then installs firmware updates without rebooting. It's a script, so it also runs over SSH: `ssh -tA t14s sysup`.
 - **GitHub Actions Runners (`features/github-runners.nix`)**:
   One runner service per repository. On `t14`, a timer checks every 2 minutes whether `t14s` is reachable over Tailscale, starts the ephemeral standby runners after 10 minutes of outage, and stops them once `t14s` returns, without interrupting a running job.
 - **Uptime Monitoring (`features/monitoring.nix`)**:
@@ -273,6 +273,7 @@ Neovim configured declaratively through Nixvim, and set as the default editor wi
   - `tree`: Tree view via `eza --icons=always --tree --no-quotes`
   - `cat` and `man`: Syntax-highlighted output via `bat`
   - `fwup`: Firmware updates via `firmware-update`
+  - `sysup` (a script, not an alias): `git pull --ff-only`, `nh os switch`, `nh home switch` and `firmware-update -y --no-reboot-check`
 - **Starship Prompt**: Styled like the Noctalia bar islands: host, directory, Git branch and status, and Nix shell, with command duration and time on the right. Locally the host is a quiet island; over SSH it becomes a solid pill in the host's accent.
 
 ### Kitty (`features/desktop/kitty.nix`)

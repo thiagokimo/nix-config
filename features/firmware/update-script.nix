@@ -1,5 +1,10 @@
-# firmware-update, a helper around fwupdmgr.
-{
+# firmware-update, a helper around fwupdmgr, and sysup, which brings a host up
+# to date: pulls this repository, rebuilds NixOS and Home Manager, then
+# installs firmware updates. sysup is a script rather than an alias so it also
+# runs over SSH (`ssh -tA t14s sysup`), where zsh aliases don't load.
+{config, ...}: let
+  inherit (config) vars;
+in {
   flake.modules.homeManager.firmware = {pkgs, ...}: let
     firmware-update = pkgs.writeShellScriptBin "firmware-update" ''
       function help() {
@@ -58,6 +63,19 @@
       fi
     '';
 
+    # --no-reboot-check: -y would otherwise accept fwupd's "restart now?", and
+    # t14s waits at the LUKS prompt after a reboot until someone is there.
+    sysup = pkgs.writeShellApplication {
+      name = "sysup";
+      runtimeInputs = [pkgs.git pkgs.nh firmware-update];
+      text = ''
+        git -C ${vars.user.configDir} pull --ff-only
+        nh os switch ${vars.user.configDir}
+        nh home switch ${vars.user.configDir}
+        firmware-update -y --no-reboot-check
+      '';
+    };
+
     fwupmgr = pkgs.writeShellScriptBin "fwupmgr" ''
       exec ${pkgs.fwupd}/bin/fwupdmgr "$@"
     '';
@@ -66,6 +84,7 @@
       pkgs.fwupd
       firmware-update
       fwupmgr
+      sysup
     ];
   };
 }
