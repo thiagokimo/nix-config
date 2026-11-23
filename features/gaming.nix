@@ -56,6 +56,9 @@
     xdg.portal = {
       enable = true;
       extraPortals = [pkgs.xdg-desktop-portal-gtk];
+      # Any portal found, as before xdg-desktop-portal 1.17, where a session
+      # doesn't choose; the user's config, read first, chooses in Hyprland.
+      config.common.default = "*";
     };
   };
 
