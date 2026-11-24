@@ -46,6 +46,24 @@
 
       # Compressed swap in RAM, gentler on the SSD than a swapfile.
       zramSwap.enable = true;
+
+      # Reboots instead of staying hung until someone is home to unplug it.
+      # - systemd pets the SoC's hardware watchdog (bcm2835_wdt, 15s at most);
+      #   if the kernel or systemd freezes and stops petting it, the hardware
+      #   resets the board after 10s. The same timer covers a reboot that
+      #   stalls on the way down.
+      # - A process stuck waiting on the disk for 2 minutes (the kernel's
+      #   hung_task_timeout_secs) panics the kernel, as when the USB SSD stops
+      #   answering and SSH can't even send its banner; panic=10 then reboots
+      #   10 seconds after any panic, which NixOS otherwise leaves hung.
+      # After one of these, `journalctl --list-boots` shows the new boot and
+      # `journalctl -b -1` ends abruptly where the old one died.
+      systemd.settings.Manager = {
+        RuntimeWatchdogSec = "10s";
+        RebootWatchdogSec = "10s";
+      };
+      boot.kernelParams = ["panic=10"];
+      boot.kernel.sysctl."kernel.hung_task_panic" = 1;
     };
   };
 }
