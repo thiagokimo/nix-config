@@ -90,6 +90,11 @@ in {
         default = "${cfg.user.home}/.config/nix-config";
         description = "Where this repository is checked out.";
       };
+      mediaDir = mkOption {
+        type = types.str;
+        default = "${cfg.user.home}/Media";
+        description = "Music, pictures and videos, as the XDG user folders Music, Pictures and Videos.";
+      };
     };
 
     system.stateVersion = mkOption {type = types.str;};

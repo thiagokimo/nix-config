@@ -83,9 +83,9 @@ in {
         createDirectories = true;
         documents = "${config.home.homeDirectory}/Documents";
         download = "${config.home.homeDirectory}/Downloads";
-        music = "${config.home.homeDirectory}/Media/Music";
-        pictures = "${config.home.homeDirectory}/Media/Pictures";
-        videos = "${config.home.homeDirectory}/Media/Videos";
+        music = "${vars.user.mediaDir}/Music";
+        pictures = "${vars.user.mediaDir}/Pictures";
+        videos = "${vars.user.mediaDir}/Videos";
         projects = "${config.home.homeDirectory}/Projects";
         desktop = null;
         publicShare = null;
