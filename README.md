@@ -252,6 +252,8 @@ System capabilities provided by features:
   Gatus checks each other host with a Tailscale address every minute (ICMP ping and a TCP check on SSH) and keeps its history in SQLite. Servers, the hosts without the desktop feature, alert after three failed checks and again when they recover, through ntfy on the same host. Both listen on the tailnet only: the dashboard on port 8080, ntfy on port 2586, topic `homelab`.
 - **Failed Service Alerts (`failure-alerts` in `features/monitoring.nix`)**:
   A top-level systemd drop-in gives every system service `OnFailure=notify-failure@<name>`, which pushes “<service> failed on <host>” with the last 15 log lines to the same ntfy topic, straight to the monitoring host’s Tailscale address. The notifier resets the hook for itself, so it can’t trigger itself when ntfy is unreachable. Services that restart on failure only count once they give up.
+- **Jellyfin (`features/jellyfin.nix`)**:
+  Media server on the `pi`, tailnet only on port 8096 (`media.lan` with the proxy). Libraries are set up in the web wizard and point at `/srv/media`, which the main user owns so media can be copied in with `rsync`. The Pi has no hardware transcoding, so clients should play files directly. With monitoring on the same host, Gatus checks its health endpoint and alerts when it fails.
 - **AdGuard Home (`features/adguard.nix`)**, paused: no host lists it. Routing every tailnet device’s DNS through the Pi left them without DNS while the Pi was off.
   DNS on port 53 with the AdGuard DNS filter and AdAway blocklists, forwarding to Quad9 and Cloudflare over DNS-over-HTTPS. Declarative: the Nix file is the whole configuration, while query logs and statistics persist. The admin page listens on port 3000, tailnet only. With monitoring on the same host, Gatus checks that it resolves and that it blocks, and alerts when either fails.
 - **Friendly Names (`features/proxy.nix`)**, paused with AdGuard, which resolves the names.
@@ -331,7 +333,7 @@ Translucent kitty (`0.9` opacity) with powerline tabs and a cursor trail. `ssh` 
 │   ├── firmware/              # fwupd and the firmware-update script
 │   ├── desktop/               # Graphical session: fonts, kitty, default apps, GUI apps
 │   ├── hyprland/              # Hyprland, Noctalia, portals, login screen
-│   └── *.nix                  # Single-file features (adguard, ai, audio, bluetooth, docker, gaming, github-runners, monitoring + failure-alerts, proxy, ...)
+│   └── *.nix                  # Single-file features (adguard, ai, audio, bluetooth, docker, gaming, github-runners, jellyfin, monitoring + failure-alerts, proxy, ...)
 ├── hosts/                     # Each machine: system, display, accent, features, own NixOS module, hardware configuration
 │   ├── framework/             # AMD Framework 13 Laptop
 │   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel)

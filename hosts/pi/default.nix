@@ -7,7 +7,7 @@
 }: {
   vars.hosts.pi = {
     system = "aarch64-linux";
-    features = config.vars.featureSets.base ++ ["failure-alerts" "monitoring"];
+    features = config.vars.featureSets.base ++ ["failure-alerts" "jellyfin" "monitoring"];
     # red with a Raspberry Pi glyph, apart from the other hosts.
     accent = "base08";
     icon = "󰐿";
