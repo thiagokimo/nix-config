@@ -181,7 +181,7 @@ Each host is defined in `hosts/<host>/default.nix`: its system, display, accent,
 
 ### Updating a Host
 
-`sysup` brings a host up to date with `main` in one command. It stops at the first step that fails:
+`sysup` brings a host up to date with `main` in one command. It refuses to start with uncommitted changes in `~/.config/nix-config`, and stops at the first step that fails:
 
 1. `git pull --ff-only` in `~/.config/nix-config`
 2. `nh os switch` (asks for the sudo password)
@@ -194,6 +194,16 @@ ssh -tA t14s sysup     # on another host, over Tailscale
 ```
 
 It's a script rather than a zsh alias, so it also runs in a non-interactive SSH command. `-t` gives `nh` a terminal for the sudo prompt, and `-A` forwards the SSH agent for the `git pull`. A host that doesn't have `sysup` yet gets it from its first update by hand: `git pull --ff-only && nrs && hms`.
+
+### Updating the Flake Inputs
+
+`flake.lock` is shared by every host, so it changes in one place, through a PR, and reaches the other hosts with `sysup`. `flakeup`, run on a laptop with `main` checked out:
+
+1. `nix flake update`, stopping if no input changed
+2. `nix flake check --no-build`, as in CI, and `nh os build` of the host it runs on, which lists the package changes
+3. Commits `flake.lock` as "Updates flake" on a `flake-update-<date>` branch, then asks before pushing it and opening a PR that lists the updated inputs
+
+The checkout stays on that branch. `sysup --update` runs `flakeup` and then switches the host to the new lock, to try it before merging. Once the PR is merged, `git switch main` there, and `sysup` on every host.
 
 ---
 
