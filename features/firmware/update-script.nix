@@ -84,6 +84,17 @@ in {
         fi
         git pull --ff-only
 
+        # Without a token nix asks GitHub's API anonymously, which allows 60
+        # requests an hour; an update and a build use them up and get 403s.
+        # gh's token raises that to 5000, for this script's nix commands only:
+        # it isn't written to nix.conf or the store.
+        if token=$(gh auth token 2>/dev/null); then
+          NIX_CONFIG=$(printf '%s\naccess-tokens = github.com=%s' "''${NIX_CONFIG:-}" "$token")
+          export NIX_CONFIG
+        else
+          echo "flakeup: gh isn't logged in, so GitHub may refuse with 403 (rate limit)" >&2
+        fi
+
         log=$(mktemp)
         trap 'rm -f "$log"' EXIT
         nix flake update 2>&1 | tee "$log"
