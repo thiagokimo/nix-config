@@ -44,6 +44,17 @@
       boot.extraModprobeConfig = "options cfg80211 ieee80211_regdom=BR";
       environment.systemPackages = [pkgs.iw];
 
+      boot.kernelParams = [
+        # The case's SSD sits behind an ASMedia ASM1156 USB-SATA bridge
+        # (174c:1156). Under a long rsync the Pi hung with the journal cut off
+        # mid-line, the pattern of ASMedia bridges hanging in UAS mode on the
+        # Pi 4. Plain USB mass storage is slower, but still far faster than the
+        # Wi-Fi feeding it.
+        "usb-storage.quirks=174c:1156:u"
+        # Reboot 10 seconds after a kernel panic; see the watchdog below.
+        "panic=10"
+      ];
+
       # Compressed swap in RAM, gentler on the SSD than a swapfile.
       zramSwap.enable = true;
 
@@ -54,15 +65,14 @@
       #   stalls on the way down.
       # - A process stuck waiting on the disk for 2 minutes (the kernel's
       #   hung_task_timeout_secs) panics the kernel, as when the USB SSD stops
-      #   answering and SSH can't even send its banner; panic=10 then reboots
-      #   10 seconds after any panic, which NixOS otherwise leaves hung.
+      #   answering and SSH can't even send its banner; panic=10 (above) then
+      #   reboots 10 seconds after any panic, which NixOS otherwise leaves hung.
       # After one of these, `journalctl --list-boots` shows the new boot and
       # `journalctl -b -1` ends abruptly where the old one died.
       systemd.settings.Manager = {
         RuntimeWatchdogSec = "10s";
         RebootWatchdogSec = "10s";
       };
-      boot.kernelParams = ["panic=10"];
       boot.kernel.sysctl."kernel.hung_task_panic" = 1;
     };
   };
