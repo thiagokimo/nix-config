@@ -3,10 +3,34 @@
 # games from NVIDIA's servers; it only ships as a Flatpak.
 {inputs, ...}: {
   flake.modules.nixos.gaming = {
+    config,
     lib,
     pkgs,
     ...
-  }: {
+  }: let
+    # The power profile from before the game, restored when it ends.
+    saved = ''"$XDG_RUNTIME_DIR/gamemode-power-profile"'';
+
+    performanceProfile = pkgs.writeShellApplication {
+      name = "gamemode-performance-profile";
+      runtimeInputs = [pkgs.power-profiles-daemon];
+      text = ''
+        powerprofilesctl get > ${saved}
+        powerprofilesctl set performance
+      '';
+    };
+
+    restoreProfile = pkgs.writeShellApplication {
+      name = "gamemode-restore-profile";
+      runtimeInputs = [pkgs.coreutils pkgs.power-profiles-daemon];
+      text = ''
+        if [ -f ${saved} ]; then
+          powerprofilesctl set "$(cat ${saved})"
+          rm -f ${saved}
+        fi
+      '';
+    };
+  in {
     imports = [inputs.nix-flatpak.nixosModules.nix-flatpak];
 
     programs.steam = {
@@ -26,6 +50,15 @@
     # Raises a game's priority and the power profile while it runs.
     # Steam launch option: `gamemoderun %command%`.
     programs.gamemode.enable = true;
+
+    # GameMode only changes the CPU governor. The power profile (in
+    # power-saver, the firmware caps the power the CPU and the integrated GPU
+    # share) goes to performance while a game runs, and back to the previous
+    # one after the last game ends.
+    programs.gamemode.settings.custom = lib.mkIf config.services.power-profiles-daemon.enable {
+      start = lib.getExe performanceProfile;
+      end = lib.getExe restoreProfile;
+    };
 
     # Micro-compositor to run a game at a lower resolution and upscale it with
     # FSR, e.g. `gamescope -w 1280 -h 720 -W 1920 -H 1080 -F fsr -f -- %command%`.
