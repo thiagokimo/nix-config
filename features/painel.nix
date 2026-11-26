@@ -113,7 +113,19 @@ in {
         projects = {
           roots = ["~/Projects"];
           extra = [vars.user.configDir];
-          open = ["nvim" "."];
+          # Enter asks which; y opens yazi.
+          open_with = [
+            {
+              name = "nvim";
+              key = "v";
+              cmd = ["nvim" "."];
+            }
+            {
+              name = "claude";
+              key = "c";
+              cmd = ["claude"];
+            }
+          ];
           alt = ["yazi"];
         };
 
