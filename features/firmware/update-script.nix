@@ -143,8 +143,9 @@ in {
 
     # Brings this host up to the branch it's on, normally main. --update first
     # runs flakeup, so this host switches to the new lock while its PR is open.
-    # --no-reboot-check: -y would otherwise accept fwupd's "restart now?", and
-    # t14s waits at the LUKS prompt after a reboot until someone is there.
+    # --no-reboot-check: -y would otherwise accept fwupd's "restart now?" in the
+    # middle of a session or a CI job; the firmware installs at the next reboot,
+    # whenever that is.
     sysup = pkgs.writeShellApplication {
       name = "sysup";
       runtimeInputs = [pkgs.git pkgs.nh firmware-update flakeup];
