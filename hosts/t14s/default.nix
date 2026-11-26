@@ -6,17 +6,57 @@
 }: {
   vars.hosts.t14s = {
     system = "x86_64-linux";
-    features = config.vars.featureSets.base ++ ["ai" "docker" "failure-alerts" "github-runners" "ssh-agent" "watchdog"];
+    features = config.vars.featureSets.base ++ ["ai" "docker" "failure-alerts" "github-runners" "jellyfin" "ssh-agent" "watchdog"];
     # purple with a server glyph, apart from the laptops' aqua and yellow.
     accent = "base0E";
     icon = "󰒋";
     tailscaleIp = "100.115.181.106";
 
-    nixos = {
+    nixos = {pkgs, ...}: {
       imports = [
         ./_hardware-configuration.nix
         inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14s
       ];
+
+      # Jellyfin transcodes on the Tiger Lake GPU with Intel Quick Sync, for
+      # clients that can't play a file as it is. The media driver (iHD) and
+      # oneVPL runtime are what Quick Sync goes through; the compute runtime
+      # (OpenCL) does HDR-to-SDR tone mapping.
+      hardware.graphics = {
+        enable = true;
+        extraPackages = with pkgs; [intel-media-driver vpl-gpu-rt intel-compute-runtime];
+      };
+      services.jellyfin = {
+        hardwareAcceleration = {
+          enable = true;
+          type = "qsv";
+          device = "/dev/dri/renderD128";
+        };
+        # What Tiger Lake's media engine decodes and encodes (AV1 encoding
+        # came with Arc). Set here rather than in the web dashboard: the file
+        # is written again at every start, so settings copied over from
+        # another server, or changed in the dashboard, don't stay.
+        transcoding = {
+          hardwareDecodingCodecs = {
+            h264 = true;
+            hevc = true;
+            hevc10bit = true;
+            hevcRExt10bit = true;
+            hevcRExt12bit = true;
+            mpeg2 = true;
+            vc1 = true;
+            vp8 = true;
+            vp9 = true;
+            av1 = true;
+          };
+          enableHardwareEncoding = true;
+          hardwareEncodingCodecs.hevc = true;
+          enableToneMapping = true;
+        };
+        forceEncodingConfig = true;
+      };
+      # The render node belongs to the render group.
+      users.users.jellyfin.extraGroups = ["render" "video"];
 
       swapDevices = [
         {
