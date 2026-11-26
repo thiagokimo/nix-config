@@ -9,6 +9,10 @@
 #
 # Servers (hosts without the desktop feature) alert when they go down and when
 # they come back. Laptops come and go, so they only show on the dashboard.
+#
+# Service features add their own checks to this module, one per host that lists
+# them (see features/jellyfin.nix): over loopback for the monitoring host's own
+# services, at the Tailscale address for the others' (lib/monitoring.nix).
 {
   config,
   lib,

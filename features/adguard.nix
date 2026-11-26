@@ -12,10 +12,15 @@
 # This file is the whole configuration: changes made in the admin page last
 # until the next restart. Query logs and statistics are kept.
 #
-# With monitoring on the same host, Gatus checks that it answers and blocks,
-# and alerts when it doesn't: every device using it loses DNS with it.
-{config, ...}: let
+# Gatus, on the monitoring host, checks that it answers and blocks, and alerts
+# when it doesn't: every device using it loses DNS with it.
+{
+  config,
+  lib,
+  ...
+}: let
   inherit (config) vars;
+  inherit (import ../lib/monitoring.nix) address;
 in {
   flake.modules.nixos.adguard = {
     config,
@@ -76,12 +81,17 @@ in {
     services.caddy.virtualHosts = lib.mkIf config.services.caddy.enable {
       "http://dns.${vars.lanDomain}".extraConfig = "reverse_proxy 127.0.0.1:${toString webPort}";
     };
+  };
 
-    services.gatus.settings.endpoints = lib.mkIf config.services.gatus.enable [
+  # Gatus, on the monitoring host, checks every host that lists this feature.
+  flake.modules.nixos.monitoring = {config, ...}: {
+    services.gatus.settings.endpoints = lib.concatLists (lib.mapAttrsToList (name: host: let
+      url = address config.networking.hostName name host;
+    in [
       {
         name = "dns";
-        group = config.networking.hostName;
-        url = "127.0.0.1";
+        group = name;
+        inherit url;
         dns = {
           query-name = "github.com";
           query-type = "A";
@@ -93,8 +103,8 @@ in {
       {
         # A domain on both blocklists, answered with 0.0.0.0 when blocking works.
         name = "dns blocking";
-        group = config.networking.hostName;
-        url = "127.0.0.1";
+        group = name;
+        inherit url;
         dns = {
           query-name = "doubleclick.net";
           query-type = "A";
@@ -103,6 +113,6 @@ in {
         conditions = ["[BODY] == 0.0.0.0"];
         alerts = [{type = "ntfy";}];
       }
-    ];
+    ]) (lib.filterAttrs (_: host: builtins.elem "adguard" host.features) vars.hosts));
   };
 }
