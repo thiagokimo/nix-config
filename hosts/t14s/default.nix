@@ -57,6 +57,23 @@
         hybrid-sleep.enable = false;
       };
 
+      # Plugged in day and night, so the battery stops charging at 80% and
+      # only starts again below 75%; sitting at 100% wears it faster. The
+      # thresholds live in the battery's firmware (thinkpad_acpi), and are set
+      # again at every boot. The start threshold has to stay below the end one,
+      # so it's written again once the end is in place.
+      systemd.services.battery-charge-thresholds = {
+        description = "Cap the battery's charge at 80%";
+        wantedBy = ["multi-user.target"];
+        serviceConfig.Type = "oneshot";
+        script = ''
+          battery=/sys/class/power_supply/BAT0
+          echo 75 > "$battery/charge_control_start_threshold" || true
+          echo 80 > "$battery/charge_control_end_threshold"
+          echo 75 > "$battery/charge_control_start_threshold"
+        '';
+      };
+
       # Without the desktop there is no power-profiles-daemon, and the
       # nixos-hardware laptop profile would turn on TLP instead. Its power saving
       # (USB autosuspend, for one) doesn't suit a machine that is always on.
