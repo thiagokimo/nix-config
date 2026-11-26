@@ -46,10 +46,11 @@
     };
 
     featureSets = {
-      # Features every host gets.
-      base = ["ai" "audio" "bluetooth" "cli" "core" "docker" "firmware" "kanata" "nvim" "ssh" "stylix" "tailscale" "zsh"];
-      # Features for the laptops I carry around.
-      laptop = ["desktop" "gaming" "hyprland" "ssh-agent"];
+      # Features every host gets, the servers included.
+      base = ["cli" "core" "firmware" "nvim" "ssh" "stylix" "tailscale" "zsh"];
+      # Features for the laptops I carry around: what a desk needs (sound,
+      # Bluetooth, the keyboard remap) and the development tools.
+      laptop = ["ai" "audio" "bluetooth" "desktop" "docker" "gaming" "hyprland" "kanata" "ssh-agent"];
     };
   };
 }
