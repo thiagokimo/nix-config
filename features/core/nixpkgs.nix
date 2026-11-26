@@ -7,7 +7,6 @@
     };
     overlays = with inputs.self.overlays; [
       additions
-      modifications
       stable-packages
     ];
   };

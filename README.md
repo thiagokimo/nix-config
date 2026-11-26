@@ -162,9 +162,8 @@ Every push to `main` runs on the self-hosted runner on `t14s`: it checks formatt
 
 1. **Determinate Systems Weekly (`nixpkgs`)**: Unstable channel curated and cooled weekly to keep broken upstream builds out.
 2. **Determinate Systems Chilled (`nixpkgs-stable`)**: Pinned stable release channel exposed via the `pkgs.stable` overlay (`overlays/default.nix`).
-3. **OpenLDAP Patch Overlay**: Overrides `openldap` package attributes to skip its test suites (`doCheck = false`, `doInstallCheck = false`) for faster, non-blocking builds.
-4. **Local Packages Overlay**: Adds the packages defined in `pkgs/` to `pkgs`.
-5. **Developer Shell (`devShells.default`)**: Environment with `alejandra` (formatter), `nixd` (Nix language server) and `antigravity-ide`.
+3. **Local Packages Overlay**: Adds the packages defined in `pkgs/` to `pkgs`.
+4. **Developer Shell (`devShells.default`)**: Environment with `alejandra` (formatter), `nixd` (Nix language server) and `antigravity-ide`.
 
 ---
 
@@ -353,7 +352,7 @@ Translucent kitty (`0.9` opacity) with powerline tabs and a cursor trail. `ssh` 
 │   └── pi/                    # Raspberry Pi 4 in an Argon ONE M.2 case, monitoring server
 ├── modules/flake/             # Flake-level modules: the vars option and the host builder
 ├── lib/                       # colors.nix: hex to RGB and color mixing helpers
-├── overlays/                  # Nixpkgs overlays (stable packages, local packages, custom modifications)
+├── overlays/                  # Nixpkgs overlays (stable packages, local packages)
 ├── pkgs/                      # Custom local package definitions
 ├── assets/                    # Avatar shown by Noctalia
 └── .github/workflows/         # Flake CI on the self-hosted t14s runner
