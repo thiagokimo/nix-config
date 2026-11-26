@@ -15,13 +15,14 @@
 # this file.
 #
 # Media is copied in as the main user, e.g.
-#   rsync -av --progress ~/Media/ pi:Media/
+#   rsync -av --progress ~/Media/ t14s:Media/
 # Files have to be readable by others (the usual 644), as Jellyfin isn't the
 # owner.
 #
-# On a Raspberry Pi there's no hardware transcoding, so clients should play
-# files directly (quality set to "Max"/"Original"); the CPU manages about one
-# 1080p H.264 transcode, and picture-based subtitles (PGS) force one.
+# Transcoding (for clients that can't play a file as it is) is set per host,
+# since it depends on the GPU: the t14s uses Intel Quick Sync, see hosts/t14s.
+# Without hardware transcoding, as on a Raspberry Pi, clients should play files
+# directly (quality "Max"/"Original").
 #
 # Gatus, on the monitoring host, checks that it answers and alerts when it
 # doesn't.
