@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>painel</title>
+    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="screen">
+      <header class="top">
+        <a class="who" href="launch:painel" title="open painel in kitty">
+          <span class="user" id="user"></span><span class="sep"> ~ ❯ </span><span class="app">painel</span>
+        </a>
+        <span class="clock" id="clock"></span>
+      </header>
+
+      <!-- Same columns as painel: tools and scripts, projects, links. -->
+      <main class="panels" id="panels">
+        <div class="col">
+          <section class="box" data-kind="tool"></section>
+          <section class="box" data-kind="script"></section>
+        </div>
+        <div class="col col-b">
+          <section class="box" data-kind="project"></section>
+          <section class="box" data-kind="link"></section>
+        </div>
+      </main>
+
+      <footer class="bottom">
+        <div class="prompt" id="prompt">
+          <span class="sign">❯ </span>
+          <input id="input" spellcheck="false" autocomplete="off" placeholder="type a name or alias" autofocus />
+        </div>
+        <div class="chooser" id="chooser" hidden></div>
+        <div class="hint" id="hint"></div>
+      </footer>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="projects.js"></script>
+    <script src="startpage.js"></script>
+  </body>
+</html>
