@@ -95,8 +95,20 @@ in {
           echo "flakeup: gh isn't logged in, so GitHub may refuse with 403 (rate limit)" >&2
         fi
 
+        # Whatever stops the script before the commit (a failed check or
+        # build, Ctrl-C) puts flake.lock back, so the checkout stays clean
+        # and sysup keeps working.
         log=$(mktemp)
-        trap 'rm -f "$log"' EXIT
+        committed=false
+        cleanup() {
+          rm -f "$log"
+          if ! $committed && ! git diff --quiet flake.lock; then
+            git restore flake.lock
+            echo "flakeup: stopped before committing; flake.lock is back as it was" >&2
+          fi
+        }
+        trap cleanup EXIT
+
         nix flake update 2>&1 | tee "$log"
         if git diff --quiet flake.lock; then
           echo "flakeup: every input is already up to date"
@@ -105,13 +117,14 @@ in {
         changes=$(grep -A2 "Updated input" "$log" || true)
 
         if ! nix flake check --no-build || ! nh os build .; then
-          echo "flakeup: the update doesn't build; 'git restore flake.lock' drops it" >&2
+          echo "flakeup: the update doesn't build" >&2
           exit 1
         fi
 
         branch="flake-update-$(date +%F)"
         git switch --create "$branch"
         git commit --quiet --message "Updates flake" flake.lock
+        committed=true
 
         read -r -p "Push $branch and open a PR? [y/N] " answer
         if [ "$answer" = y ] || [ "$answer" = Y ]; then
