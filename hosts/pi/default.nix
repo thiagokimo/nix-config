@@ -7,7 +7,7 @@
 }: {
   vars.hosts.pi = {
     system = "aarch64-linux";
-    features = config.vars.featureSets.base ++ ["failure-alerts" "jellyfin" "monitoring"];
+    features = config.vars.featureSets.base ++ ["failure-alerts" "jellyfin" "monitoring" "watchdog"];
     # red with a Raspberry Pi glyph, apart from the other hosts.
     accent = "base08";
     icon = "󰐿";
@@ -51,28 +51,16 @@
         # Pi 4. Plain USB mass storage is slower, but still far faster than the
         # Wi-Fi feeding it.
         "usb-storage.quirks=174c:1156:u"
-        # Reboot 10 seconds after a kernel panic; see the watchdog below.
-        "panic=10"
       ];
 
       # Compressed swap in RAM, gentler on the SSD than a swapfile.
       zramSwap.enable = true;
 
-      # Reboots instead of staying hung until someone is home to unplug it.
-      # - systemd pets the SoC's hardware watchdog (bcm2835_wdt, 15s at most);
-      #   if the kernel or systemd freezes and stops petting it, the hardware
-      #   resets the board after 10s. The same timer covers a reboot that
-      #   stalls on the way down.
-      # - A process stuck waiting on the disk for 2 minutes (the kernel's
-      #   hung_task_timeout_secs) panics the kernel, as when the USB SSD stops
-      #   answering and SSH can't even send its banner; panic=10 (above) then
-      #   reboots 10 seconds after any panic, which NixOS otherwise leaves hung.
-      # After one of these, `journalctl --list-boots` shows the new boot and
-      # `journalctl -b -1` ends abruptly where the old one died.
-      systemd.settings.Manager = {
-        RuntimeWatchdogSec = "10s";
-        RebootWatchdogSec = "10s";
-      };
+      # A process stuck waiting on the disk for 2 minutes (the kernel's
+      # hung_task_timeout_secs) panics the kernel, as when the USB SSD stops
+      # answering and SSH can't even send its banner; the watchdog feature's
+      # panic=10 then reboots it. Only here: on an NVMe disk, a long build can
+      # wait that long without anything being wrong.
       boot.kernel.sysctl."kernel.hung_task_panic" = 1;
     };
   };
