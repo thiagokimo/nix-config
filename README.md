@@ -169,7 +169,7 @@ Every push to `main` runs on the self-hosted runner on `t14s`: it checks formatt
 
 ## 🖥️ Hardware & Hosts
 
-Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: cli, core, firmware, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get ai, audio, bluetooth, desktop, docker, gaming, hyprland, kanata and ssh-agent, which forwards the agent into hosts with `forwardAgent`, the `pi` for now. `t14s` adds ai, docker, failure-alerts, github-runners, jellyfin, ssh-agent and watchdog, and `t14` also lists github-runners as its standby. `pi` adds failure-alerts, monitoring and watchdog, on `aarch64-linux`.
+Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: cli, core, firmware, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get ai, audio, bluetooth, desktop, docker, gaming, hyprland, kanata, painel and ssh-agent, which forwards the agent into hosts with `forwardAgent`, the `pi` for now. `t14s` adds ai, docker, failure-alerts, github-runners, jellyfin, ssh-agent and watchdog, and `t14` also lists github-runners as its standby. `pi` adds failure-alerts, monitoring and watchdog, on `aarch64-linux`.
 
 | Hostname | Platform / CPU | Target Machine | Resolution | Storage / Swap | Special Hardware Configurations |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -255,6 +255,7 @@ System capabilities provided by features:
   PipeWire with WirePlumber session management, 32-bit ALSA support, PulseAudio emulation (`pactl`) and JACK, plus `wiremix` and `pavucontrol` as mixers.
 - **Bluetooth (`features/bluetooth.nix`)**: Powered on at boot, with `bluetui` in the terminal and the blueman applet on the desktop.
 - **Firmware (`features/firmware`)**: `fwupd` with a `firmware-update` helper (`fwup` alias) that refreshes metadata, checks and installs updates, and `sysup`, which pulls this repository, rebuilds NixOS and Home Manager and then installs firmware updates without rebooting. It's a script, so it also runs over SSH: `ssh -tA t14s sysup`.
+- **painel (`features/painel.nix`)**: My terminal home screen, from [nix-painel](https://github.com/thiagokimo/nix-painel): tools, scripts (`sysup`, `flakeup`, firmware checks), projects and links in one place. Its config is generated here, in the Stylix colors with the host's accent.
 - **GitHub Actions Runners (`features/github-runners.nix`)**:
   One runner service per repository. On `t14`, a timer checks every 2 minutes whether `t14s` is reachable over Tailscale, starts the ephemeral standby runners after 10 minutes of outage, and stops them once `t14s` returns, without interrupting a running job.
 - **Watchdog (`features/watchdog.nix`)**:

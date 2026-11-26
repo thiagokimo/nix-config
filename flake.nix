@@ -35,6 +35,11 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # painel, my terminal home screen, see features/painel.nix.
+    painel = {
+      url = "github:thiagokimo/nix-painel";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
