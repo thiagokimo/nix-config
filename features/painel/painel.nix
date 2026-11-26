@@ -12,7 +12,7 @@
   ...
 }: let
   inherit (config) vars;
-  inherit (import ../lib/colors.nix) mix;
+  inherit (import ../../lib/colors.nix) mix;
 
   # The host that lists a feature, to link to the service it runs.
   hostWith = feature: lib.head (lib.attrNames (lib.filterAttrs (_: host: lib.elem feature host.features) vars.hosts));
