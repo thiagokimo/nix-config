@@ -170,7 +170,7 @@ Every push to `main` runs on the self-hosted runner on `t14s`: it checks formatt
 
 ## 🖥️ Hardware & Hosts
 
-Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: ai, audio, bluetooth, cli, core, docker, firmware, kanata, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get desktop, gaming, hyprland and ssh-agent, which forwards the agent into hosts with `forwardAgent`, the `pi` for now. `t14s` adds failure-alerts, github-runners and ssh-agent, and `t14` also lists github-runners as its standby. `pi` adds failure-alerts and monitoring, on `aarch64-linux`.
+Each host is defined in `hosts/<host>/default.nix`: its system, display, accent, icon and features in `vars.hosts.<host>`, and its own NixOS module (hardware, `nixos-hardware` profile, swap and anything only that machine needs), next to its generated `_hardware-configuration.nix`. Hosts build their features from the sets in `vars.featureSets`. Every host gets the `base` features: ai, audio, bluetooth, cli, core, docker, firmware, kanata, nvim, ssh, stylix, tailscale and zsh. The laptops (`framework`, `t14`) also get desktop, gaming, hyprland and ssh-agent, which forwards the agent into hosts with `forwardAgent`, the `pi` for now. `t14s` adds failure-alerts, github-runners, ssh-agent and watchdog, and `t14` also lists github-runners as its standby. `pi` adds failure-alerts, jellyfin, monitoring and watchdog, on `aarch64-linux`.
 
 | Hostname | Platform / CPU | Target Machine | Resolution | Storage / Swap | Special Hardware Configurations |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -258,6 +258,8 @@ System capabilities provided by features:
 - **Firmware (`features/firmware`)**: `fwupd` with a `firmware-update` helper (`fwup` alias) that refreshes metadata, checks and installs updates, and `sysup`, which pulls this repository, rebuilds NixOS and Home Manager and then installs firmware updates without rebooting. It's a script, so it also runs over SSH: `ssh -tA t14s sysup`.
 - **GitHub Actions Runners (`features/github-runners.nix`)**:
   One runner service per repository. On `t14`, a timer checks every 2 minutes whether `t14s` is reachable over Tailscale, starts the ephemeral standby runners after 10 minutes of outage, and stops them once `t14s` returns, without interrupting a running job.
+- **Watchdog (`features/watchdog.nix`)**:
+  On the servers (`t14s`, `pi`), systemd pets the hardware watchdog every few seconds, so a frozen kernel or systemd gets the machine reset after 10 seconds, and a kernel panic reboots it after 10 seconds instead of leaving it hung. With the TPM unlock, the `t14s` comes back on its own. The `pi` also panics when a process waits on its USB SSD for 2 minutes.
 - **Uptime Monitoring (`features/monitoring.nix`)**:
   Gatus checks each other host with a Tailscale address every minute (ICMP ping and a TCP check on SSH) and keeps its history in SQLite. Servers, the hosts without the desktop feature, alert after three failed checks and again when they recover, through ntfy on the same host. Both listen on the tailnet only: the dashboard on port 8080, ntfy on port 2586, topic `homelab`.
 - **Failed Service Alerts (`failure-alerts` in `features/monitoring.nix`)**:
@@ -343,7 +345,7 @@ Translucent kitty (`0.9` opacity) with powerline tabs and a cursor trail. `ssh` 
 │   ├── firmware/              # fwupd and the firmware-update script
 │   ├── desktop/               # Graphical session: fonts, kitty, default apps, GUI apps
 │   ├── hyprland/              # Hyprland, Noctalia, portals, login screen
-│   └── *.nix                  # Single-file features (adguard, ai, audio, bluetooth, docker, gaming, github-runners, jellyfin, monitoring + failure-alerts, proxy, ...)
+│   └── *.nix                  # Single-file features (adguard, ai, audio, bluetooth, docker, gaming, github-runners, jellyfin, monitoring + failure-alerts, proxy, watchdog, ...)
 ├── hosts/                     # Each machine: system, display, accent, features, own NixOS module, hardware configuration
 │   ├── framework/             # AMD Framework 13 Laptop
 │   ├── t14/                   # Lenovo ThinkPad T14 Gen 2 (Intel)
