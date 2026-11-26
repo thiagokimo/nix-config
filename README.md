@@ -27,7 +27,7 @@
 - **🎛️ Multi-Host Hardware Profiles**:
   - **Framework 13 (AMD)**: LUKS disk encryption, AMD microcode and KVM, 2256×1504 display.
   - **ThinkPad T14 Gen 2 (Intel)**: Curated `nixos-hardware` profile, LUKS disk encryption, 8GB swapfile, an ACPI table fix for a thermal sensor firmware bug, and standby CI runners.
-  - **ThinkPad T14s (Intel)**: Headless home server and self-hosted CI runner. Curated `nixos-hardware` profile, LUKS disk encryption, 8GB swapfile, and never sleeps with the lid closed.
+  - **ThinkPad T14s (Intel)**: Headless home server and self-hosted CI runner. Curated `nixos-hardware` profile, LUKS disk encryption unlocked by the TPM at boot, 8GB swapfile, battery charge capped at 80%, and never sleeps with the lid closed.
   - **Raspberry Pi 4 (Argon ONE M.2)**: Small always-on server on `aarch64-linux`, booting from the case’s M.2 SATA SSD. `nixos-hardware` profile with the mainline kernel, the Argon ONE fan and power button daemon, and zram swap.
 - **🎨 System-Wide Gruvbox Aesthetics (Stylix)**: System and user space share the **Gruvbox Dark Hard** base16 palette, **Bibata-Modern-Ice** cursors and **JetBrainsMono Nerd Font**. Wallpapers come from [`thiagokimo/nix-wallpapers`](https://github.com/thiagokimo/nix-wallpapers).
 - **🏷️ Per-Host Identity**: Each host has an accent color and a glyph. They mark the launcher, focused workspace and prompt, and over SSH they tint the kitty window, title it with the host and color its Hyprland border, so a remote shell can't pass for a local one.
@@ -176,7 +176,7 @@ Each host is defined in `hosts/<host>/default.nix`: its system, display, accent,
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`framework`** | `x86_64-linux`<br>AMD Ryzen | Framework Laptop 13 | `2256×1504`<br>(eDP-1) | LUKS Encrypted<br>Swap Partition | AMD microcode, `kvm-amd`, yellow accent. |
 | **`t14`** | `x86_64-linux`<br>Intel Gen 2 | Lenovo ThinkPad T14 | `1920×1080`<br>(eDP-1) | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14 module, ACPI SSDT override fixing a missing method that disabled a thermal zone, standby GitHub runners, aqua accent. |
-| **`t14s`** | `x86_64-linux`<br>Intel | Lenovo ThinkPad T14s (home server) | Headless | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14s module, GitHub Actions runners, never sleeps with the lid closed, TLP off, user services kept running without a login, purple accent with a server glyph. |
+| **`t14s`** | `x86_64-linux`<br>Intel | Lenovo ThinkPad T14s (home server) | Headless | LUKS Encrypted<br>8GB `/swapfile` | `nixos-hardware` T14s module, TPM disk unlock with the boot menu editor off, battery charge capped at 80%, GitHub Actions runners, never sleeps with the lid closed, TLP off, user services kept running without a login, purple accent with a server glyph. |
 | **`pi`** | `aarch64-linux`<br>Broadcom BCM2711 | Raspberry Pi 4 in an Argon ONE M.2 case | Headless | M.2 SATA SSD over USB 3<br>zram swap | `nixos-hardware` Raspberry Pi 4 module with the cached mainline kernel, extlinux instead of systemd-boot, Argon ONE fan curve and power button, Gatus and ntfy uptime monitoring, failed-service alerts, Wi-Fi country set to Brazil, red accent with a Raspberry Pi glyph. |
 
 ### Updating a Host
@@ -186,7 +186,7 @@ Each host is defined in `hosts/<host>/default.nix`: its system, display, accent,
 1. `git pull --ff-only` in `~/.config/nix-config`
 2. `nh os switch` (asks for the sudo password)
 3. `nh home switch`
-4. `firmware-update -y --no-reboot-check`: installs firmware updates but never reboots, since the LUKS hosts wait at the passphrase prompt after a reboot
+4. `firmware-update -y --no-reboot-check`: installs firmware updates but never reboots, so a session or a CI job isn't cut off; they install at the next reboot
 
 ```sh
 sysup                  # on the host itself
