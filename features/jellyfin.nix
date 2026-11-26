@@ -23,18 +23,18 @@
 # files directly (quality set to "Max"/"Original"); the CPU manages about one
 # 1080p H.264 transcode, and picture-based subtitles (PGS) force one.
 #
-# With monitoring on the same host, Gatus checks that it answers and alerts
-# when it doesn't.
-{config, ...}: let
+# Gatus, on the monitoring host, checks that it answers and alerts when it
+# doesn't.
+{
+  config,
+  lib,
+  ...
+}: let
   inherit (config) vars;
+  inherit (import ../lib/monitoring.nix) address;
+  port = 8096;
 in {
-  flake.modules.nixos.jellyfin = {
-    config,
-    lib,
-    ...
-  }: let
-    port = 8096;
-  in {
+  flake.modules.nixos.jellyfin = {config, ...}: {
     services.jellyfin.enable = true;
 
     # Hosts without the desktop feature don't get the XDG folders, so create
@@ -56,16 +56,20 @@ in {
     services.caddy.virtualHosts = lib.mkIf config.services.caddy.enable {
       "http://media.${vars.lanDomain}".extraConfig = "reverse_proxy 127.0.0.1:${toString port}";
     };
+  };
 
-    services.gatus.settings.endpoints = lib.mkIf config.services.gatus.enable [
-      {
+  # Gatus, on the monitoring host, checks the health endpoint of every host
+  # that lists this feature.
+  flake.modules.nixos.monitoring = {config, ...}: {
+    services.gatus.settings.endpoints =
+      lib.mapAttrsToList (name: host: {
         name = "jellyfin";
-        group = config.networking.hostName;
-        url = "http://127.0.0.1:${toString port}/health";
+        group = name;
+        url = "http://${address config.networking.hostName name host}:${toString port}/health";
         interval = "1m";
         conditions = ["[STATUS] == 200" "[BODY] == Healthy"];
         alerts = [{type = "ntfy";}];
-      }
-    ];
+      })
+      (lib.filterAttrs (_: host: builtins.elem "jellyfin" host.features) vars.hosts);
   };
 }
