@@ -228,8 +228,7 @@ a {
   display: flex;
 }
 
-.prompt .sign,
-.chooser .sign {
+.prompt .sign {
   color: var(--accent);
   white-space: pre;
 }
@@ -254,29 +253,72 @@ a {
   color: var(--muted);
 }
 
-.chooser {
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* The dialog a project opens: a box floating over the page, which goes dim
+   behind it, like painel's. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
 }
 
-.chooser .project {
+.backdrop[hidden] {
+  display: none;
+}
+
+.dialog {
+  position: relative;
+  max-width: 100%;
+  padding: 0.9em 2ch 1em;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--bg);
+  box-shadow: 0 0 0 1ch var(--bg);
+}
+
+.dialog > h2,
+.dialog > .summary,
+.dialog > .keys {
+  position: absolute;
+  margin: 0;
+  padding: 0 1ch;
+  background: var(--bg);
+  font: inherit;
+  white-space: pre;
+}
+
+.dialog > h2 {
+  top: -0.8em;
+  left: 1ch;
+  color: var(--fg);
+  font-weight: normal;
+}
+
+.dialog .project {
   color: var(--blue);
   font-weight: bold;
 }
 
-.chooser .opt {
-  white-space: pre;
-  color: var(--fg-bright);
-  cursor: pointer;
-}
-
-.chooser .opt .key {
+.dialog > .summary {
+  top: -0.8em;
+  right: 1ch;
   color: var(--muted);
 }
 
-.chooser .opt.picked {
-  background: var(--selection);
-  font-weight: bold;
+.dialog > .keys {
+  bottom: -0.8em;
+  left: 1ch;
+  color: var(--muted);
+}
+
+.dialog .rows {
+  min-width: 46ch;
+}
+
+.dialog .name {
+  color: var(--fg-bright);
 }
 
 .hint {

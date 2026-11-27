@@ -16,7 +16,7 @@
   const items = [
     ...cfg.tools.map((t) => ({ ...t, kind: "tool", url: `launch:tool/${t.name}` })),
     ...cfg.scripts.map((t) => ({ ...t, kind: "script", url: `launch:script/${t.name}` })),
-    ...projects.map((p) => ({ name: p.name, alias: "", desc: p.branch ? ` ${p.branch}` : "", kind: "project" })),
+    ...projects.map((p) => ({ name: p.name, alias: "", branch: p.branch, desc: p.branch ? ` ${p.branch}` : "", kind: "project" })),
     ...cfg.links.flatMap((g) => g.links.map((l) => ({ ...l, desc: "", kind: "link", group: g.name }))),
   ];
   const openers = cfg.openWith.map((o) => ({ ...o, key: o.key || o.name[0].toLowerCase() }));
@@ -186,28 +186,46 @@
     });
 
     document.body.classList.toggle("normal", state.mode === "normal");
-    $("prompt").hidden = state.choosing !== null;
-    $("chooser").hidden = state.choosing === null;
+    $("backdrop").hidden = state.choosing === null;
+    if (state.choosing) drawDialog();
 
     const hint = $("hint");
     hint.className = "hint" + (state.status ? (state.statusErr ? " err" : " ok") : "");
-    if (state.choosing) {
-      const c = $("chooser");
-      c.replaceChildren(el("span", "sign", "❯ "), "open ", el("span", "project", state.choosing.name), " with ");
-      openers.forEach((o, n) => {
-        const opt = el("span", "opt" + (n === state.choice ? " picked" : ""));
-        opt.dataset.choice = n;
-        opt.append(el("span", "key", ` [${o.key}] `), `${o.name} `);
-        c.append(" ", opt);
-      });
-      hint.textContent = `${openers.map((o) => o.key).join("/")} pick · ←→ move · enter open · esc cancel`;
-    } else if (state.status) {
+    if (state.status) {
       hint.textContent = state.status;
     } else if (state.mode === "prompt") {
       hint.textContent = "enter run · ↑↓ pick · tab complete · esc navigate";
     } else {
       hint.textContent = "hjkl move · enter run · y yazi here · / search";
     }
+  };
+
+  // A dialog like painel's: a box over the dimmed page, the title and branch
+  // on its top edge, one row per way to open the project, the keys on its
+  // bottom edge.
+  const drawDialog = () => {
+    const it = state.choosing;
+    const title = el("h2");
+    title.append("open ", el("span", "project", it.name));
+    const parts = [title];
+    if (it.branch) parts.push(el("span", "summary", `\ue0a0 ${it.branch}`));
+    const rows = el("div", "rows");
+    const label = (o) => `[${o.key}] ${o.name}`;
+    const width = Math.max(...openers.map((o) => label(o).length));
+    openers.forEach((o, n) => {
+      const picked = n === state.choice;
+      const r = el("div", "row opt" + (picked ? " sel" : ""));
+      r.dataset.choice = n;
+      r.append(
+        el("span", "mark", picked ? "❯ " : "  "),
+        el("span", "alias", `[${o.key}] `),
+        el("span", "name", o.name),
+        el("span", "desc", " ".repeat(width - label(o).length) + "   " + o.cmd),
+      );
+      rows.append(r);
+    });
+    parts.push(rows, el("span", "keys", `${openers.map((o) => o.key).join("/")} pick · ↑↓ move · enter open · esc cancel`));
+    $("dialog").replaceChildren(...parts);
   };
 
   // ---- keys ----------------------------------------------------------------
@@ -327,11 +345,15 @@
     }
   });
 
-  $("chooser").addEventListener("click", (ev) => {
+  // In the dialog, a click on a row opens with it; outside it cancels.
+  $("backdrop").addEventListener("click", (ev) => {
     const opt = ev.target.closest(".opt");
-    if (!opt) return;
-    state.choice = Number(opt.dataset.choice);
-    choose();
+    if (opt) {
+      state.choice = Number(opt.dataset.choice);
+      choose();
+    } else if (!ev.target.closest(".dialog")) {
+      state.choosing = null;
+    }
     draw();
   });
 

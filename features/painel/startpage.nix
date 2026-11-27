@@ -192,6 +192,7 @@ in {
         map (o: {
           inherit (o) name;
           key = o.key or "";
+          cmd = lib.concatStringsSep " " o.cmd;
         })
         projects.open_with;
       hasAlt = projects ? alt;
