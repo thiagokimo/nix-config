@@ -33,9 +33,13 @@
           <span class="sign">❯ </span>
           <input id="input" spellcheck="false" autocomplete="off" placeholder="type a name or alias" autofocus />
         </div>
-        <div class="chooser" id="chooser" hidden></div>
         <div class="hint" id="hint"></div>
       </footer>
+    </div>
+
+    <!-- The question a project asks, floating over the dimmed page. -->
+    <div class="backdrop" id="backdrop" hidden>
+      <section class="dialog" id="dialog" role="dialog" aria-modal="true"></section>
     </div>
 
     <script src="config.js"></script>

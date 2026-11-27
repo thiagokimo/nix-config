@@ -382,11 +382,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795721426,
-        "narHash": "sha256-/OTmKVhoqFZfqhWa7qha18H1Adm3r3D3cgJ9hRhbfrU=",
+        "lastModified": 1795740311,
+        "narHash": "sha256-t9/1lPsDrZLag4icjk2fxdvsSdSPaB/dqJownv7MhcY=",
         "owner": "thiagokimo",
         "repo": "nix-painel",
-        "rev": "de659f07d621fc46d41c5cc16ae79f4241638005",
+        "rev": "fc911e128e7f300016064ef32ec9a99ac2f530a1",
         "type": "github"
       },
       "original": {
